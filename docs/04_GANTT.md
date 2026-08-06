@@ -1,6 +1,6 @@
 # Gantt Chart – The Doghouse
 
-![Gantt Chart](images/gantt.png)
+![Gantt Chart](images/gantt.svg)
 
 _Figure 1 – Gantt Chart for The Doghouse project. Milestones are marked with diamonds. Deliveries are color-coded by phase._
 
