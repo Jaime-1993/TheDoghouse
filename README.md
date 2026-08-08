@@ -43,7 +43,6 @@ The Doghouse is a Minimum Viable Product (MVP) that combines:
 | Payments               | Stripe (sandbox)                             |
 | Invoicing              | Moloni (sandbox)                             |
 | Maps                   | Overpass API + Nominatim                     |
-| Monitoring             | Sentry                                       |
 
 ## Key Features
 
