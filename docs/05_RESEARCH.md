@@ -219,7 +219,7 @@ The suitability of these applications to _The Doghouse_'s maps area is very high
 
 <table>
   <tr>
-    <td><img src="images/bringfido_1.webp" alt="BringFido Screenshot 1" width="300"></td>
+    <td><img src="images/bringfido_1.webp" alt="BringFido Screenshot 1" width="600"></td>
   </tr>
 </table>
 
