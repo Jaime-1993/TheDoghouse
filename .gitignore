@@ -31,12 +31,12 @@ flutter-app/android/local.properties
 flutter-app/android/app/local.properties
 flutter-app/web/favicon.png
 
-# Node / Web (se houver)
+# Node / Web
 web/node_modules/
 web/package-lock.json
 web/yarn.lock
 
-# Environment Variables (SENSÍVEL)
+# Environment Variables
 .env
 .env.local
 .env.*.local
