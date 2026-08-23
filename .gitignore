@@ -1,1 +1,58 @@
+# macOS
 .DS_Store
+*.swp
+*.swo
+._*
+
+# Go
+api/bin/
+api/tmp/
+api/vendor/
+api/*.exe
+api/*.test
+api/coverage.out
+api/go.work
+api/go.work.sum
+
+# Flutter
+flutter-app/build/
+flutter-app/.dart_tool/
+flutter-app/.flutter-plugins
+flutter-app/.flutter-plugins-dependencies
+flutter-app/.packages
+flutter-app/pubspec.lock
+flutter-app/ios/Pods/
+flutter-app/ios/.symlinks/
+flutter-app/ios/Flutter/App.framework
+flutter-app/ios/Flutter/Flutter.framework
+flutter-app/ios/Runner/GeneratedPluginRegistrant.*
+flutter-app/android/.gradle/
+flutter-app/android/local.properties
+flutter-app/android/app/local.properties
+flutter-app/web/favicon.png
+
+# Node / Web (se houver)
+web/node_modules/
+web/package-lock.json
+web/yarn.lock
+
+# Environment Variables (SENSÍVEL)
+.env
+.env.local
+.env.*.local
+
+# Docker
+*.pid
+*.log
+docker-compose.override.yml
+
+# IDE
+.vscode/
+.idea/
+*.iml
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.temp
