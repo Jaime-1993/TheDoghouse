@@ -58,6 +58,12 @@ Complete project documentation is available in the `docs/` folder:
 - [User Personas and Flows](./docs/02_PERSONAS_AND_FLOWS.md)
 - [Work Breakdown Structure (WBS)](./docs/03_WBS.md)
 - [Gantt Chart](./docs/04_GANTT.md)
+- [Research and Analysis](./docs/05_RESEARCH.md)
+- [Requirements](./docs/06_REQUIREMENTS.md)
+- [Architecture](./docs/07_ARCHITECTURE.md)
+- [Database Modeling](./docs/08_DATABASE.md)
+- [UML Diagrams](./docs/09_UML_DIAGRAMS.md)
+- [API Endpoints](./docs/10_API_ENDPOINTS.md)
 - [Technical Glossary](./docs/GLOSSARY.md)
 
 ## Project Status
@@ -65,22 +71,74 @@ Complete project documentation is available in the `docs/` folder:
 | Phase                           | Status                         |
 | ------------------------------- | ------------------------------ |
 | 1. Planning and Specification   | ✅ Complete (July 27 – Aug 14) |
-| 2. Specification and Design     | ⏳ Next (not started)          |
-| 3. Implementation               | ⏳ Scheduled (Aug 14 – Oct 26) |
-| 4. Testing and Deployment       | ⏳ Scheduled (Oct 26 – Nov 9)  |
-| 5. Conclusions and Deliverables | ⏳ Scheduled (Nov 9 – Nov 23)  |
+| 2. Specification and Design     | ✅ Complete (Aug 14 – Aug 25)  |
+| 3. Implementation               | 🚧 In Progress                 |
+| 4. Testing and Deployment       | ⏳ Scheduled                   |
+| 5. Conclusions and Deliverables | ⏳ Scheduled                   |
 | 6. Contingency Buffer           | ⏳ Reserved throughout         |
 
 ## Getting Started
 
-Implementation is scheduled to begin after August 14, 2026. Once development starts, this section will include:
+### Prerequisites
 
-- Local environment setup (Docker, Go, Flutter)
-- Running the project locally
-- Testing procedures
-- Deployment instructions
+- Docker Desktop
+- Go 1.23+ (for development)
+- Flutter 3.24+ (for development)
 
-Stay tuned.
+### Running the project
+
+1. **Start the backend and database:**
+
+   ```bash
+   docker compose up -d
+   ```
+
+   The API will be available at `http://localhost:8080` and the database at `localhost:5432`.
+
+2. **Run the Flutter app (Web):**
+
+   ```bash
+   cd flutter_app
+   flutter run -d chrome
+   ```
+
+3. **View the static website:**
+
+   Serve it with a local server:
+
+   ```bash
+   cd web
+   python3 -m http.server 3000
+   ```
+
+   Then open `http://localhost:3000` in your browser.
+
+### Testing the PWA
+
+After building the Flutter app for web, you can serve the production build and test the PWA installation:
+
+```bash
+cd flutter_app
+flutter build web
+cd build/web
+python3 -m http.server 8000
+```
+
+Then open `http://localhost:8000` in Chrome and look for the install icon in the address bar.
+
+## Deliveries
+
+| Delivery | Description                  | Week   |
+| -------- | ---------------------------- | ------ |
+| 1        | Institutional Website        | Aug 24 |
+| 2        | Backend with Authentication  | Aug 31 |
+| 3        | Free Calculator              | Sep 14 |
+| 4        | Map with Overpass API        | Sep 21 |
+| 5        | Free Workshops               | Sep 14 |
+| 6        | Payments and Premium Content | Oct 12 |
+| 7        | Store Publishing             | Oct 19 |
+
+_For a detailed schedule, see the [Gantt Chart](docs/04_GANTT.md)._
 
 ## License
 
