@@ -1,68 +1,95 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Basic meta tags -->
+    <!-- Meta tags e título -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>The Doghouse – Your companion for a four-legged life</title>
-    <!-- SEO meta description -->
-    <meta
-      name="description"
-      content="The Doghouse: weight calculator, workshops, and pet-friendly hotel map for your dog."
-    />
-    <!-- Stylesheet -->
-    <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <!-- Header with site title and navigation -->
+    <!-- HEADER -->
     <header>
       <div class="container">
         <h1>The Doghouse</h1>
         <nav>
-          <a href="index.html">Home</a>
+          <a href="#calculator">Calculator</a>
+          <a href="#workshops">Workshops</a>
+          <a href="#hotels">Hotels</a>
           <a href="blog.html">Blog</a>
           <a href="#" id="loginBtn">Sign In</a>
         </nav>
       </div>
     </header>
 
-    <!-- Hero section – main call to action -->
-    <section class="hero">
+    <!-- FAIXA 1 – Hero (azul, central) -->
+    <section id="hero" class="faixa hero">
       <div class="container">
         <h2>Your perfect companion for a four-legged life</h2>
         <p>
-          Weight calculator, educational workshops, and a pet-friendly hotel
-          map.
+          Weight calculator, expert workshops, and a pet-friendly hotel map —
+          all in one place.
         </p>
-        <button id="ctaButton">Get Started</button>
+        <a href="#" id="ctaHero" class="cta-button">Get started</a>
       </div>
     </section>
 
-    <!-- Features section – highlights the three core areas of the platform -->
-    <section class="features">
+    <!-- FAIXA 2 – Calculadora (branco, esquerda) -->
+    <section id="calculator" class="faixa calculator">
       <div class="container">
-        <h2>What we offer</h2>
-        <div class="feature-grid">
-          <div class="feature-item">
-            <h3>Weight Calculator</h3>
-            <p>Find the ideal weight for your dog based on breed and age.</p>
-          </div>
-          <div class="feature-item">
-            <h3>Workshops</h3>
-            <p>
-              Learn about care, nutrition, training, and health with expert
-              videos.
-            </p>
-          </div>
-          <div class="feature-item">
-            <h3>Hotel Map</h3>
-            <p>Find pet-friendly hotels near you with geolocation.</p>
-          </div>
+        <div class="content">
+          <h2>Ideal Weight Calculator</h2>
+          <p>
+            Find the perfect weight for your dog based on breed and age. Get a
+            free estimate, or unlock percentiles, growth curves, and
+            personalized recommendations.
+          </p>
+          <a href="#" class="cta-button">Try it now</a>
+          <p>
+            <small
+              >Free estimate available — premium unlocks percentiles, growth
+              curves, and recommendations.</small
+            >
+          </p>
         </div>
       </div>
     </section>
 
-    <!-- Footer -->
+    <!-- FAIXA 3 – Workshops (azul, direita) -->
+    <section id="workshops" class="faixa workshops">
+      <div class="container">
+        <div class="content">
+          <h2>Expert Workshops for Your Dog</h2>
+          <p>
+            Learn about care, nutrition, training, and health with expert-led
+            videos. Start free or unlock breed bundles and lifetime access.
+          </p>
+          <a href="#" class="cta-button">Explore workshops</a>
+          <p>
+            <small
+              >Free videos available — premium content requires purchase.</small
+            >
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAIXA 4 – Hotéis (branco, esquerda) -->
+    <section id="hotels" class="faixa hotels">
+      <div class="container">
+        <div class="content">
+          <h2>Pet-Friendly Hotels Map</h2>
+          <p>
+            Find hotels that welcome your dog. Search by location or use
+            geolocation to discover pet-friendly places — powered by real
+            OpenStreetMap data.
+          </p>
+          <a href="#" class="cta-button">Find hotels</a>
+          <p><small>Available to all authenticated users.</small></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
     <footer>
       <div class="container">
         <p>&copy; 2026 The Doghouse. All rights reserved.</p>
@@ -71,16 +98,11 @@
             href="https://www.linkedin.com/in/jaimemendonca/"
             target="_blank"
             rel="noopener noreferrer"
-            class="brand-link"
+            >Jaime Mendonça</a
           >
-            Jaime Mendonça
-          </a>
           🇵🇹 from Portugal with love
         </p>
       </div>
     </footer>
-
-    <!-- JavaScript -->
-    <script src="js/main.js"></script>
   </body>
 </html>
