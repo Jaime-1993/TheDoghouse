@@ -1,65 +1,142 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Basic meta tags -->
+    <!-- Character encoding and responsive viewport -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>The Doghouse – Blog</title>
+
     <!-- SEO meta description -->
     <meta
       name="description"
       content="The Doghouse Blog – tips, care guides, and nutrition advice for dog owners."
     />
-    <!-- Stylesheet -->
+
+    <!-- Favicon -->
+    <link rel="icon" href="images/favicon.png" type="image/png" />
+
+    <!-- Main stylesheet -->
     <link rel="stylesheet" href="css/style.css" />
   </head>
+
   <body>
-    <!-- Header with site title and navigation -->
+    <!-- Skip link for keyboard and screen reader users -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Site header with logo and primary navigation -->
     <header>
       <div class="container">
-        <h1>The Doghouse</h1>
-        <nav>
-          <a href="index.html">Home</a>
-          <a href="blog.html">Blog</a>
-          <a href="#" id="loginBtn">Sign In</a>
+        <h1>
+          <a href="index.html" class="logo-link">
+            <img src="images/icon.png" alt="The Doghouse logo" />
+            The Doghouse
+          </a>
+        </h1>
+
+        <!-- Hamburger menu toggle (visible on mobile) -->
+        <button
+          class="menu-toggle"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <!-- Primary navigation -->
+        <nav id="main-nav" aria-label="Main navigation">
+          <a href="index.html#calculator">Calculator</a>
+          <a href="index.html#workshops">Workshops</a>
+          <a href="index.html#hotels">Hotels</a>
+          <a href="blog.html" aria-current="page">Blog</a>
+          <a href="/app" id="loginBtn" aria-label="Sign in">Sign In</a>
         </nav>
       </div>
     </header>
 
-    <!-- Blog content -->
-    <section class="blog">
-      <div class="container">
-        <h2>Blog</h2>
-        <p>Tips, care guides, and nutrition advice for dog owners.</p>
-        <div class="blog-list">
-          <article>
-            <h3><a href="#">How to choose the right breed for you</a></h3>
+    <!-- Main content area -->
+    <main id="main-content">
+      <!-- Blog header section with background image and overlay -->
+      <section class="faixa blog-header">
+        <div class="container">
+          <div class="content" style="max-width: 100%; text-align: center">
+            <h2>Blog</h2>
+            <p>Tips, care guides, and nutrition advice for dog owners.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Blog post 1 – dark theme with image on the left -->
+      <section class="faixa blog-article">
+        <div class="container">
+          <div class="image">
+            <img
+              src="https://images.unsplash.com/photo-1544568100-847a948585b9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+              alt="Person and dog choosing a breed together"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="content">
+            <h3>How to choose the right breed for you</h3>
             <p>
               Discover which breed best suits your lifestyle and living
               situation.
             </p>
             <small>Published on August 24, 2026</small>
-          </article>
-          <article>
-            <h3><a href="#">Canine nutrition: what you need to know</a></h3>
+            <a href="#" class="cta-button blog-button">Read more</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Blog post 2 – light theme with image on the right -->
+      <section class="faixa blog-article">
+        <div class="container">
+          <div class="content">
+            <h3>Canine nutrition: what you need to know</h3>
             <p>
               A balanced diet is essential for your dog's health and well-being.
             </p>
             <small>Published on August 23, 2026</small>
-          </article>
-          <article>
-            <h3><a href="#">Tips for traveling with your dog</a></h3>
+            <a href="#" class="cta-button blog-button">Read more</a>
+          </div>
+          <div class="image">
+            <img
+              src="https://images.unsplash.com/photo-1560743641-3914f2c45636?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+              alt="Dog eating healthy food"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- Blog post 3 – dark theme with image on the left -->
+      <section class="faixa blog-article">
+        <div class="container">
+          <div class="image">
+            <img
+              src="https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+              alt="Dog in a car ready to travel"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="content">
+            <h3>Tips for traveling with your dog</h3>
             <p>
               Preparation, documentation, and finding pet-friendly hotels along
               the way.
             </p>
             <small>Published on August 22, 2026</small>
-          </article>
+            <a href="#" class="cta-button blog-button">Read more</a>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </main>
 
-    <!-- Footer -->
+    <!-- Site footer -->
     <footer>
       <div class="container">
         <p>&copy; 2026 The Doghouse. All rights reserved.</p>
@@ -68,7 +145,6 @@
             href="https://www.linkedin.com/in/jaimemendonca/"
             target="_blank"
             rel="noopener noreferrer"
-            class="brand-link"
           >
             Jaime Mendonça
           </a>
@@ -77,7 +153,7 @@
       </div>
     </footer>
 
-    <!-- JavaScript -->
+    <!-- JavaScript for interactivity -->
     <script src="js/main.js"></script>
   </body>
 </html>

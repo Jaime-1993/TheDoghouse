@@ -1,95 +1,159 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Meta tags e título -->
+    <!-- Character encoding and responsive viewport -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>The Doghouse – Your companion for a four-legged life</title>
+
+    <!-- SEO meta description -->
+    <meta
+      name="description"
+      content="The Doghouse – Weight calculator, expert workshops, and a pet-friendly hotel map for your dog. Start your journey today."
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" href="images/favicon.png" type="image/png" />
+
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="css/style.css" />
   </head>
+
   <body>
-    <!-- HEADER -->
+    <!-- Skip link for keyboard and screen reader users -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Site header with logo and primary navigation -->
     <header>
       <div class="container">
-        <h1>The Doghouse</h1>
-        <nav>
+        <h1>
+          <a href="#hero" class="logo-link">
+            <img src="images/icon.png" alt="The Doghouse logo" />
+            The Doghouse
+          </a>
+        </h1>
+
+        <!-- Hamburger menu toggle (visible on mobile) -->
+        <button
+          class="menu-toggle"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <!-- Primary navigation -->
+        <nav id="main-nav" aria-label="Main navigation">
           <a href="#calculator">Calculator</a>
           <a href="#workshops">Workshops</a>
           <a href="#hotels">Hotels</a>
           <a href="blog.html">Blog</a>
-          <a href="#" id="loginBtn">Sign In</a>
+          <a href="/app" id="loginBtn" aria-label="Sign in">Sign In</a>
         </nav>
       </div>
     </header>
 
-    <!-- FAIXA 1 – Hero (azul, central) -->
-    <section id="hero" class="faixa hero">
-      <div class="container">
-        <h2>Your perfect companion for a four-legged life</h2>
-        <p>
-          Weight calculator, expert workshops, and a pet-friendly hotel map —
-          all in one place.
-        </p>
-        <a href="#" id="ctaHero" class="cta-button">Get started</a>
-      </div>
-    </section>
-
-    <!-- FAIXA 2 – Calculadora (branco, esquerda) -->
-    <section id="calculator" class="faixa calculator">
-      <div class="container">
-        <div class="content">
-          <h2>Ideal Weight Calculator</h2>
-          <p>
-            Find the perfect weight for your dog based on breed and age. Get a
-            free estimate, or unlock percentiles, growth curves, and
-            personalized recommendations.
-          </p>
-          <a href="#" class="cta-button">Try it now</a>
-          <p>
-            <small
-              >Free estimate available — premium unlocks percentiles, growth
-              curves, and recommendations.</small
-            >
-          </p>
+    <!-- Main content area -->
+    <main id="main-content">
+      <!-- Hero section: full-width background image with overlay -->
+      <section id="hero" class="faixa hero">
+        <div class="container">
+          <div class="content">
+            <h2>Your perfect companion for a four-legged life</h2>
+            <p>
+              Weight calculator, expert workshops, and a pet-friendly hotel map
+              — all in one place.
+            </p>
+            <a href="#" id="ctaHero" class="cta-button">Get started</a>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- FAIXA 3 – Workshops (azul, direita) -->
-    <section id="workshops" class="faixa workshops">
-      <div class="container">
-        <div class="content">
-          <h2>Expert Workshops for Your Dog</h2>
-          <p>
-            Learn about care, nutrition, training, and health with expert-led
-            videos. Start free or unlock breed bundles and lifetime access.
-          </p>
-          <a href="#" class="cta-button">Explore workshops</a>
-          <p>
-            <small
-              >Free videos available — premium content requires purchase.</small
-            >
-          </p>
+      <!-- Weight Calculator section -->
+      <section id="calculator" class="faixa calculator">
+        <div class="container">
+          <div class="content">
+            <h2>Ideal Weight Calculator</h2>
+            <p>
+              Find the perfect weight for your dog based on breed and age. Get a
+              free estimate, or unlock percentiles, growth curves, and
+              personalized recommendations.
+            </p>
+            <a href="#" class="cta-button">Try it now</a>
+            <p>
+              <small
+                >Free estimate available — premium unlocks percentiles, growth
+                curves, and recommendations.</small
+              >
+            </p>
+          </div>
+          <div class="image">
+            <img
+              src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+              alt="A dog sitting calmly on a veterinary scale being weighed"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- FAIXA 4 – Hotéis (branco, esquerda) -->
-    <section id="hotels" class="faixa hotels">
-      <div class="container">
-        <div class="content">
-          <h2>Pet-Friendly Hotels Map</h2>
-          <p>
-            Find hotels that welcome your dog. Search by location or use
-            geolocation to discover pet-friendly places — powered by real
-            OpenStreetMap data.
-          </p>
-          <a href="#" class="cta-button">Find hotels</a>
-          <p><small>Available to all authenticated users.</small></p>
+      <!-- Workshops section -->
+      <section id="workshops" class="faixa workshops">
+        <div class="container">
+          <div class="image">
+            <img
+              src="https://images.unsplash.com/photo-1517423568366-8b83523034fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+              alt="A relaxed dog lying on a sofa, looking content"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="content">
+            <h2>Expert Workshops for Your Dog</h2>
+            <p>
+              Learn about care, nutrition, training, and health with expert-led
+              videos. Start free or unlock breed bundles and lifetime access.
+            </p>
+            <a href="#" class="cta-button">Explore workshops</a>
+            <p>
+              <small
+                >Free videos available — premium content requires
+                purchase.</small
+              >
+            </p>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- FOOTER -->
+      <!-- Pet-Friendly Hotels Map section -->
+      <section id="hotels" class="faixa hotels">
+        <div class="container">
+          <div class="content">
+            <h2>Pet-Friendly Hotels Map</h2>
+            <p>
+              Find hotels that welcome your dog. Search by location or use
+              geolocation to discover pet-friendly places — powered by real
+              OpenStreetMap data.
+            </p>
+            <a href="#" class="cta-button">Find hotels</a>
+            <p><small>Available to all authenticated users.</small></p>
+          </div>
+          <div class="image">
+            <img
+              src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+              alt="A small dog sleeping peacefully on a hotel bed with white sheets"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Site footer -->
     <footer>
       <div class="container">
         <p>&copy; 2026 The Doghouse. All rights reserved.</p>
@@ -98,11 +162,15 @@
             href="https://www.linkedin.com/in/jaimemendonca/"
             target="_blank"
             rel="noopener noreferrer"
-            >Jaime Mendonça</a
           >
+            Jaime Mendonça
+          </a>
           🇵🇹 from Portugal with love
         </p>
       </div>
     </footer>
+
+    <!-- JavaScript for interactivity -->
+    <script src="js/main.js"></script>
   </body>
 </html>
