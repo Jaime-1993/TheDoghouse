@@ -509,6 +509,89 @@ nav a:focus-visible {
     flex-direction: row;
 }
 
+/* ===== Individual Blog Posts ===== */
+.blog-post {
+    min-height: auto;
+    padding: 4rem 0;
+    background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);
+}
+
+.blog-post .container {
+    display: flex;
+    justify-content: center;
+}
+
+.blog-post .content {
+    max-width: 100%;
+    width: 100%;
+}
+
+.blog-post .back-link {
+    display: inline-block;
+    margin-bottom: 2rem;
+    color: #1a56db;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.blog-post .back-link:hover {
+    text-decoration: underline;
+}
+
+.blog-post h2 {
+    font-size: 2.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.blog-post .post-meta {
+    display: block;
+    color: #8e8e93;
+    font-size: 0.85rem;
+    margin-bottom: 2rem;
+}
+
+.blog-post .featured-image {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    border-radius: 24px;
+    margin-bottom: 2rem;
+    display: block;
+}
+
+.blog-post p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    max-width: 100%;
+}
+
+.blog-post h4 {
+    font-size: 1.4rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+}
+
+.blog-post ul {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+.blog-post ul li {
+    margin-bottom: 0.25rem;
+}
+
+.blog-post .cta-link {
+    color: #1a56db;
+    text-decoration: underline;
+}
+
+.blog-post .cta-link:hover {
+    color: #1e40af;
+}
+
 /* ===== Footer ===== */
 footer {
     background-color: #ffffff;
@@ -552,6 +635,9 @@ footer p {
     }
     .blog-article h3 {
         font-size: 1.5rem;
+    }
+    .blog-post h2 {
+        font-size: 2.4rem;
     }
 }
 
@@ -717,6 +803,31 @@ footer p {
         padding: 0.5rem 1.5rem;
         font-size: 0.9rem;
     }
+
+    /* Individual blog posts mobile */
+    .blog-post {
+        padding: 3rem 0;
+    }
+
+    .blog-post h2 {
+        font-size: 2rem;
+    }
+
+    .blog-post p {
+        font-size: 1rem;
+    }
+
+    .blog-post h4 {
+        font-size: 1.2rem;
+    }
+
+    .blog-post ul {
+        font-size: 1rem;
+    }
+
+    .blog-post .featured-image {
+        max-width: 100%;
+    }
 }
 
 /* Small mobile devices */
@@ -761,5 +872,26 @@ footer p {
 
     .blog-article p {
         font-size: 0.9rem;
+    }
+
+    /* Individual blog posts small mobile */
+    .blog-post {
+        padding: 2rem 0;
+    }
+
+    .blog-post h2 {
+        font-size: 1.6rem;
+    }
+
+    .blog-post p {
+        font-size: 0.95rem;
+    }
+
+    .blog-post h4 {
+        font-size: 1.1rem;
+    }
+
+    .blog-post ul {
+        font-size: 0.95rem;
     }
 }
