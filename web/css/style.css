@@ -247,7 +247,7 @@ nav a:focus-visible {
     margin: 0 auto;
 }
 
-.faixa.hero h2 {
+.faixa.hero h1 {
     font-size: 3.5rem;
     margin-bottom: 1.2rem;
     color: #ffffff;
@@ -380,7 +380,7 @@ nav a:focus-visible {
     text-align: center;
 }
 
-.blog-header h2 {
+.blog-header h1 {
     font-size: 2.8rem;
     margin-bottom: 0.5rem;
     color: #ffffff;
@@ -431,7 +431,7 @@ nav a:focus-visible {
     transform: scale(1.01);
 }
 
-.blog-article h3 {
+.blog-article h2 {
     font-size: 1.8rem;
     margin-bottom: 0.5rem;
     color: inherit;
@@ -444,7 +444,7 @@ nav a:focus-visible {
     color: inherit;
 }
 
-.blog-article small {
+.blog-article time {
     display: block;
     font-size: 0.85rem;
     margin-top: 0.5rem;
@@ -538,7 +538,7 @@ nav a:focus-visible {
     text-decoration: underline;
 }
 
-.blog-post h2 {
+.blog-post h1 {
     font-size: 2.8rem;
     margin-bottom: 0.5rem;
 }
@@ -566,7 +566,7 @@ nav a:focus-visible {
     max-width: 100%;
 }
 
-.blog-post h4 {
+.blog-post h2 {
     font-size: 1.4rem;
     margin-top: 2rem;
     margin-bottom: 0.75rem;
@@ -627,16 +627,16 @@ footer p {
 
 /* Tablet and smaller laptops */
 @media (max-width: 1024px) {
-    .faixa.hero h2 {
+    .faixa.hero h1 {
         font-size: 2.8rem;
     }
-    .blog-header h2 {
+    .blog-header h1 {
         font-size: 2.4rem;
     }
-    .blog-article h3 {
+    .blog-article h2 {
         font-size: 1.5rem;
     }
-    .blog-post h2 {
+    .blog-post h1 {
         font-size: 2.4rem;
     }
 }
@@ -711,7 +711,7 @@ footer p {
         padding: 4rem 1rem;
     }
 
-    .faixa.hero h2 {
+    .faixa.hero h1 {
         font-size: 2.2rem;
     }
 
@@ -760,7 +760,7 @@ footer p {
         min-height: 70vh;
         padding: 3rem 0;
     }
-    .blog-header h2 {
+    .blog-header h1 {
         font-size: 2rem;
     }
 
@@ -786,7 +786,7 @@ footer p {
         border-radius: 24px;
     }
 
-    .blog-article h3 {
+    .blog-article h2 {
         font-size: 1.4rem;
     }
 
@@ -795,7 +795,7 @@ footer p {
         max-width: 100%;
     }
 
-    .blog-article small {
+    .blog-article time {
         font-size: 0.8rem;
     }
 
@@ -809,7 +809,7 @@ footer p {
         padding: 3rem 0;
     }
 
-    .blog-post h2 {
+    .blog-post h1 {
         font-size: 2rem;
     }
 
@@ -817,7 +817,7 @@ footer p {
         font-size: 1rem;
     }
 
-    .blog-post h4 {
+    .blog-post h2 {
         font-size: 1.2rem;
     }
 
@@ -836,7 +836,7 @@ footer p {
         padding: 0 1rem;
     }
 
-    .faixa.hero h2 {
+    .faixa.hero h1 {
         font-size: 1.8rem;
     }
 
@@ -858,7 +858,7 @@ footer p {
         min-height: 60vh;
         padding: 2rem 0;
     }
-    .blog-header h2 {
+    .blog-header h1 {
         font-size: 1.6rem;
     }
 
@@ -866,7 +866,7 @@ footer p {
         padding: 2rem 0;
     }
 
-    .blog-article h3 {
+    .blog-article h2 {
         font-size: 1.2rem;
     }
 
@@ -879,7 +879,7 @@ footer p {
         padding: 2rem 0;
     }
 
-    .blog-post h2 {
+    .blog-post h1 {
         font-size: 1.6rem;
     }
 
@@ -887,7 +887,7 @@ footer p {
         font-size: 0.95rem;
     }
 
-    .blog-post h4 {
+    .blog-post h2 {
         font-size: 1.1rem;
     }
 

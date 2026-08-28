@@ -12,6 +12,69 @@
       content="The Doghouse Blog – tips, care guides, and nutrition advice for dog owners."
     />
 
+    <!-- SEO metadata -->
+    <link rel="canonical" href="./blog.html" />
+
+    <!-- Open Graph metadata -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="The Doghouse – Blog" />
+    <meta
+      property="og:description"
+      content="Tips, care guides, and nutrition advice for dog owners."
+    />
+    <meta
+      property="og:image"
+      content="https://images.unsplash.com/photo-1444212477490-ca407925329e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+    />
+    <meta property="og:url" content="./blog.html" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card metadata -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="The Doghouse – Blog" />
+    <meta
+      name="twitter:description"
+      content="Tips, care guides, and nutrition advice for dog owners."
+    />
+    <meta
+      name="twitter:image"
+      content="https://images.unsplash.com/photo-1444212477490-ca407925329e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+    />
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "The Doghouse – Blog",
+        "url": "./blog.html",
+        "description": "The Doghouse Blog – tips, care guides, and nutrition advice for dog owners.",
+        "mainEntity": {
+          "@type": "ItemList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "url": "./blog/post-3.html",
+              "name": "How to Choose the Right Breed for You"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "url": "./blog/post-2.html",
+              "name": "Canine Nutrition: What Every Dog Owner Should Know"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "url": "./blog/post-1.html",
+              "name": "Tips for Traveling with Your Dog"
+            }
+          ]
+        }
+      }
+    </script>
+
     <!-- Favicon -->
     <link rel="icon" href="images/favicon.png" type="image/png" />
 
@@ -26,12 +89,10 @@
     <!-- Site header with logo and primary navigation -->
     <header>
       <div class="container">
-        <h1>
-          <a href="index.html" class="logo-link">
-            <img src="images/icon.png" alt="The Doghouse logo" />
-            The Doghouse
-          </a>
-        </h1>
+        <a href="index.html" class="logo-link">
+          <img src="images/icon.png" alt="The Doghouse logo" />
+          The Doghouse
+        </a>
 
         <!-- Hamburger menu toggle (visible on mobile) -->
         <button
@@ -61,14 +122,14 @@
       <section class="faixa blog-header">
         <div class="container">
           <div class="content" style="max-width: 100%; text-align: center">
-            <h2>Blog</h2>
+            <h1>Blog</h1>
             <p>Tips, care guides, and nutrition advice for dog owners.</p>
           </div>
         </div>
       </section>
 
       <!-- Blog post 1 – dark theme with image on the left -->
-      <section class="faixa blog-article">
+      <article class="faixa blog-article">
         <div class="container">
           <div class="image">
             <img
@@ -79,28 +140,29 @@
             />
           </div>
           <div class="content">
-            <h3>How to choose the right breed for you</h3>
+            <h2>How to choose the right breed for you</h2>
             <p>
               Discover which breed best suits your lifestyle and living
               situation.
             </p>
-            <small>Published on August 24, 2026</small>
+            <time datetime="2026-08-24">Published on August 24, 2026</time>
             <a href="blog/post-3.html" class="cta-button blog-button"
               >Read more</a
             >
           </div>
         </div>
-      </section>
+      </article>
 
       <!-- Blog post 2 – light theme with image on the right -->
-      <section class="faixa blog-article">
+      <article class="faixa blog-article">
         <div class="container">
           <div class="content">
-            <h3>Canine nutrition: what you need to know</h3>
+            <h2>Canine nutrition: what you need to know</h2>
             <p>
               A balanced diet is essential for your dog's health and well-being.
             </p>
-            <small>Published on August 23, 2026</small>
+            <time datetime="2026-08-23">Published on August 23, 2026</time>
+
             <a href="blog/post-2.html" class="cta-button blog-button"
               >Read more</a
             >
@@ -114,10 +176,10 @@
             />
           </div>
         </div>
-      </section>
+      </article>
 
       <!-- Blog post 3 – dark theme with image on the left -->
-      <section class="faixa blog-article">
+      <article class="faixa blog-article">
         <div class="container">
           <div class="image">
             <img
@@ -128,18 +190,18 @@
             />
           </div>
           <div class="content">
-            <h3>Tips for traveling with your dog</h3>
+            <h2>Tips for traveling with your dog</h2>
             <p>
               Preparation, documentation, and finding pet-friendly hotels along
               the way.
             </p>
-            <small>Published on August 22, 2026</small>
+            <time datetime="2026-08-22">Published on August 22, 2026</time>
             <a href="blog/post-1.html" class="cta-button blog-button"
               >Read more</a
             >
           </div>
         </div>
-      </section>
+      </article>
     </main>
 
     <!-- Site footer -->
