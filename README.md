@@ -68,14 +68,16 @@ Complete project documentation is available in the `docs/` folder:
 
 ## Project Status
 
-| Phase                           | Status                         |
-| ------------------------------- | ------------------------------ |
-| 1. Planning and Specification   | ✅ Complete (July 27 – Aug 14) |
-| 2. Specification and Design     | ✅ Complete (Aug 14 – Aug 25)  |
-| 3. Implementation               | 🚧 In Progress                 |
-| 4. Testing and Deployment       | ⏳ Scheduled                   |
-| 5. Conclusions and Deliverables | ⏳ Scheduled                   |
-| 6. Contingency Buffer           | ⏳ Reserved throughout         |
+| Phase                           | Status                                                 |
+| ------------------------------- | ------------------------------------------------------ |
+| 1. Planning and Specification   | ✅ Complete (July 27 – Aug 14)                         |
+| 2. Specification and Design     | ✅ Complete (Aug 14 – Aug 25)                          |
+| 3. Implementation               | 🚧 In Progress (website complete; backend/app pending) |
+| 4. Testing and Deployment       | ✅ Website tests and deployment complete               |
+| 5. Conclusions and Deliverables | ⏳ Scheduled                                           |
+| 6. Contingency Buffer           | ⏳ Reserved throughout                                 |
+
+**Current live website:** https://the-doghouse-iota.vercel.app/
 
 ## Getting Started
 
@@ -104,7 +106,11 @@ Complete project documentation is available in the `docs/` folder:
 
 3. **View the static website:**
 
-   Serve it with a local server:
+   Live preview:
+
+   https://the-doghouse-iota.vercel.app/
+
+   Or serve it locally:
 
    ```bash
    cd web
@@ -112,6 +118,13 @@ Complete project documentation is available in the `docs/` folder:
    ```
 
    Then open `http://localhost:3000` in your browser.
+
+4. **Run website unit tests:**
+
+   ```bash
+   cd web
+   npm test
+   ```
 
 ### Testing the PWA
 
@@ -128,15 +141,15 @@ Then open `http://localhost:8000` in Chrome and look for the install icon in the
 
 ## Deliveries
 
-| Delivery | Description                  | Week   |
-| -------- | ---------------------------- | ------ |
-| 1        | Institutional Website        | Aug 24 |
-| 2        | Backend with Authentication  | Aug 31 |
-| 3        | Free Calculator              | Sep 14 |
-| 4        | Map with Overpass API        | Sep 21 |
-| 5        | Free Workshops               | Sep 14 |
-| 6        | Payments and Premium Content | Oct 12 |
-| 7        | Store Publishing             | Oct 19 |
+| Delivery | Description                  | Status             | Week   |
+| -------- | ---------------------------- | ------------------ | ------ |
+| 1        | Institutional Website        | ✅ Complete / Live | Aug 24 |
+| 2        | Backend with Authentication  | ⏳ Planned         | Aug 31 |
+| 3        | Free Calculator              | ⏳ Planned         | Sep 14 |
+| 4        | Map with Overpass API        | ⏳ Planned         | Sep 21 |
+| 5        | Free Workshops               | ⏳ Planned         | Sep 14 |
+| 6        | Payments and Premium Content | ⏳ Planned         | Oct 12 |
+| 7        | Store Publishing             | ⏳ Planned         | Oct 19 |
 
 _For a detailed schedule, see the [Gantt Chart](docs/04_GANTT.md)._
 
