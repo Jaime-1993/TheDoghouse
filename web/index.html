@@ -77,21 +77,23 @@
   </head>
 
   <body>
-    <!-- Skip link for keyboard and screen reader users -->
+    <!-- Skip to main content (keyboard / screen reader) -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <!-- Site header with logo and primary navigation -->
+    <!-- Site header: logo + navigation -->
     <header>
       <div class="container">
         <a href="#hero" class="logo-link">
-          <img src="images/icon.png" alt="The Doghouse logo" />
+          <img src="images/logo-doghouse.png" alt="The Doghouse logo" />
           The Doghouse
         </a>
 
-        <!-- Hamburger menu toggle (visible on mobile) -->
+        <!-- Opens and closes the main navigation on small screens -->
         <button
+          type="button"
           class="menu-toggle"
           aria-label="Toggle navigation"
+          aria-controls="main-nav"
           aria-expanded="false"
         >
           <span></span>
@@ -99,7 +101,6 @@
           <span></span>
         </button>
 
-        <!-- Primary navigation -->
         <nav id="main-nav" aria-label="Main navigation">
           <a href="#calculator">Calculator</a>
           <a href="#workshops">Workshops</a>
@@ -110,33 +111,53 @@
       </div>
     </header>
 
-    <!-- Main content area -->
     <main id="main-content">
-      <!-- Hero section: full-width background image with overlay -->
-      <section id="hero" class="faixa hero">
-        <div class="container">
-          <div class="content">
-            <h1>Your perfect companion for a four-legged life</h1>
-            <p>
+      <!-- Hero: green copy panel stacked above full-bleed dog photo -->
+      <section id="hero" class="hero" aria-labelledby="hero-heading">
+        <div class="hero-panel">
+          <div class="container">
+            <h1 id="hero-heading">
+              Your perfect companion for a four-legged life
+            </h1>
+            <p class="lead">
               Weight calculator, expert workshops, and a pet-friendly hotel map
               — all in one place.
             </p>
-            <a href="#" id="ctaHero" class="cta-button">Get started</a>
+            <a href="#" id="ctaHero" class="cta-button"
+              >Get started <span aria-hidden="true">→</span></a
+            >
           </div>
+        </div>
+        <div class="hero-media">
+          <picture>
+            <source srcset="images/hero-dog.webp" type="image/webp" />
+            <img
+              src="images/hero-dog.jpg"
+              alt="Two dogs running happily through a grassy countryside field"
+              width="1200"
+              height="801"
+              decoding="async"
+            />
+          </picture>
         </div>
       </section>
 
-      <!-- Weight Calculator section -->
-      <section id="calculator" class="faixa calculator">
-        <div class="container">
-          <div class="content">
-            <h2>Ideal Weight Calculator</h2>
+      <section
+        id="calculator"
+        class="feature feature--brand"
+        aria-labelledby="calculator-heading"
+      >
+        <div class="feature-panel">
+          <div class="container">
+            <h2 id="calculator-heading">Ideal Weight Calculator</h2>
             <p>
               Find the perfect weight for your dog based on breed and age. Get a
               free estimate, or unlock percentiles, growth curves, and
               personalized recommendations.
             </p>
-            <a href="#" class="cta-button">Try it now</a>
+            <a href="#" class="cta-button"
+              >Try it now <span aria-hidden="true">→</span></a
+            >
             <p>
               <small
                 >Free estimate available — premium unlocks percentiles, growth
@@ -144,35 +165,37 @@
               >
             </p>
           </div>
-          <div class="image">
+        </div>
+        <div class="feature-media">
+          <picture>
+            <source srcset="images/feature-calculator.webp" type="image/webp" />
             <img
-              src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              alt="A dog sitting calmly on a veterinary scale being weighed"
+              src="images/feature-calculator.jpg"
+              alt="A happy dog outdoors in soft daylight"
+              width="1000"
+              height="750"
               loading="lazy"
               decoding="async"
             />
-          </div>
+          </picture>
         </div>
       </section>
 
-      <!-- Workshops section -->
-      <section id="workshops" class="faixa workshops">
-        <div class="container">
-          <div class="image">
-            <img
-              src="https://images.unsplash.com/photo-1517423568366-8b83523034fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              alt="A relaxed dog lying on a sofa, looking content"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-          <div class="content">
-            <h2>Expert Workshops for Your Dog</h2>
+      <section
+        id="workshops"
+        class="feature feature--surface"
+        aria-labelledby="workshops-heading"
+      >
+        <div class="feature-panel">
+          <div class="container">
+            <h2 id="workshops-heading">Expert Workshops for Your Dog</h2>
             <p>
               Learn about care, nutrition, training, and health with expert-led
               videos. Start free or unlock breed bundles and lifetime access.
             </p>
-            <a href="#" class="cta-button">Explore workshops</a>
+            <a href="#" class="cta-button"
+              >Explore workshops <span aria-hidden="true">→</span></a
+            >
             <p>
               <small
                 >Free videos available — premium content requires
@@ -181,34 +204,57 @@
             </p>
           </div>
         </div>
+        <div class="feature-media">
+          <picture>
+            <source srcset="images/feature-workshops.webp" type="image/webp" />
+            <img
+              src="images/feature-workshops.jpg"
+              alt="A dog running freely through a grassy countryside field"
+              width="1000"
+              height="667"
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
+        </div>
       </section>
 
-      <!-- Pet-Friendly Hotels Map section -->
-      <section id="hotels" class="faixa hotels">
-        <div class="container">
-          <div class="content">
-            <h2>Pet-Friendly Hotels Map</h2>
+      <section
+        id="hotels"
+        class="feature feature--brand"
+        aria-labelledby="hotels-heading"
+      >
+        <div class="feature-panel">
+          <div class="container">
+            <h2 id="hotels-heading">Pet-Friendly Hotels Map</h2>
             <p>
               Find hotels that welcome your dog. Search by location or use
               geolocation to discover pet-friendly places — powered by real
               OpenStreetMap data.
             </p>
-            <a href="#" class="cta-button">Find hotels</a>
+            <a href="#" class="cta-button"
+              >Find hotels <span aria-hidden="true">→</span></a
+            >
             <p><small>Available to all authenticated users.</small></p>
           </div>
-          <div class="image">
+        </div>
+        <div class="feature-media">
+          <picture>
+            <source srcset="images/feature-hotels.webp" type="image/webp" />
             <img
-              src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              alt="A small dog sleeping peacefully on a hotel bed with white sheets"
+              src="images/feature-hotels.jpg"
+              alt="A golden retriever standing in a sunlit outdoor field"
+              width="1000"
+              height="667"
               loading="lazy"
               decoding="async"
             />
-          </div>
+          </picture>
         </div>
       </section>
     </main>
 
-    <!-- Site footer -->
+    <!-- Site footer: cream surface, same shell tokens -->
     <footer>
       <div class="container">
         <p>&copy; 2026 The Doghouse. All rights reserved.</p>
