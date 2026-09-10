@@ -1,13 +1,78 @@
 /*
  * The Doghouse – Institutional Website Styles
- * Responsive, accessible, and maintainable CSS architecture
+ * Design tokens and mobile-first base (Fraunces + Nunito).
  */
 
-/* ===== Font Imports ===== */
-@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700&display=swap');
+/* @import must come first (except @charset); display=swap keeps text visible while webfonts load */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Nunito:wght@300;400;600;700&display=swap');
 
-/* ===== Reset and Base ===== */
-* {
+/* ===== Design tokens =====
+ * Use via var(--token-name). Prefer these over hardcoded values in new rules.
+ * Cream is a content surface only — deep green is the brand in the first viewport.
+ */
+:root {
+    /* Brand / surfaces */
+    --color-bg: #fbf6f0;
+    --color-surface: #1f3d26;
+    --color-surface-2: #faf5ed;
+    --color-brand: var(--color-surface); /* DRY: one green to tune */
+    --color-brand-mid: #798f71;
+
+    /* Text */
+    --color-text: #32472b;
+    --color-text-on-brand: #f9f3e9;
+    --color-text-muted: #737363;
+    --color-text-muted-on-brand: #ccd0c3;
+
+    /* Accent (barn red) — CTAs and “Read more” links */
+    --color-accent: #b53123;
+    --color-cta-bg: #b53123;
+    --color-cta-text: #f9f3e9;
+    --color-border-subtle: #e8e2da;
+
+    /* Type: Fraunces (display) + Nunito (body) */
+    --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+    --font-body: "Nunito", system-ui, sans-serif;
+    --font-weight-display: 700;
+    --font-weight-body: 400;
+    --font-weight-emphasis: 600;
+    --font-weight-light: 300;
+
+    /* Type scale — defaults target ~360px; larger screens override below */
+    --font-size-body: 1rem;
+    --font-size-h1: 1.75rem;
+    --font-size-h2: 1.5rem;
+    --font-size-h3: 1.125rem;
+    --font-size-lead: 1rem;
+    --line-height-body: 1.6;
+    --line-height-heading: 1.15;
+
+    /* Spacing (8px grid) */
+    --space-unit: 8px;
+    --space-1: var(--space-unit);
+    --space-2: calc(var(--space-unit) * 2);
+    --space-3: calc(var(--space-unit) * 3);
+    --space-4: calc(var(--space-unit) * 4);
+    --space-section: var(--space-4);
+
+    /* Radii */
+    --radius-pill: 999px;
+    --radius-thumb: 12px;
+    --radius-hero-image: 0;
+
+    /* Touch targets — min 44px for accessibility; do not shrink CTAs on small screens */
+    --touch-min: 44px;
+    --cta-min-height: var(--touch-min);
+    --cta-padding-x: var(--space-3);
+
+    --container-max: 1200px;
+    --header-height-approx: 70px;
+}
+
+/* ===== Reset and base (mobile-first) ===== */
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -15,31 +80,87 @@
 
 html {
     scroll-behavior: smooth;
+    font-size: 100%;
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    color: #1d1d1f;
-    line-height: 1.6;
-    background-color: #f5f5f7;
+    font-family: var(--font-body);
+    font-weight: var(--font-weight-body);
+    font-size: var(--font-size-body);
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    line-height: var(--line-height-body);
+    overflow-x: hidden;
+}
+
+/* Fluid images — avoid desktop-fixed heights breaking small screens */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--space-2);
 }
 
-/* ===== Typography ===== */
+/* ===== Typography (mobile-first) =====
+ * Scale up with min-width — do not override heading sizes with fixed rem in max-width blocks.
+ */
 h1, h2, h3, h4, h5, h6 {
-    font-weight: 700;
+    font-family: var(--font-display);
+    font-weight: var(--font-weight-display);
+    line-height: var(--line-height-heading);
     letter-spacing: -0.02em;
-    color: #1d1d1f;
+    color: var(--color-text);
 }
 
-h1 { font-size: 2rem; }
-h2 { font-size: 2.8rem; margin-bottom: 1rem; line-height: 1.1; }
-h3 { font-size: 1.25rem; }
+h1 {
+    font-size: var(--font-size-h1);
+}
+
+h2 {
+    font-size: var(--font-size-h2);
+    margin-bottom: var(--space-2);
+}
+
+h3 {
+    font-size: var(--font-size-h3);
+    font-weight: var(--font-weight-emphasis);
+}
+
+.lead {
+    font-family: var(--font-body);
+    font-size: var(--font-size-lead);
+    font-weight: var(--font-weight-body);
+    color: var(--color-text-muted);
+    line-height: var(--line-height-body);
+}
+
+@media (min-width: 768px) {
+    :root {
+        --font-size-h1: 2.25rem;
+        --font-size-h2: 1.875rem;
+        --font-size-h3: 1.25rem;
+        --font-size-lead: 1.125rem;
+    }
+
+    .container {
+        padding-inline: var(--space-4);
+    }
+}
+
+@media (min-width: 1280px) {
+    :root {
+        --font-size-h1: 2.75rem;
+        --font-size-h2: 2.25rem;
+        --font-size-h3: 1.375rem;
+        --font-size-lead: 1.25rem;
+    }
+}
 
 /* ===== Skip Link for Accessibility ===== */
 .skip-link {
@@ -97,7 +218,7 @@ header .container {
 .logo-link img {
     height: 2rem;
     width: auto;
-    display: inline-block;
+    flex-shrink: 0;
 }
 
 nav {
@@ -248,13 +369,13 @@ nav a:focus-visible {
 }
 
 .faixa.hero h1 {
-    font-size: 3.5rem;
+    font-size: var(--font-size-h1);
     margin-bottom: 1.2rem;
     color: #ffffff;
 }
 
 .faixa.hero p {
-    font-size: 1.25rem;
+    font-size: var(--font-size-lead);
     color: #e2e8f0;
     max-width: 550px;
     margin: 0 auto 2rem;
@@ -381,14 +502,14 @@ nav a:focus-visible {
 }
 
 .blog-header h1 {
-    font-size: 2.8rem;
+    font-size: var(--font-size-h1);
     margin-bottom: 0.5rem;
     color: #ffffff;
 }
 
 .blog-header p {
     color: #e2e8f0;
-    font-size: 1.1rem;
+    font-size: var(--font-size-lead);
     max-width: 600px;
     margin: 0 auto;
 }
@@ -432,7 +553,7 @@ nav a:focus-visible {
 }
 
 .blog-article h2 {
-    font-size: 1.8rem;
+    font-size: var(--font-size-h2);
     margin-bottom: 0.5rem;
     color: inherit;
 }
@@ -539,7 +660,7 @@ nav a:focus-visible {
 }
 
 .blog-post h1 {
-    font-size: 2.8rem;
+    font-size: var(--font-size-h1);
     margin-bottom: 0.5rem;
 }
 
@@ -567,7 +688,7 @@ nav a:focus-visible {
 }
 
 .blog-post h2 {
-    font-size: 1.4rem;
+    font-size: var(--font-size-h2);
     margin-top: 2rem;
     margin-bottom: 0.75rem;
 }
@@ -623,24 +744,10 @@ footer p {
     text-decoration: underline;
 }
 
-/* ===== Responsive Design ===== */
-
-/* Tablet and smaller laptops */
-@media (max-width: 1024px) {
-    .faixa.hero h1 {
-        font-size: 2.8rem;
-    }
-    .blog-header h1 {
-        font-size: 2.4rem;
-    }
-    .blog-article h2 {
-        font-size: 1.5rem;
-    }
-    .blog-post h1 {
-        font-size: 2.4rem;
-    }
-}
-
+/* ===== Responsive (legacy max-width) =====
+ * Prefer the mobile-first rules above for .container and heading sizes.
+ * These blocks remain for layout/nav until the page shell is rebuilt.
+ */
 /* Mobile devices */
 @media (max-width: 768px) {
     header .container {
@@ -711,12 +818,8 @@ footer p {
         padding: 4rem 1rem;
     }
 
-    .faixa.hero h1 {
-        font-size: 2.2rem;
-    }
-
     .faixa.hero p {
-        font-size: 1rem;
+        font-size: var(--font-size-lead);
         max-width: 100%;
     }
 
@@ -745,10 +848,6 @@ footer p {
         flex-direction: column !important;
     }
 
-    h2 {
-        font-size: 2rem;
-    }
-
     .cta-button {
         padding: 0.7rem 2rem;
         font-size: 1rem;
@@ -760,10 +859,6 @@ footer p {
         min-height: 70vh;
         padding: 3rem 0;
     }
-    .blog-header h1 {
-        font-size: 2rem;
-    }
-
     .blog-article {
         padding: 3rem 0;
     }
@@ -786,10 +881,6 @@ footer p {
         border-radius: 24px;
     }
 
-    .blog-article h2 {
-        font-size: 1.4rem;
-    }
-
     .blog-article p {
         font-size: 0.95rem;
         max-width: 100%;
@@ -809,16 +900,8 @@ footer p {
         padding: 3rem 0;
     }
 
-    .blog-post h1 {
-        font-size: 2rem;
-    }
-
     .blog-post p {
         font-size: 1rem;
-    }
-
-    .blog-post h2 {
-        font-size: 1.2rem;
     }
 
     .blog-post ul {
@@ -832,14 +915,6 @@ footer p {
 
 /* Small mobile devices */
 @media (max-width: 480px) {
-    .container {
-        padding: 0 1rem;
-    }
-
-    .faixa.hero h1 {
-        font-size: 1.8rem;
-    }
-
     nav a {
         font-size: 0.8rem;
     }
@@ -858,16 +933,8 @@ footer p {
         min-height: 60vh;
         padding: 2rem 0;
     }
-    .blog-header h1 {
-        font-size: 1.6rem;
-    }
-
     .blog-article {
         padding: 2rem 0;
-    }
-
-    .blog-article h2 {
-        font-size: 1.2rem;
     }
 
     .blog-article p {
@@ -879,16 +946,8 @@ footer p {
         padding: 2rem 0;
     }
 
-    .blog-post h1 {
-        font-size: 1.6rem;
-    }
-
     .blog-post p {
         font-size: 0.95rem;
-    }
-
-    .blog-post h2 {
-        font-size: 1.1rem;
     }
 
     .blog-post ul {

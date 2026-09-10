@@ -4,6 +4,9 @@
 *.swo
 ._*
 
+# Temporary / private drafts (not for public repo)
+docs/tmp/
+
 # Go
 api/bin/
 api/tmp/
