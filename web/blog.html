@@ -27,7 +27,7 @@
     />
     <meta
       property="og:image"
-      content="https://images.unsplash.com/photo-1444212477490-ca407925329e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+      content="https://the-doghouse-iota.vercel.app/images/hero-dog.jpg"
     />
     <meta
       property="og:url"
@@ -44,7 +44,7 @@
     />
     <meta
       name="twitter:image"
-      content="https://images.unsplash.com/photo-1444212477490-ca407925329e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+      content="https://the-doghouse-iota.vercel.app/images/hero-dog.jpg"
     />
 
     <!-- Structured data -->
@@ -89,21 +89,23 @@
   </head>
 
   <body>
-    <!-- Skip link for keyboard and screen reader users -->
+    <!-- Skip to main content (keyboard / screen reader) -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <!-- Site header with logo and primary navigation -->
+    <!-- Site header: logo + navigation (same shell as index; paths relative to web/) -->
     <header>
       <div class="container">
         <a href="index.html" class="logo-link">
-          <img src="images/icon.png" alt="The Doghouse logo" />
+          <img src="images/logo-doghouse.png" alt="The Doghouse logo" />
           The Doghouse
         </a>
 
-        <!-- Hamburger menu toggle (visible on mobile) -->
+        <!-- Opens and closes the main navigation on small screens -->
         <button
+          type="button"
           class="menu-toggle"
           aria-label="Toggle navigation"
+          aria-controls="main-nav"
           aria-expanded="false"
         >
           <span></span>
@@ -111,7 +113,6 @@
           <span></span>
         </button>
 
-        <!-- Primary navigation -->
         <nav id="main-nav" aria-label="Main navigation">
           <a href="index.html#calculator">Calculator</a>
           <a href="index.html#workshops">Workshops</a>
@@ -122,95 +123,125 @@
       </div>
     </header>
 
-    <!-- Main content area -->
     <main id="main-content">
-      <!-- Blog header section with background image and overlay -->
-      <section class="faixa blog-header">
-        <div class="container">
-          <div class="content" style="max-width: 100%; text-align: center">
-            <h1>Blog</h1>
-            <p>Tips, care guides, and nutrition advice for dog owners.</p>
+      <!-- Same hero pattern as index: green panel → full-bleed photo -->
+      <section class="hero" aria-labelledby="blog-heading">
+        <div class="hero-panel">
+          <div class="container">
+            <h1 id="blog-heading">Blog</h1>
+            <p class="lead">
+              Tips, care guides, and nutrition advice for dog owners.
+            </p>
           </div>
+        </div>
+        <div class="hero-media">
+          <picture>
+            <source srcset="images/hero-dog.webp" type="image/webp" />
+            <img
+              src="images/hero-dog.jpg"
+              alt="Two dogs running happily through a grassy countryside field"
+              width="1200"
+              height="801"
+              decoding="async"
+            />
+          </picture>
         </div>
       </section>
 
-      <!-- Blog post 1 – dark theme with image on the left -->
-      <article class="faixa blog-article">
-        <div class="container">
-          <div class="image">
-            <img
-              src="https://images.unsplash.com/photo-1544568100-847a948585b9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              alt="Person and dog choosing a breed together"
-              loading="lazy"
-              decoding="async"
-            />
+      <div class="blog-list">
+        <article class="blog-article">
+          <div class="container">
+            <div class="image">
+              <picture>
+                <source srcset="images/blog-breed.webp" type="image/webp" />
+                <img
+                  src="images/blog-breed.jpg"
+                  alt="Person and dog choosing a breed together"
+                  width="400"
+                  height="400"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
+            </div>
+            <div class="content">
+              <h2>How to Choose the Right Breed for You</h2>
+              <p>
+                Discover which breed best suits your lifestyle and living
+                situation.
+              </p>
+              <time datetime="2026-08-24">Published on August 24, 2026</time>
+              <a href="blog/post-3.html" class="read-more"
+                >Read more <span aria-hidden="true">→</span></a
+              >
+            </div>
           </div>
-          <div class="content">
-            <h2>How to choose the right breed for you</h2>
-            <p>
-              Discover which breed best suits your lifestyle and living
-              situation.
-            </p>
-            <time datetime="2026-08-24">Published on August 24, 2026</time>
-            <a href="blog/post-3.html" class="cta-button blog-button"
-              >Read more</a
-            >
-          </div>
-        </div>
-      </article>
+        </article>
 
-      <!-- Blog post 2 – light theme with image on the right -->
-      <article class="faixa blog-article">
-        <div class="container">
-          <div class="content">
-            <h2>Canine nutrition: what you need to know</h2>
-            <p>
-              A balanced diet is essential for your dog's health and well-being.
-            </p>
-            <time datetime="2026-08-23">Published on August 23, 2026</time>
+        <article class="blog-article">
+          <div class="container">
+            <div class="image">
+              <picture>
+                <source
+                  srcset="images/blog-nutrition.webp"
+                  type="image/webp"
+                />
+                <img
+                  src="images/blog-nutrition.jpg"
+                  alt="Dog eating healthy food"
+                  width="400"
+                  height="400"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
+            </div>
+            <div class="content">
+              <h2>Canine Nutrition: What Every Dog Owner Should Know</h2>
+              <p>
+                A balanced diet is essential for your dog's health and
+                well-being.
+              </p>
+              <time datetime="2026-08-23">Published on August 23, 2026</time>
+              <a href="blog/post-2.html" class="read-more"
+                >Read more <span aria-hidden="true">→</span></a
+              >
+            </div>
+          </div>
+        </article>
 
-            <a href="blog/post-2.html" class="cta-button blog-button"
-              >Read more</a
-            >
+        <article class="blog-article">
+          <div class="container">
+            <div class="image">
+              <picture>
+                <source srcset="images/blog-travel.webp" type="image/webp" />
+                <img
+                  src="images/blog-travel.jpg"
+                  alt="Dog in a car ready to travel"
+                  width="400"
+                  height="400"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
+            </div>
+            <div class="content">
+              <h2>Tips for Traveling with Your Dog</h2>
+              <p>
+                Preparation, documentation, and finding pet-friendly hotels
+                along the way.
+              </p>
+              <time datetime="2026-08-22">Published on August 22, 2026</time>
+              <a href="blog/post-1.html" class="read-more"
+                >Read more <span aria-hidden="true">→</span></a
+              >
+            </div>
           </div>
-          <div class="image">
-            <img
-              src="https://images.unsplash.com/photo-1560743641-3914f2c45636?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              alt="Dog eating healthy food"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-        </div>
-      </article>
-
-      <!-- Blog post 3 – dark theme with image on the left -->
-      <article class="faixa blog-article">
-        <div class="container">
-          <div class="image">
-            <img
-              src="https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              alt="Dog in a car ready to travel"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-          <div class="content">
-            <h2>Tips for traveling with your dog</h2>
-            <p>
-              Preparation, documentation, and finding pet-friendly hotels along
-              the way.
-            </p>
-            <time datetime="2026-08-22">Published on August 22, 2026</time>
-            <a href="blog/post-1.html" class="cta-button blog-button"
-              >Read more</a
-            >
-          </div>
-        </div>
-      </article>
+        </article>
+      </div>
     </main>
 
-    <!-- Site footer -->
+    <!-- Site footer: cream surface, same shell tokens -->
     <footer>
       <div class="container">
         <p>&copy; 2026 The Doghouse. All rights reserved.</p>
@@ -227,7 +258,6 @@
       </div>
     </footer>
 
-    <!-- JavaScript for interactivity -->
     <script src="js/main.js"></script>
   </body>
 </html>
