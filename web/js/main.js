@@ -10,20 +10,57 @@ document.addEventListener("DOMContentLoaded", function () {
   const nav = document.querySelector("nav");
 
   if (toggle && nav) {
+    // One place to open/close — keeps classes and ARIA in sync
+    function setMenuOpen(isOpen) {
+      nav.classList.toggle("open", isOpen);
+      toggle.classList.toggle("active", isOpen);
+      toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    }
+
+    function closeMenu() {
+      setMenuOpen(false);
+    }
+
     toggle.addEventListener("click", function () {
-      const isOpen = nav.classList.toggle("open");
-      toggle.classList.toggle("active");
-      toggle.setAttribute("aria-expanded", isOpen);
+      const willOpen = !nav.classList.contains("open");
+      setMenuOpen(willOpen);
     });
 
-    // Close the panel when a nav link is chosen (mobile UX)
+    // Close when a nav link is chosen (mobile UX)
     nav.querySelectorAll("a").forEach(function (link) {
       link.addEventListener("click", function () {
-        nav.classList.remove("open");
-        toggle.classList.remove("active");
-        toggle.setAttribute("aria-expanded", "false");
+        closeMenu();
       });
     });
+
+    // Escape closes the panel and returns focus to the toggle (keyboard UX)
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "Escape" || !nav.classList.contains("open")) {
+        return;
+      }
+      closeMenu();
+      toggle.focus();
+    });
+
+    // If Tab moves focus outside the header while open, close the panel
+    // (avoids a visible open menu with focus already on main content)
+    const header = toggle.closest("header");
+    if (header) {
+      header.addEventListener("focusout", function () {
+        if (!nav.classList.contains("open")) {
+          return;
+        }
+        // focusout fires before the next element is focused — check on next frame
+        requestAnimationFrame(function () {
+          if (!nav.classList.contains("open")) {
+            return;
+          }
+          if (!header.contains(document.activeElement)) {
+            closeMenu();
+          }
+        });
+      });
+    }
   }
 
   // ===== Placeholders (keep until real auth / flows exist) =====
