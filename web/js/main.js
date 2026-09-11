@@ -1,16 +1,13 @@
 /*
- * The Doghouse – main UI script
- * Menu toggle + placeholder Sign In / hero CTA until auth ships.
+ * The Doghouse – menu toggle + temporary Sign In / hero CTA handlers.
  */
 
 document.addEventListener("DOMContentLoaded", function () {
-  // ===== Hamburger menu =====
-  // Contract: .menu-toggle ↔ nav.open + .active + aria-expanded
+  // Contract for tests: .menu-toggle ↔ nav.open + .active + aria-expanded
   const toggle = document.querySelector(".menu-toggle");
   const nav = document.querySelector("nav");
 
   if (toggle && nav) {
-    // One place to open/close — keeps classes and ARIA in sync
     function setMenuOpen(isOpen) {
       nav.classList.toggle("open", isOpen);
       toggle.classList.toggle("active", isOpen);
@@ -22,18 +19,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     toggle.addEventListener("click", function () {
-      const willOpen = !nav.classList.contains("open");
-      setMenuOpen(willOpen);
+      setMenuOpen(!nav.classList.contains("open"));
     });
 
-    // Close when a nav link is chosen (mobile UX)
     nav.querySelectorAll("a").forEach(function (link) {
-      link.addEventListener("click", function () {
-        closeMenu();
-      });
+      link.addEventListener("click", closeMenu);
     });
 
-    // Escape closes the panel and returns focus to the toggle (keyboard UX)
     document.addEventListener("keydown", function (e) {
       if (e.key !== "Escape" || !nav.classList.contains("open")) {
         return;
@@ -42,20 +34,19 @@ document.addEventListener("DOMContentLoaded", function () {
       toggle.focus();
     });
 
-    // If Tab moves focus outside the header while open, close the panel
-    // (avoids a visible open menu with focus already on main content)
+    // Close if Tab moves focus out of the header while the panel is open
     const header = toggle.closest("header");
     if (header) {
       header.addEventListener("focusout", function () {
         if (!nav.classList.contains("open")) {
           return;
         }
-        // focusout fires before the next element is focused — check on next frame
+        // focusout runs before the next focus target is set
         requestAnimationFrame(function () {
-          if (!nav.classList.contains("open")) {
-            return;
-          }
-          if (!header.contains(document.activeElement)) {
+          if (
+            nav.classList.contains("open") &&
+            !header.contains(document.activeElement)
+          ) {
             closeMenu();
           }
         });
@@ -63,8 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // ===== Placeholders (keep until real auth / flows exist) =====
-  // #loginBtn keeps href="/app" in HTML (RF07/RF08); preventDefault is temporary.
+  // Keep href="/app" in HTML (RF07/RF08); preventDefault is temporary until auth
   const loginBtn = document.getElementById("loginBtn");
   if (loginBtn) {
     loginBtn.addEventListener("click", function (e) {

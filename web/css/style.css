@@ -6,31 +6,26 @@
 /* @import must come first (except @charset); display=swap keeps text visible while webfonts load */
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Nunito:wght@300;400;600;700&display=swap');
 
-/* ===== Design tokens =====
- * Use via var(--token-name). Prefer these over hardcoded values in new rules.
+/* Prefer var(--token) over hardcoded values.
  * Cream is a content surface only — deep green is the brand in the first viewport.
  */
 :root {
-    /* Brand / surfaces */
     --color-bg: #fbf6f0;
     --color-surface: #1f3d26;
     --color-surface-2: #faf5ed;
-    --color-brand: var(--color-surface); /* DRY: one green to tune */
+    --color-brand: var(--color-surface); /* alias — tune green in one place */
     --color-brand-mid: #798f71;
 
-    /* Text */
     --color-text: #32472b;
     --color-text-on-brand: #f9f3e9;
     --color-text-muted: #6b6b5c; /* ≥4.5:1 on cream/bg (WCAG AA body text) */
     --color-text-muted-on-brand: #ccd0c3;
 
-    /* Accent (barn red) — CTAs and “Read more” links */
     --color-accent: #b53123;
     --color-cta-bg: #b53123;
     --color-cta-text: #f9f3e9;
     --color-border-subtle: #e8e2da;
 
-    /* Type: Fraunces (display) + Nunito (body) */
     --font-display: "Fraunces", Georgia, "Times New Roman", serif;
     --font-body: "Nunito", system-ui, sans-serif;
     --font-weight-display: 700;
@@ -38,7 +33,7 @@
     --font-weight-emphasis: 600;
     --font-weight-light: 300;
 
-    /* Type scale — defaults target ~360px; larger screens override below */
+    /* Type scale — ~360px defaults; larger screens override below */
     --font-size-body: 1rem;
     --font-size-h1: 1.75rem;
     --font-size-h2: 1.5rem;
@@ -47,7 +42,6 @@
     --line-height-body: 1.6;
     --line-height-heading: 1.15;
 
-    /* Spacing (8px grid) */
     --space-unit: 8px;
     --space-1: var(--space-unit);
     --space-2: calc(var(--space-unit) * 2);
@@ -55,17 +49,16 @@
     --space-4: calc(var(--space-unit) * 4);
     --space-section: var(--space-4);
 
-    /* Radii */
     --radius-pill: 999px;
     --radius-thumb: 12px;
     --radius-hero-image: 0;
 
-    /* Touch targets — min 44px for accessibility; do not shrink CTAs on small screens */
+    /* Touch ≥44px — do not shrink CTAs on small screens */
     --touch-min: 44px;
     --cta-min-height: var(--touch-min);
     --cta-padding-x: var(--space-3);
 
-    /* Keyboard focus rings (6.1) — visible on brand green vs cream */
+    /* Focus rings contrast on brand green vs cream */
     --focus-ring-on-brand: 2px solid var(--color-text-on-brand);
     --focus-ring-on-surface: 2px solid var(--color-accent);
     --focus-ring-offset: 2px;
@@ -74,7 +67,7 @@
     --header-height-approx: 70px;
 }
 
-/* ===== Reset and base (mobile-first) ===== */
+/* Mobile-first reset */
 *,
 *::before,
 *::after {
@@ -114,9 +107,7 @@ img {
     padding-inline: var(--space-2);
 }
 
-/* ===== Typography (mobile-first) =====
- * Scale up with min-width — do not override heading sizes with fixed rem in max-width blocks.
- */
+/* Scale type with min-width — avoid fixed rem heading sizes inside max-width blocks */
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
     font-weight: var(--font-weight-display);
@@ -175,9 +166,7 @@ h3 {
     }
 }
 
-/* ===== Skip link =====
- * First Tab stop: jump past the sticky header into #main-content.
- */
+/* First Tab stop: jump past the sticky header into #main-content */
 .skip-link {
     position: absolute;
     top: -9999px;
@@ -199,10 +188,7 @@ h3 {
     outline-offset: var(--focus-ring-offset);
 }
 
-/* ===== Site shell: header, nav, menu (mobile-first) =====
- * Default (~360): green bar, logo + hamburger; nav opens as a panel.
- * From 768px: horizontal nav; hamburger hidden.
- */
+/* ~360: logo + hamburger panel; from 768px: horizontal nav, hamburger hidden */
 header {
     background-color: var(--color-brand);
     color: var(--color-text-on-brand);
@@ -411,9 +397,7 @@ nav a:focus-visible {
     }
 }
 
-/* ===== Hero (stack: green panel → photo) =====
- * First viewport: brand green + h1 + lead + one CTA; photo edge-to-edge below.
- */
+/* First viewport: brand panel (h1 + lead + CTA) then edge-to-edge photo */
 .hero {
     background-color: var(--color-brand);
     scroll-margin-top: var(--header-height-approx);
@@ -498,7 +482,7 @@ nav a:focus-visible {
         padding: var(--space-3) 0 var(--space-4);
     }
 
-    /* Keep left-aligned copy like the mock (not centered block) */
+    /* Keep left-aligned (not a centered block) */
     .hero-panel .container {
         margin-inline: 0;
         max-width: 40rem;
@@ -566,7 +550,6 @@ nav a:focus-visible {
     }
 }
 
-/* ===== Call-to-Action Buttons ===== */
 .cta-button {
     display: inline-flex;
     align-items: center;
@@ -602,10 +585,7 @@ nav a:focus-visible {
     outline-offset: 3px;
 }
 
-/* ===== Feature sections (calculator / workshops / hotels) =====
- * Stack like the hero: copy panel → full-bleed photo. No blue SaaS bands.
- * Rhythm: brand green → cream → brand green (no invented “how it works” block).
- */
+/* Features: copy panel → full-bleed photo; alternate brand / cream panels */
 .feature {
     scroll-margin-top: var(--header-height-approx);
 }
@@ -698,7 +678,6 @@ nav a:focus-visible {
     }
 }
 
-/* Brand green panel (on-brand text) */
 .feature--brand .feature-panel {
     background-color: var(--color-brand);
     color: var(--color-text-on-brand);
@@ -720,7 +699,6 @@ nav a:focus-visible {
     outline: var(--focus-ring-on-brand);
 }
 
-/* Cream content surface */
 .feature--surface .feature-panel {
     background-color: var(--color-surface-2);
     color: var(--color-text);
@@ -877,10 +855,7 @@ nav a:focus-visible {
     }
 }
 
-/* ===== Blog list + posts =====
- * Hero reuses .hero / .hero-panel / .hero-media from the landing.
- * List: cream surface, thumb | copy (vertically centered), text “Read more”.
- */
+/* Blog list: cream surface; each row is thumb | copy (hero classes from landing) */
 .blog-list {
     background-color: var(--color-surface-2);
     padding-block: var(--space-3);
@@ -951,7 +926,7 @@ nav a:focus-visible {
     color: var(--color-text-muted);
 }
 
-/* Text link CTA (not a pill) — matches list mock */
+/* Text link, not a pill button */
 .read-more {
     display: inline-flex;
     align-items: center;
@@ -1004,7 +979,6 @@ nav a:focus-visible {
     }
 }
 
-/* ===== Individual blog posts ===== */
 .blog-post {
     background-color: var(--color-bg);
     color: var(--color-text);
@@ -1114,10 +1088,6 @@ nav a:focus-visible {
     border-radius: 4px;
 }
 
-/* ===== Footer =====
- * Cream content surface — closes the page after the feature stacks.
- * Same tokens as the shell; no SaaS blue.
- */
 footer {
     background-color: var(--color-surface-2);
     color: var(--color-text);
@@ -1168,7 +1138,3 @@ footer p {
     outline-offset: var(--focus-ring-offset);
     border-radius: 4px;
 }
-
-/* ===== End of stylesheet =====
- * Blog + landing share the same tokens; prefer min-width over max-width.
- */
