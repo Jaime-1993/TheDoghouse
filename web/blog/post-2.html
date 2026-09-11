@@ -4,7 +4,9 @@
     <!-- Character encoding and responsive viewport -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The Doghouse – Canine Nutrition Guide</title>
+    <title>
+      The Doghouse – Canine Nutrition: What Every Dog Owner Should Know
+    </title>
 
     <!-- SEO meta description -->
     <meta
@@ -37,6 +39,7 @@
       content="https://the-doghouse-iota.vercel.app/blog/post-2.html"
     />
     <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="The Doghouse" />
 
     <!-- Twitter Card metadata -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -60,15 +63,19 @@
         "@type": "BlogPosting",
         "@id": "https://the-doghouse-iota.vercel.app/blog/post-2.html#article",
         "headline": "Canine Nutrition: What Every Dog Owner Should Know",
+        "url": "https://the-doghouse-iota.vercel.app/blog/post-2.html",
         "datePublished": "2026-08-23",
+        "description": "Essential nutrition tips for your dog, including macronutrients, forbidden foods, and age-specific diets.",
         "author": {
           "@type": "Organization",
-          "name": "The Doghouse"
+          "name": "The Doghouse",
+          "url": "https://the-doghouse-iota.vercel.app/"
         },
         "image": "https://the-doghouse-iota.vercel.app/images/blog-nutrition.jpg",
         "publisher": {
           "@type": "Organization",
           "name": "The Doghouse",
+          "url": "https://the-doghouse-iota.vercel.app/",
           "logo": {
             "@type": "ImageObject",
             "url": "https://the-doghouse-iota.vercel.app/images/icon.png"
@@ -79,6 +86,10 @@
 
     <!-- Favicon -->
     <link rel="icon" href="../images/favicon.png" type="image/png" />
+
+    <!-- Fonts: warm up origins before CSS @import (display=swap in the URL) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <!-- Main stylesheet -->
     <link rel="stylesheet" href="../css/style.css" />
@@ -92,7 +103,12 @@
     <header>
       <div class="container">
         <a href="../index.html" class="logo-link">
-          <img src="../images/logo-doghouse.png" alt="The Doghouse logo" />
+          <img
+            src="../images/logo-doghouse.png"
+            alt="The Doghouse logo"
+            width="256"
+            height="187"
+          />
           The Doghouse
         </a>
 
@@ -143,7 +159,7 @@
                 class="featured-image"
                 width="800"
                 height="1202"
-                loading="lazy"
+                fetchpriority="high"
                 decoding="async"
               />
             </picture>

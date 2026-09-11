@@ -22,14 +22,15 @@
     />
     <meta
       property="og:description"
-      content="Weight calculator, expert workshops, and a pet-friendly hotel map for your dog."
+      content="The Doghouse – Weight calculator, expert workshops, and a pet-friendly hotel map for your dog. Start your journey today."
     />
     <meta
       property="og:image"
-      content="https://the-doghouse-iota.vercel.app/images/icon.png"
+      content="https://the-doghouse-iota.vercel.app/images/hero-dog.jpg"
     />
     <meta property="og:url" content="https://the-doghouse-iota.vercel.app/" />
     <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="The Doghouse" />
 
     <!-- Twitter Card metadata -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -39,11 +40,11 @@
     />
     <meta
       name="twitter:description"
-      content="Weight calculator, expert workshops, and a pet-friendly hotel map for your dog."
+      content="The Doghouse – Weight calculator, expert workshops, and a pet-friendly hotel map for your dog. Start your journey today."
     />
     <meta
       name="twitter:image"
-      content="https://the-doghouse-iota.vercel.app/images/icon.png"
+      content="https://the-doghouse-iota.vercel.app/images/hero-dog.jpg"
     />
 
     <!-- Structured data -->
@@ -55,15 +56,22 @@
             "@type": "Organization",
             "@id": "https://the-doghouse-iota.vercel.app/#organization",
             "name": "The Doghouse",
+            "url": "https://the-doghouse-iota.vercel.app/",
             "description": "The Doghouse – Weight calculator, expert workshops, and a pet-friendly hotel map for your dog. Start your journey today.",
-            "logo": "https://the-doghouse-iota.vercel.app/images/icon.png"
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://the-doghouse-iota.vercel.app/images/icon.png"
+            }
           },
           {
             "@type": "WebSite",
             "@id": "https://the-doghouse-iota.vercel.app/#website",
             "name": "The Doghouse – Your companion for a four-legged life",
             "url": "https://the-doghouse-iota.vercel.app/",
-            "description": "The Doghouse – Weight calculator, expert workshops, and a pet-friendly hotel map for your dog. Start your journey today."
+            "description": "The Doghouse – Weight calculator, expert workshops, and a pet-friendly hotel map for your dog. Start your journey today.",
+            "publisher": {
+              "@id": "https://the-doghouse-iota.vercel.app/#organization"
+            }
           }
         ]
       }
@@ -71,6 +79,10 @@
 
     <!-- Favicon -->
     <link rel="icon" href="images/favicon.png" type="image/png" />
+
+    <!-- Fonts: warm up origins before CSS @import (display=swap in the URL) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <!-- Main stylesheet -->
     <link rel="stylesheet" href="css/style.css" />
@@ -84,7 +96,12 @@
     <header>
       <div class="container">
         <a href="#hero" class="logo-link">
-          <img src="images/logo-doghouse.png" alt="The Doghouse logo" />
+          <img
+            src="images/logo-doghouse.png"
+            alt="The Doghouse logo"
+            width="256"
+            height="187"
+          />
           The Doghouse
         </a>
 
@@ -136,6 +153,7 @@
               alt="Two dogs running happily through a grassy countryside field"
               width="1200"
               height="801"
+              fetchpriority="high"
               decoding="async"
             />
           </picture>

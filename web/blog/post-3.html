@@ -37,6 +37,7 @@
       content="https://the-doghouse-iota.vercel.app/blog/post-3.html"
     />
     <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="The Doghouse" />
 
     <!-- Twitter Card metadata -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -60,15 +61,19 @@
         "@type": "BlogPosting",
         "@id": "https://the-doghouse-iota.vercel.app/blog/post-3.html#article",
         "headline": "How to Choose the Right Breed for You",
+        "url": "https://the-doghouse-iota.vercel.app/blog/post-3.html",
         "datePublished": "2026-08-24",
+        "description": "Discover how to choose the right dog breed for your lifestyle, living situation, and experience level.",
         "author": {
           "@type": "Organization",
-          "name": "The Doghouse"
+          "name": "The Doghouse",
+          "url": "https://the-doghouse-iota.vercel.app/"
         },
         "image": "https://the-doghouse-iota.vercel.app/images/blog-breed.jpg",
         "publisher": {
           "@type": "Organization",
           "name": "The Doghouse",
+          "url": "https://the-doghouse-iota.vercel.app/",
           "logo": {
             "@type": "ImageObject",
             "url": "https://the-doghouse-iota.vercel.app/images/icon.png"
@@ -79,6 +84,10 @@
 
     <!-- Favicon -->
     <link rel="icon" href="../images/favicon.png" type="image/png" />
+
+    <!-- Fonts: warm up origins before CSS @import (display=swap in the URL) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <!-- Main stylesheet -->
     <link rel="stylesheet" href="../css/style.css" />
@@ -92,7 +101,12 @@
     <header>
       <div class="container">
         <a href="../index.html" class="logo-link">
-          <img src="../images/logo-doghouse.png" alt="The Doghouse logo" />
+          <img
+            src="../images/logo-doghouse.png"
+            alt="The Doghouse logo"
+            width="256"
+            height="187"
+          />
           The Doghouse
         </a>
 
@@ -138,7 +152,7 @@
                 class="featured-image"
                 width="800"
                 height="600"
-                loading="lazy"
+                fetchpriority="high"
                 decoding="async"
               />
             </picture>

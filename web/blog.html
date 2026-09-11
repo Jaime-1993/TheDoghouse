@@ -9,7 +9,7 @@
     <!-- SEO meta description -->
     <meta
       name="description"
-      content="The Doghouse Blog – tips, care guides, and nutrition advice for dog owners."
+      content="The Doghouse Blog – tips on choosing a breed, canine nutrition, and traveling with your dog. Care guides for a happier life together."
     />
 
     <!-- SEO metadata -->
@@ -23,7 +23,7 @@
     <meta property="og:title" content="The Doghouse – Blog" />
     <meta
       property="og:description"
-      content="Tips, care guides, and nutrition advice for dog owners."
+      content="The Doghouse Blog – tips on choosing a breed, canine nutrition, and traveling with your dog. Care guides for a happier life together."
     />
     <meta
       property="og:image"
@@ -34,13 +34,14 @@
       content="https://the-doghouse-iota.vercel.app/blog.html"
     />
     <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="The Doghouse" />
 
     <!-- Twitter Card metadata -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="The Doghouse – Blog" />
     <meta
       name="twitter:description"
-      content="Tips, care guides, and nutrition advice for dog owners."
+      content="The Doghouse Blog – tips on choosing a breed, canine nutrition, and traveling with your dog. Care guides for a happier life together."
     />
     <meta
       name="twitter:image"
@@ -54,7 +55,7 @@
         "@type": "CollectionPage",
         "name": "The Doghouse – Blog",
         "url": "https://the-doghouse-iota.vercel.app/blog.html",
-        "description": "The Doghouse Blog – tips, care guides, and nutrition advice for dog owners.",
+        "description": "The Doghouse Blog – tips on choosing a breed, canine nutrition, and traveling with your dog. Care guides for a happier life together.",
         "mainEntity": {
           "@type": "ItemList",
           "itemListElement": [
@@ -84,6 +85,10 @@
     <!-- Favicon -->
     <link rel="icon" href="images/favicon.png" type="image/png" />
 
+    <!-- Fonts: warm up origins before CSS @import (display=swap in the URL) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
     <!-- Main stylesheet -->
     <link rel="stylesheet" href="css/style.css" />
   </head>
@@ -96,7 +101,12 @@
     <header>
       <div class="container">
         <a href="index.html" class="logo-link">
-          <img src="images/logo-doghouse.png" alt="The Doghouse logo" />
+          <img
+            src="images/logo-doghouse.png"
+            alt="The Doghouse logo"
+            width="256"
+            height="187"
+          />
           The Doghouse
         </a>
 
@@ -142,6 +152,7 @@
               alt="Two dogs running happily through a grassy countryside field"
               width="1200"
               height="801"
+              fetchpriority="high"
               decoding="async"
             />
           </picture>
