@@ -6,6 +6,7 @@
 
 # Temporary / private drafts (not for public repo)
 docs/tmp/
+matriz-de-projetos-mestre/
 
 # Go
 api/bin/
