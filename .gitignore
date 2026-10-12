@@ -50,9 +50,10 @@ web/yarn.lock
 *.log
 docker-compose.override.yml
 
-# IDE
+# IDE / local AI tooling (never public)
 .vscode/
 .idea/
+.cursor/
 *.iml
 *.swp
 *.swo
