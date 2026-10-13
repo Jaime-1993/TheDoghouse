@@ -26,7 +26,7 @@ When the proposal track is complete, read in this order — from kickoff decisio
 
 ### Provisional order (what you can read today)
 
-The interview pack and the dedicated business-rules document are **not published yet**, so the target order above is incomplete. Until they exist, start with the four proposal files that are already on disk (Scope → Personas → Work breakdown → Schedule), knowing that numbering and names may still change during reorganisation. Prefer the **target order** as soon as the missing pieces are listed in this README.
+The **interview questionnaire** is already on disk; the **interview annex** (answers and frozen decisions) and the dedicated **business-rules** document are not published yet, so the target order above is still incomplete. Until those pieces exist, you can start with [00_INTERVIEW.md](00_INTERVIEW.md), then the four proposal files already on disk (Scope → Personas → Work breakdown → Schedule), knowing that numbering and names may still change during reorganisation. Prefer the **target order** as soon as the missing pieces are listed in this README.
 
 After that track is ready, the proposal report in `reports/` will be the best single entry point for a complete overview.
 
@@ -42,6 +42,7 @@ These files exist and are useful to read. They are part of an older numbering la
 
 | Document | What it covers | Status |
 | -------- | -------------- | ------ |
+| [00_INTERVIEW.md](00_INTERVIEW.md) | Project interview questionnaire (questions only). Answers and frozen decisions will live in `INTERVIEW_ANNEX.md`. | On disk (questionnaire published; annex not yet) |
 | [01_SCOPE.md](01_SCOPE.md) | Product goals, included and excluded scope, high-level solution outline, and success criteria for the *MVP*. | On disk (legacy numbering — to be reviewed) |
 | [02_PERSONAS_AND_FLOWS.md](02_PERSONAS_AND_FLOWS.md) | User personas and the main flows (happy paths and important failure cases) across the website and the application. | On disk (legacy numbering — to be reviewed) |
 | [03_WBS.md](03_WBS.md) | Work breakdown structure (*WBS* — a hierarchical list of work packages): deliveries, effort estimates, and completion criteria. | On disk (legacy numbering — target name will be `04_WBS.md`) |
@@ -51,7 +52,7 @@ These files exist and are useful to read. They are part of an older numbering la
 
 | Planned document | Role |
 | ---------------- | ---- |
-| `00_INTERVIEW.md` (+ interview annex) | Questionnaire and frozen starting decisions. |
+| `INTERVIEW_ANNEX.md` | Answers to the project interview and frozen starting decisions. |
 | `03_BUSINESS_RULES.md` | Business rules required for the proposal commitment. |
 | `reports/R1_PROPOSAL.md` | Public proposal report (self-contained). The `reports/` folder is created when that file is first published. |
 
@@ -83,7 +84,8 @@ Two columns matter: **on disk** (a file you can open today) versus **aligned** (
 
 | Item | On disk | Aligned to final proposal order |
 | ---- | ------- | ------------------------------- |
-| Interview pack | [ ] | [ ] |
+| Interview questionnaire (`00_INTERVIEW`) | [x] | [ ] |
+| Interview annex (`INTERVIEW_ANNEX`) | [ ] | [ ] |
 | Scope | [x] | [ ] |
 | Personas and flows | [x] | [ ] |
 | Business rules | [ ] | [ ] |
@@ -96,7 +98,8 @@ Two columns matter: **on disk** (a file you can open today) versus **aligned** (
 
 ## Open points
 
-- Interview and business-rules documents are not yet published; without them the target reading order cannot start at the interview.  
+- The interview questionnaire is published; the annex with answers and frozen decisions is not yet published.  
+- Business rules are not yet published.  
 - Scope, personas, work breakdown, and schedule exist on disk but still need review and renumbering before they count as proposal-ready.  
 - Design documents (`05`–`10` on disk) are listed above with legacy numbering; full design-stage indexing follows once the proposal track is aligned.  
 - The public proposal report (`R1`) is not yet published under `reports/`.  
@@ -106,4 +109,4 @@ Two columns matter: **on disk** (a file you can open today) versus **aligned** (
 
 ## Closing note
 
-If you are new to the repository, you can already read the four proposal files that exist on disk, then open `images/` when a figure is referenced — but treat that path as **provisional** while reorganisation is under way. When the interview pack, business rules, and the proposal report are published, prefer the **target reading order** above; the report in `reports/` will then be the best single overview without opening every file.
+If you are new to the repository, start with the interview questionnaire if you want the kickoff questions, then the proposal files already on disk, and open `images/` when a figure is referenced — but treat that path as **provisional** while reorganisation is under way. When the interview annex, business rules, and the proposal report are published, prefer the **target reading order** above; the report in `reports/` will then be the best single overview without opening every file.
