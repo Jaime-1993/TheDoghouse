@@ -2,11 +2,13 @@
 
 This folder holds the written foundation of **The Doghouse**: what the product is meant to be, who it serves, how the work is broken down, and how that work is scheduled. The project follows a *paper-first* approach — planning and specification guide implementation — so these documents are meant to be read before the code, and to stay aligned with it as the product grows.
 
+**The Doghouse** is one project with one author: a **real product and business** for dog owners, documented in public so the same repository can also support learning and engineering practice. There is no external paying client in these docs. The interview annex records product decisions in that author’s product-owner voice; the Scope is where product boundaries and any learning aims for the repository sit together.
+
 The documentation is **under active development**. The package is being reorganised so that file names, numbering, and reading order stay consistent. This README is updated whenever documents here are created or changed, so that a visitor to the repository always sees a map that matches what is currently published.
 
 Technical terms are introduced briefly the first time they appear, so the text stays readable whether you already know the jargon or not.
 
-This index is **not** a commercial contract. It is a guide to the public documentation of a personal learning and product project. Files listed below with a link exist on disk today; that does **not** yet mean the proposal package is complete or finally numbered.
+This index is **not** a commercial contract. It is a guide to the public documentation of that personal product-and-learning project. Files listed below with a link exist on disk today; that does **not** yet mean the proposal package is complete or finally numbered.
 
 ---
 
@@ -16,7 +18,7 @@ This index is **not** a commercial contract. It is a guide to the public documen
 
 When the proposal track is complete, read in this order — from kickoff decisions, through *what* and *who*, to *how* the work is organised in time, then the public proposal report:
 
-1. **Interview** — structured questions and frozen starting decisions that ground the scope.  
+1. **Interview** — structured questions and frozen product decisions (author as product owner) that ground the scope.  
 2. **Scope** — what the minimum viable product (*MVP* — the smallest useful version of the product) includes and excludes.  
 3. **Personas and flows** — who the product is for, and the main journeys those people take.  
 4. **Business rules** — the rules the product must obey for the proposal commitment.  
@@ -43,7 +45,7 @@ These files exist and are useful to read. They are part of an older numbering la
 | Document | What it covers | Status |
 | -------- | -------------- | ------ |
 | [00_INTERVIEW.md](00_INTERVIEW.md) | Project interview questionnaire (questions only). | On disk |
-| [INTERVIEW_ANNEX.md](INTERVIEW_ANNEX.md) | Answers and frozen starting decisions (client voice). | On disk (to be aligned with Scope after review) |
+| [INTERVIEW_ANNEX.md](INTERVIEW_ANNEX.md) | Answers and frozen product decisions (author as product owner). | On disk (to be aligned with Scope after review) |
 | [01_SCOPE.md](01_SCOPE.md) | Product goals, included and excluded scope, high-level solution outline, and success criteria for the *MVP*. | On disk (legacy numbering — to be reviewed) |
 | [02_PERSONAS_AND_FLOWS.md](02_PERSONAS_AND_FLOWS.md) | User personas and the main flows (happy paths and important failure cases) across the website and the application. | On disk (legacy numbering — to be reviewed) |
 | [03_WBS.md](03_WBS.md) | Work breakdown structure (*WBS* — a hierarchical list of work packages): deliveries, effort estimates, and completion criteria. | On disk (legacy numbering — target name will be `04_WBS.md`) |
@@ -98,7 +100,7 @@ Two columns matter: **on disk** (a file you can open today) versus **aligned** (
 
 ## Open points
 
-- The interview questionnaire and annex are published; the annex still needs alignment with Scope (and Avaliador freeze if used).  
+- The interview questionnaire and annex are published; the annex still needs alignment with Scope.  
 - Business rules are not yet published.  
 - Scope, personas, work breakdown, and schedule exist on disk but still need review and renumbering before they count as proposal-ready.  
 - Design documents (`05`–`10` on disk) are listed above with legacy numbering; full design-stage indexing follows once the proposal track is aligned.  

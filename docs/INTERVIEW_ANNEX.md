@@ -1,25 +1,25 @@
 # Interview annex – The Doghouse
 
-**Status:** English version — answers in the voice of a non-technical client (product owner).  
+**Status:** English version — product decisions in the product-owner voice of the project author.  
 **Source questionnaire:** `00_INTERVIEW.md`  
-**Who answers:** the idea / business owner (client simulation). How it is built is for the developer in design and implementation.  
+**Who answers:** the same person who owns the repository and decides scope. This annex records **product** choices (what and why). **How** it is built is decided in design and implementation. Learning or portfolio aims for the public repository are stated in the Scope, alongside these decisions — not as a separate external client.  
 **Answers / freeze date (proposal):** 2026-10-13  
 
 ---
 
-## Frozen decisions (proposal — client voice)
+## Frozen decisions (proposal — product-owner voice)
 
 | ID | Decision |
 | -- | -------- |
-| **A** | The product is called **The Doghouse**. I want a website that presents the project and a members’ area with useful tools for dog owners. |
-| **B** | This is a **real product and a real business** for dog owners — not an abstract exercise. |
+| **A** | The product is called **The Doghouse**. There is a website that presents the project and a members’ area with useful tools for dog owners. |
+| **B** | This is a **real product and a real business** for dog owners — not an abstract exercise. The author of this repository is the same person who decides product scope. |
 | **C** | I decide what is in and out of scope. I do not want other brands or identities mixed into The Doghouse in anything public. |
-| **D** | Primary audience: dog owners. I am not building a tool for clinics, shelters, or breeders to run their operations. |
-| **E** | Some people only visit, some sign up for free, and some pay for extra content. No panel for me to edit the site/app in the first version — I deliver the content to the developer and they put it into the product. |
-| **F** | In the first version I want: site + articles; members’ area on phone, computer browser, and **installable web app** (add to home screen); **one shared product** (same codebase and same experience everywhere); calculator (free and full paid version); workshops (**2 free** and **4 paid** at launch); map / list of pet-friendly hotels to attract people; simple sign-in; moving from the site to the members’ area without signing in again; ability to **sell**, and a receipt/invoice if the business needs it; app available in the app stores. |
+| **D** | Primary audience: dog owners. This is not a tool for clinics, shelters, or breeders to run their operations. |
+| **E** | Some people only visit, some sign up for free, and some pay for extra content. No in-product admin panel in the first version — content is placed directly into the product (files or database), not through owner-facing edit screens. |
+| **F** | In the first version: site + articles; members’ area on phone, computer browser, and **installable web app** (add to home screen); **one shared product** (same codebase and same experience everywhere); calculator (free and full paid version); workshops (**2 free** and **4 paid** at launch), **organised by breed**; map / list of pet-friendly hotels to attract people; simple sign-in; **signed-in members** (free or paying) move from the site to the members’ area without signing in again; ability to **sell**; **receipt/invoice is in for v1** (start in trial/test mode if safer; going fully live later is a separate step); app available in the app stores. |
 | **G** | In the first version I do **not** want: comments on articles; social features inside the product (likes, followers, profiles); live support chat; languages other than English. |
-| **H** | I want to start with low costs. I do not need an expensive custom domain at the start. I am fine if payments and invoices begin in a trial/test mode if the developer says that is safer — the business goal is still to **make money** from workshops and paid content. |
-| **I** | I want to **sell** workshops and premium content. Buyers keep access to what they paid for (I am not thinking about a monthly subscription in the first version). |
+| **H** | Start with low costs. No expensive custom domain at the start. Receipt/invoice in v1 may run in trial/test mode first (see **F**); the business goal is still to **make money** from workshops and paid content. |
+| **I** | **Sell** workshops and premium content. Buyers keep access to what they paid for (no monthly subscription in the first version). |
 | **J** | The project repository is **public** (code and documentation). Secrets, passwords, keys, and people’s private data stay **out** of that public place. |
 | **K** | I answer contacts when I can. In the first version I do not need advanced visit statistics. (Content: see **E**.) |
 
@@ -35,7 +35,7 @@
 
 **2. Real product vs something else**  
 **Question:** Is the first version mainly a product for end users, mainly technical learning, or both?  
-**Answer:** It is a **real product** for dog owners and a business. I hired technical help because I am not a developer; what matters to me is that it works for people and that I can sell.
+**Answer:** For this annex it is a **real product and business** for dog owners. I am the same person who owns the public repository and who will state any learning or portfolio aims in the Scope. What matters here is that the product works for people and that I can sell.
 
 **3. Who decides and what must not appear**  
 **Question:** Who decides scope changes, who else must be consulted, and is there any brand or identity that must not appear?  
@@ -59,7 +59,7 @@
 
 **6. Access types**  
 **Question:** Access levels at launch? Do you need screens to manage all the content?  
-**Answer:** Visitor (sees the site and articles) → free member → member who paid for something. I do not need a panel to edit everything myself: I deliver the content to the developer and they put it into the product.
+**Answer:** Visitor (sees the site and articles) → free member → member who paid for something. No admin panel for me to edit everything in the product — content goes in directly (files or database).
 
 **7. Problem, success, failure**  
 **Question:** What problem does it solve? How do you know it went well? What would count as failure?  
@@ -84,17 +84,17 @@
 | Installable web app (home screen) | **In** | People can install / add the members’ area from the browser |
 | Same experience everywhere | **In** | Same product and same codebase on phone, browser, and installable web — not a weaker version on one platform |
 | Weight calculator | **In** | A useful free version; the full version only for who paid |
-| Video workshops | **In** | At launch: **2 free** and **4 paid**; organised by breed (or whatever fits the content best) |
+| Video workshops | **In** | At launch: **2 free** and **4 paid**, **organised by breed** |
 | Pet-friendly hotels | **In** | People see relevant places, ideally near them or in a city they search, and can open them in the phone’s maps |
-| Account / sign-in | **In** | Simple sign-in: email and/or Google or Facebook — the developer chooses the safest simple option |
-| From site to members’ area without signing in again | **In** | Anyone already “in” does not have to sign in again |
+| Account / sign-in | **In** | Simple sign-in: email and/or Google or Facebook — the exact mix is chosen in design |
+| From site to members’ area without signing in again | **In** | **Signed-in members** (free or paying) do not sign in again; visitors who are not signed in still need to sign in |
 | Selling content | **In** | I can charge for workshops / extras |
-| Invoice or receipt | **In** | If the business needs it, there is a receipt/invoice — the developer says how at the start (trial vs live) |
+| Invoice or receipt | **In** | **In for v1**, starting in trial/test mode if safer; moving to fully live invoicing is later |
 | App stores (App Store / Play Store) | **In** | The app is published in the main stores |
 
 **9. Anything else mandatory?**  
 **Question:** What else must exist or the project is incomplete?  
-**Answer:** It has to be reliable day to day: people sign in, use it, pay, and I can put workshops and content up for sale. Do not ask me for technical lists — I ask that it works and that people’s data is handled carefully.
+**Answer:** It has to be reliable day to day: people sign in, use it, pay, and I can put workshops and content up for sale. I ask that it works and that people’s data is handled carefully — not for a technical shopping list in this annex.
 
 **10. What I do not want in the first version**  
 **Question:** What stays out?  
@@ -106,7 +106,7 @@
 
 **11. Timeline**  
 **Question:** When do you want the first usable version?  
-**Answer:** I would like something usable on the order of **two to three months** of work, but I prefer it done well over a rigid date that hurts quality. We agree milestones with the developer.
+**Answer:** I would like something usable on the order of **two to three months** of work, but I prefer it done well over a rigid date that hurts quality. Milestones are set as the work proceeds.
 
 **12. Money for tools and domain**  
 **Question:** Budget for services, cheap plans, custom domain?  
@@ -114,11 +114,11 @@
 
 **13. Serious rules from day one**  
 **Question:** Privacy, legal, security?  
-**Answer:** I do not want nasty surprises with people’s data. Secure connection, care with emails and payment details. The developer covers the serious minimum; I do not recite laws, but I expect privacy to be respected.
+**Answer:** I do not want nasty surprises with people’s data. Secure connection, care with emails and payment details. Design and implementation cover the serious minimum; I expect privacy to be respected.
 
 **14. Third-party services**  
 **Question:** Can you use outside services (payments, email, maps, login)?  
-**Answer:** Yes, if they are needed for the business (pay, send sign-in email, maps, sign in with Google, and so on). I do not want shady solutions or copying hotel data from websites illegally — the developer chooses proper sources.
+**Answer:** Yes, if they are needed for the business (pay, send sign-in email, maps, sign in with Google, and so on). No shady solutions and no illegally copying hotel data from other websites — proper sources are chosen in design.
 
 ---
 
@@ -126,19 +126,19 @@
 
 **15. How I make money**  
 **Question:** Revenue in the first version? What do you sell? One-time purchase or subscription?  
-**Answer:** I want to **make money** selling workshops and premium content. Buyers keep access to what they paid for. I do **not** want a monthly subscription in the first version. If some payments start in test mode for safety, that is fine — the goal is still to sell for real.
+**Answer:** I want to **make money** selling workshops and premium content. Buyers keep access to what they paid for. I do **not** want a monthly subscription in the first version. Payments may start in test mode for safety; the goal is still to sell for real. Receipt/invoice is in for v1 (see **F**).
 
 **16. Where people find me**  
 **Question:** External channels? Ideal next step? Marketing emails?  
-**Answer:** The idea comes from someone who already has or wants a presence on social media. The ideal path: someone sees me on social media → comes to the site → reads → creates an account → uses or buys. In the first version I do **not** need marketing newsletters; emails only for signing in or purchase-related matters.
+**Answer:** The idea builds on a presence on social media. The ideal path: someone sees the project on social media → comes to the site → reads → creates an account → uses or buys. In the first version I do **not** need marketing newsletters; emails only for signing in or purchase-related matters.
 
 **17. What I already have**  
 **Question:** Logos, texts, videos, data? Who creates what is missing?  
-**Answer:** I bring animal knowledge and I create the content (texts, workshop videos, and so on). I hand them to the developer to put into the product. Logos and missing materials we sort out as the project goes. I do not want to copy other sites’ look or text.
+**Answer:** I bring animal knowledge and I create the content (texts, workshop videos, and so on). It goes into the product through the implementation (no admin panel). Logos and missing materials we sort out as the project goes. I do not want to copy other sites’ look or text.
 
 **18. Public work on the internet**  
 **Question:** Can the repository / work be public?  
-**Answer:** Yes — the repository is **public** (code and documentation). Passwords, keys, and people’s data must **not** be exposed there. I do not manage that day to day.
+**Answer:** Yes — the repository is **public** (code and documentation). Passwords, keys, and people’s data must **not** be exposed there.
 
 ---
 
@@ -146,32 +146,32 @@
 
 **19. Who maintains it and statistics**  
 **Question:** Who updates content and answers people? Do you need statistics?  
-**Answer:** I keep creating and delivering content to the developer, as I already said — I do not need a panel to put it in myself. I answer contacts when I can. In the first version I do not ask for advanced visit statistics.
+**Answer:** I keep creating content and placing it into the product as in **E** — no admin panel. I answer contacts when I can. In the first version I do not ask for advanced visit statistics.
 
 **20. Worries, must-haves, can wait**  
 **Question:** What worries you; what you will not give up; what can wait; did the questionnaire miss anything?  
 **Answer:**
 
 - I worry about: the project growing too big; not being able to sell; content (videos) running late; the thing being hard to use.
-- I will not give up what I asked for in the first version (site, members’ area, workshops to sell, calculator, hotels to bring people in, simple sign-in, phone, computer, installable web, same experience everywhere).
-- What can wait is what I already said stays out (comments, social network in the product, chat, other languages, custom domain at the start, newsletters, fancy statistics).
+- I will not give up what I asked for in the first version (site, members’ area, workshops by breed to sell, calculator, hotels to bring people in, simple sign-in, phone, computer, installable web, same experience everywhere, receipt/invoice in v1).
+- What can wait is what I already said stays out (comments, social network in the product, chat, other languages, custom domain at the start, newsletters, fancy statistics), plus moving invoicing from trial/test to fully live.
 - If something was missing: pet-friendly hotels are really there to bring people to the site — that is part of the business, not a side extra.
 
 ---
 
 ## Open points (TBD)
 
-These stay open for the developer to propose or choose in the design (unless noted):
+These stay open for design and implementation (unless noted):
 
-- Workshop / package **prices** (exact amounts) — client still to set.  
-- Exact **sign-in method** mix (email and/or Google / Facebook) — developer chooses the safest simple option.  
-- Legal / proper **source of hotel data** — developer chooses (no illegal copying).  
-- Payments and invoices: **trial/test mode vs live** at launch — developer proposes what is safe first.  
-- Whether the **2–3 month** horizon becomes firm milestones — agree with the developer.  
-- Turning “success” stories (Q7) into **measurable** checks in the Scope — for the Scope document, not for this annex.
+- Workshop / package **prices** (exact amounts) — still to set.  
+- Exact **sign-in method** mix (email and/or Google / Facebook) — choose the safest simple option in design.  
+- Legal / proper **source of hotel data** — choose in design (no illegal copying).  
+- When to move payments and invoices from **trial/test to fully live** — propose what is safe; v1 already includes receipt/invoice in trial/test if needed.  
+- Whether the **2–3 month** horizon becomes firm milestones — set as work proceeds.  
+- Turning “success” stories (Q7) into **measurable** checks — in the Scope document.
 
 ---
 
 ## Closing
 
-These answers are the **client’s**: what I want and why. How it is done is for the developer in the design, aligned with this. Learning or portfolio goals on the developer’s side, if any, belong in the Scope — not in this annex.
+These answers are **product decisions** from the repository author in product-owner voice: what the product is and why. How it is built is decided in design and implementation. Any learning or portfolio aims for this public repository belong in the Scope, next to these decisions — one project, one author, no external paying client in this annex.
