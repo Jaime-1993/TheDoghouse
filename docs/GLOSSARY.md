@@ -9,7 +9,7 @@ This glossary will be updated whenever new technical terms are introduced in the
 ## List of Terms
 
 **Access Resolution Logic**  
-Algorithm implemented in the _backend_ to verify whether a user has access to a specific content. The verification follows four sequential steps: direct purchase with `status = 'completed'`; content included in an acquired _bundle_; purchase of `calculator_premium_access`; or a _bundle_ with `includes_premium_calculator = true`. If none of the conditions are met, access is denied. In the project, this logic is described in section 2.6 of [08_DATABASE.md](08_DATABASE.md) and implemented in the content _API endpoints_.
+Algorithm implemented in the _backend_ to verify whether a user has access to a specific content. The verification follows four sequential steps: direct purchase with `status = 'completed'`; content included in an acquired _bundle_; purchase of `calculator_premium_access`; or a _bundle_ with `includes_premium_calculator = true`. If none of the conditions are met, access is denied. In the project, this logic is described in section 2.6 of [09_DATABASE.md](09_DATABASE.md) and implemented in the content _API endpoints_.
 
 **API** (_Application Programming Interface_)  
 A set of rules and protocols that enables communication between software systems. In the project, the _REST API_ developed in _Go_ serves as the connection point between the _frontend_ (institutional website and _Flutter_ application) and the database, enabling data exchange.
@@ -60,7 +60,7 @@ A _deployment_ platform for containerized applications, with free plans suitable
 A business model that offers a free version with limited features and a paid version with advanced features. In the project, the _freemium_ model is applied to the calculator (basic free version vs. complete premium version) and to the _workshops_ (free introductory videos vs. paid videos), where premium access is acquired through one‑time purchase, breed _bundle_, _Complete Present Bundle_, or _Lifetime Bundle_.
 
 **Gantt**  
-A type of bar chart used to represent a project's schedule, showing task duration and sequence. In the project, the _Gantt_ chart is documented in [04_GANTT.md](04_GANTT.md) and presents the timeline of _MVP_ deliveries and milestones.
+A type of bar chart used to represent a project's schedule, showing task duration and sequence. In the project, the _Gantt_ chart is documented in [05_GANTT.md](05_GANTT.md) and presents the timeline of _MVP_ deliveries and milestones.
 
 **Geolocator**  
 A _Flutter_ package used to obtain the device's geographic location (latitude and longitude coordinates) with the user's consent. In the project, the _geolocator_ is used to center the map on the user's location in the Near Me feature.
@@ -129,7 +129,7 @@ A public _API_ that allows querying _OpenStreetMap_ geospatial data in a structu
 A methodology where documentation and planning precede implementation. In the project, the _paper‑first_ approach ensures that all technical and functional decisions are made consciously and documented before any code is written, as described in [01_SCOPE.md](01_SCOPE.md).
 
 **PlantUML**  
-An open‑source tool that allows creating _UML_ diagrams from a textual description language. In the project, _PlantUML_ is used to generate the class diagram and sequence diagrams documented in [09_UML_DIAGRAMS.md](09_UML_DIAGRAMS.md).
+An open‑source tool that allows creating _UML_ diagrams from a textual description language. In the project, _PlantUML_ is used to generate the class diagram and sequence diagrams documented in [11_UML_DIAGRAMS.md](11_UML_DIAGRAMS.md).
 
 **Polling**  
 A communication technique where a client periodically checks a server for new data or updates. In the project, the _Flutter_ application implements _polling_ to check if a _Stripe_ payment _webhook_ has been processed, allowing premium content to be unlocked even if the _webhook_ is delayed.
@@ -195,7 +195,7 @@ A payment gateway with _sandbox_ environment support. In the project, _Stripe_ i
 The period during which data is considered valid and stored in _cache_ before being considered obsolete. In the project, data obtained via the _Overpass API_ is stored in _cache_ with a _TTL_ of 24 hours, avoiding excessive queries to the external _API_.
 
 **UML** (_Unified Modeling Language_)  
-A standardized modeling language for visualizing, specifying, and documenting software systems. In the project, the _UML_ diagrams (class and sequence) are documented in [09_UML_DIAGRAMS.md](09_UML_DIAGRAMS.md).
+A standardized modeling language for visualizing, specifying, and documenting software systems. In the project, the _UML_ diagrams (class and sequence) are documented in [11_UML_DIAGRAMS.md](11_UML_DIAGRAMS.md).
 
 **Vercel**  
 A _deployment_ platform for static and dynamic _frontend_ applications, with free plans. In the project, _Vercel_ is used to host the institutional website and the _Flutter_ Web application, ensuring the same base domain for _localStorage_ sharing.
@@ -204,7 +204,7 @@ A _deployment_ platform for static and dynamic _frontend_ applications, with fre
 The visible area of a web page or application on a screen, defined by the current display boundaries. In the project, the map area uses dynamic _viewport_ to load only the hotels visible in the map area, optimizing performance and user experience.
 
 **WBS** (_Work Breakdown Structure_)  
-A hierarchical decomposition of the work to be performed in a project, organized into work packages. In the project, the _WBS_ is documented in [03_WBS.md](03_WBS.md) and organizes the work into six main phases, with incremental deliveries.
+A hierarchical decomposition of the work to be performed in a project, organized into work packages. In the project, the _WBS_ is documented in [04_WBS.md](04_WBS.md) and organizes the work into six main phases, with incremental deliveries.
 
 **Webhook**  
 A mechanism that allows one application to send real‑time notifications to another application when a specific event occurs. In the project, the _Stripe_ _webhook_ notifies the _Go_ _backend_ when a payment is successfully processed, triggering the unlocking of premium content.

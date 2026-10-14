@@ -678,7 +678,7 @@ In case of error:
 
 ## 4. Interaction Flows
 
-The interaction flows between the _frontend_ and the _backend_ are described in the sequence diagrams (document [09_UML_DIAGRAMS.md](09_UML_DIAGRAMS.md)). The main flows are:
+The interaction flows between the _frontend_ and the _backend_ are described in the sequence diagrams (document [11_UML_DIAGRAMS.md](11_UML_DIAGRAMS.md)). The main flows are:
 
 ### 4.1. _Magic Link_ Authentication
 
@@ -724,7 +724,7 @@ The interaction flows between the _frontend_ and the _backend_ are described in 
 
 ## 5. Conclusion
 
-The presented specification covers all the flows identified in the sequence diagrams and functional requirements of _The Doghouse_, from authentication to hotel search on the map and _premium_ content purchases. The _endpoints_ respect the profile separation (public, free, and _premium_) and are aligned with the architecture defined in document [07_ARCHITECTURE.md](07_ARCHITECTURE.md).
+The presented specification covers all the flows identified in the sequence diagrams and functional requirements of _The Doghouse_, from authentication to hotel search on the map and _premium_ content purchases. The _endpoints_ respect the profile separation (public, free, and _premium_) and are aligned with the architecture defined in document [08_ARCHITECTURE.md](08_ARCHITECTURE.md).
 
 This documentation will serve as a direct guide for implementing the routes in the _Go_ _backend_ and for testing with tools such as _Postman_ or `curl`.
 

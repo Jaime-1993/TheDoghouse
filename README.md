@@ -56,14 +56,15 @@ Complete project documentation is available in the `docs/` folder:
 
 - [Scope Definition](./docs/01_SCOPE.md)
 - [User Personas and Flows](./docs/02_PERSONAS_AND_FLOWS.md)
-- [Work Breakdown Structure (WBS)](./docs/03_WBS.md)
-- [Gantt Chart](./docs/04_GANTT.md)
-- [Research and Analysis](./docs/05_RESEARCH.md)
-- [Requirements](./docs/06_REQUIREMENTS.md)
-- [Architecture](./docs/07_ARCHITECTURE.md)
-- [Database Modeling](./docs/08_DATABASE.md)
-- [UML Diagrams](./docs/09_UML_DIAGRAMS.md)
+- [Business Rules](./docs/03_BUSINESS_RULES.md)
+- [Work Breakdown Structure (WBS)](./docs/04_WBS.md)
+- [Gantt Chart](./docs/05_GANTT.md)
+- [Research and Analysis](./docs/06_RESEARCH.md)
+- [Requirements](./docs/07_REQUIREMENTS.md)
+- [Architecture](./docs/08_ARCHITECTURE.md)
+- [Database Modeling](./docs/09_DATABASE.md)
 - [API Endpoints](./docs/10_API_ENDPOINTS.md)
+- [UML Diagrams](./docs/11_UML_DIAGRAMS.md)
 - [Technical Glossary](./docs/GLOSSARY.md)
 
 ## Project Status
@@ -151,7 +152,7 @@ Then open `http://localhost:8000` in Chrome and look for the install icon in the
 | 6        | Payments and Premium Content | ⏳ Planned         | Oct 12 |
 | 7        | Store Publishing             | ⏳ Planned         | Oct 19 |
 
-_For a detailed schedule, see the [Gantt Chart](docs/04_GANTT.md)._
+_For a detailed schedule, see the [Gantt Chart](docs/05_GANTT.md)._
 
 ## License
 
