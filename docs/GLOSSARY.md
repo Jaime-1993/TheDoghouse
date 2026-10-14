@@ -9,7 +9,7 @@ This glossary will be updated whenever new technical terms are introduced in the
 ## List of Terms
 
 **Access Resolution Logic**  
-Algorithm implemented in the _backend_ to verify whether a user has access to a specific content. The verification follows four sequential steps: direct purchase with `status = 'completed'`; content included in an acquired _bundle_; purchase of `calculator_premium_access`; or a _bundle_ with `includes_premium_calculator = true`. If none of the conditions are met, access is denied. In the project, this logic is described in section 2.6 of [09_DATABASE.md](09_DATABASE.md) and implemented in the content _API endpoints_.
+Algorithm implemented in the _backend_ to verify whether a user has access to a specific content. Access is granted per purchase (for example a completed purchase of that content, or another purchase that explicitly includes it). There is no global “premium everything” status. If none of the conditions are met, access is denied. Design documents under `docs/` describe the data model and _API_ in more detail.
 
 **API** (_Application Programming Interface_)  
 A set of rules and protocols that enables communication between software systems. In the project, the _REST API_ developed in _Go_ serves as the connection point between the _frontend_ (institutional website and _Flutter_ application) and the database, enabling data exchange.
@@ -21,7 +21,7 @@ A specific _URL_ through which an _API_ can be accessed. Each _endpoint_ corresp
 An _HTTP_ authentication mechanism where a _token_ (usually JWT) is sent in the _Authorization_ header to prove the user's identity. In the project, the _Bearer Token_ is used to authenticate requests to the _API_, sent in the format `Authorization: Bearer <jwt_token>`.
 
 **Bundle**  
-A package of content or features sold as a set at a special price. In the project, paid _workshops_ can be purchased in _bundles_ (by breed, complete present, or lifetime), offering flexibility and added value to the user.
+A package of content sold as a set. In the first-version proposal, workshops are organised by breed with a fixed launch inventory (**2 free** + **4 paid**); any multi-item packaging is optional design detail. Buyers keep access to what they paid for — there is **no monthly subscription** in v1.
 
 **CI/CD** (_Continuous Integration / Continuous Deployment_)  
 A software development practice that automates code integration and application _deployment_. In the project, _CI/CD_ is planned to automate the _deploys_ of the _Go_ _backend_, the institutional website, and the _Flutter_ application whenever changes are made to the _GitHub_ repository.
@@ -30,7 +30,7 @@ A software development practice that automates code integration and application 
 Initial delay in starting an application after a period of inactivity, common in _cloud_ services that suspend inactive containers to save resources. In the project, the _Go_ _backend_, hosted on services like _Render_ or _Fly.io_, may experience _cold starts_, which is acceptable for an _MVP_ without critical latency requirements.
 
 **Complete Present Bundle**  
-A _bundle_ that includes all workshop videos of all breeds existing at the time of purchase. In the project, this _bundle_ also includes access to the premium calculator, being one of three ways to obtain that access.
+_(Legacy design term.)_ Older design notes described a package of all then-existing workshop videos. The **proposal** for v1 does not require this SKU: launch workshops are **2 free** + **4 paid** by breed, with access per purchase and no subscription.
 
 **Containerization**  
 A virtualization technique that allows packaging an application and all its dependencies into an isolated container, ensuring consistency between development and production environments. In the project, _Docker_ is used to _containerize_ the _Go_ _backend_, the _PostgreSQL_ database, and the _proxy_, facilitating _deployment_ and reproducibility.
@@ -57,7 +57,7 @@ An open‑source _framework_ by _Google_ for developing multiplatform applicatio
 A _deployment_ platform for containerized applications, with free plans suitable for prototypes. In the project, _Fly.io_ is one of the options considered for hosting the _Go_ _backend_, as an alternative to _Render_ or _Railway_.
 
 **Freemium**  
-A business model that offers a free version with limited features and a paid version with advanced features. In the project, the _freemium_ model is applied to the calculator (basic free version vs. complete premium version) and to the _workshops_ (free introductory videos vs. paid videos), where premium access is acquired through one‑time purchase, breed _bundle_, _Complete Present Bundle_, or _Lifetime Bundle_.
+A business model that offers a free version with limited features and a paid version with advanced features. In the project, the calculator has a useful free version and a paid full version; workshops at launch include **2 free** and **4 paid** videos. Premium access is acquired by **one-time purchase** of specific items (no monthly subscription in v1).
 
 **Gantt**  
 A type of bar chart used to represent a project's schedule, showing task duration and sequence. In the project, the _Gantt_ chart is documented in [05_GANTT.md](05_GANTT.md) and presents the timeline of _MVP_ deliveries and milestones.
@@ -89,8 +89,8 @@ An open standard for securely representing _claims_ between two parties. In the 
 **JWT Claim**  
 Information contained within a JWT _token_, represented as a name/value pair. _Claims_ may include the user identifier, expiration date, and other relevant information for authentication and authorization.
 
-**Lifetime Bundle**  
-A _bundle_ that includes all existing and future workshop videos, guaranteeing lifetime access to new content as it is added. In the project, this _bundle_ also includes access to the premium calculator, being one of three ways to obtain that access.
+**Lifetime access (purchased content)**  
+Buyers keep access to the specific content they paid for. This is **not** a monthly subscription and is **not** a global unlock of all future catalogue items unless a future product decision explicitly says so. Older “Lifetime Bundle” wording in design drafts is superseded by the proposal rules above.
 
 **localStorage**  
 A browser storage mechanism, persistent across sessions. In the project, _localStorage_ is used to store the JWT _token_ of the authenticated user, enabling the _seamless_ transition between the institutional website and the _Flutter_ application.
@@ -108,7 +108,7 @@ A simulated object or data that mimics the behavior of a real component for test
 A Portuguese invoicing system with _sandbox_ environment support. In the project, _Moloni_ is integrated to generate simulated invoices in _PDF_ after each successful purchase, demonstrating the invoicing flow without real tax effects.
 
 **MVP** (_Minimum Viable Product_)  
-A version of a product with sufficient features to be used by early users, allowing validation of the value proposition and collection of feedback. In the project, _The Doghouse_ is an _MVP_ that serves as a learning ground and reusable skeleton for future projects.
+A version of a product with sufficient features to be used by early users, allowing validation of the value proposition and collection of feedback. In the project, _The Doghouse_ _MVP_ is the first usable version of a **real product for dog owners**; the same public repository also supports learning and engineering practice.
 
 **Neon**  
 A free _PostgreSQL_ service with 500 MB of storage, without the need for periodic renewal. In the project, _Neon_ is the chosen database for the _MVP_, offering _branches_ for development and _point‑in‑time recovery_.

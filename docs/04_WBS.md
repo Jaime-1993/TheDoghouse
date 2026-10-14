@@ -1,6 +1,10 @@
 # Work Breakdown Structure (WBS) – _The Doghouse_
 
-**General Note:** Each implementation activity must include a self-review and verification against specifications before deployment.
+This work breakdown supports the first usable version of **The Doghouse** as a real product for dog owners. It must stay consistent with the [interview annex](INTERVIEW_ANNEX.md), [Scope](01_SCOPE.md), [personas and flows](02_PERSONAS_AND_FLOWS.md), and [business rules](03_BUSINESS_RULES.md).
+
+**Product constraints reflected here:** site + articles; shared members’ area (phone, browser, installable web); free and paid calculator; workshops at launch (**2 free** + **4 paid**, by breed); hotels map/list; selling with receipt/invoice in v1 (trial/test mode allowed); no in-product admin panel; no other brands in public materials. Horizon: on the order of **two to three months** of work, preferring quality over a rigid date.
+
+**General note:** Each implementation activity must include a self-review and verification against specifications before deployment. Hours below are the **proposal effort estimate** (about **515 hours** leaf total including contingency). Milestone weeks live in the schedule (proposal calendar) and are repeated in the proposal report.
 
 ## 1. Planning and Specification
 
@@ -158,9 +162,11 @@ _Milestone: Delivery 4 available online (functional map with real data)_
 
 _Dependencies: Delivery 2 (backend and authentication) – can be parallel to Deliveries 3 and 4_
 
-3.5.1. Content service implementation in backend (introductory videos) – 6h
+_Launch inventory (annex): **2 free** workshop videos, organised by breed._
 
-3.5.2. Workshops area implementation in Flutter application (breeds list and introductory videos) – 8h
+3.5.1. Content service implementation in backend (introductory / free videos) – 6h
+
+3.5.2. Workshops area implementation in Flutter application (breeds list and free videos) – 8h
 
 3.5.3. Workshops integration with backend API – 4h
 
@@ -180,15 +186,15 @@ _Dependencies: Deliveries 3, 4, and 5 (base content to become premium)_
 
 3.6.2. Stripe webhooks implementation in backend (with retry logic) and polling in Flutter application to check purchase status – 6h
 
-3.6.3. Invoicing module implementation (Moloni in sandbox) – 6h
+3.6.3. Invoicing module implementation (Moloni in trial/test or sandbox mode for v1) – 6h
 
-3.6.4. Stripe account configuration in sandbox mode – 2h
+3.6.4. Stripe account configuration in sandbox / trial mode as needed – 2h
 
-3.6.5. Moloni account configuration in sandbox mode (with logo and invoice template) – 2h
+3.6.5. Moloni account configuration in trial/test mode (with logo and invoice template) – 2h
 
 3.6.6. Calculator implementation (complete premium version) in Flutter application – 6h
 
-3.6.7. Paid workshops implementation in Flutter application (individual purchase, breed bundle, complete present bundle, lifetime bundle) – 10h
+3.6.7. Paid workshops implementation in Flutter application (**4 paid** at launch, organised by breed; purchase packaging as designed) – 10h
 
 3.6.8. Conditional access logic implementation (purchased vs. locked) – 6h
 
@@ -202,7 +208,7 @@ _Dependencies: Deliveries 3, 4, and 5 (base content to become premium)_
 
 3.6.13. Complete purchase flow integration tests (Stripe → Webhook → Moloni → unlocking in Flutter application) – 4h
 
-3.6.14. Access upgrade flow tests (e.g., individual video → breed bundle) – 3h
+3.6.14. Access upgrade flow tests (e.g., one paid video → additional paid videos of the same breed) – 3h
 
 3.6.15. Backend and Flutter application update deployment (with premium content and payments) – 2h
 
@@ -314,7 +320,7 @@ _Milestone: Beta Launch (available online – all deliveries complete)_
 
 5.2.2. Final document formatting for delivery – 3h
 
-5.3. Article preparation for The Pharmacist, but tech – 8h
+5.3. Public article about the project approach – 8h
 
 5.3.1. Article writing about the paper-first methodology – 4h
 
