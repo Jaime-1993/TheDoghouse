@@ -1,0 +1,48 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Visitor" as V
+actor "Free User" as FU
+actor "Premium User" as PU
+
+rectangle "The Doghouse" {
+  usecase "Access Landing Page" as UC1
+  usecase "Read Blog" as UC2
+  usecase "Register" as UC3
+  
+  usecase "Authenticate" as UC4
+  usecase "Seamless Transition\n(Site ↔ Flutter Web)" as UC5
+  
+  usecase "Access Content\n(Calculator, Workshops, Map)" as UC6
+  usecase "Access Premium Content\n(Complete Calculator,\nPaid Workshops, Bundles)" as UC7
+  
+  usecase "Search Hotels" as UC8
+  usecase "Purchase Content" as UC9
+  usecase "View Invoices" as UC10
+  usecase "Manage Profile" as UC11
+}
+
+' Visitor (Public Site)
+V --> UC1
+V --> UC2
+V --> UC3
+
+' Free User inherits from Visitor
+FU --|> V
+FU --> UC4
+FU --> UC5
+FU --> UC6
+FU --> UC8
+FU --> UC9
+FU --> UC11
+
+' Premium User inherits from Free User
+PU --|> FU
+PU --> UC7 : exclusive access
+PU --> UC10 : after purchase
+
+' Premium access extends free content access (optional paid enrichment of UC6)
+UC7 ..> UC6 : «extend»
+
+@enduml
