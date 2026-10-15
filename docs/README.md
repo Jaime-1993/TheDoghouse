@@ -2,13 +2,13 @@
 
 This folder holds the written foundation of **The Doghouse**: what the product is meant to be, who it serves, how the work is broken down, and how that work is scheduled. The project follows a *paper-first* approach — planning and specification guide implementation — so these documents are meant to be read before the code, and to stay aligned with it as the product grows.
 
-**The Doghouse** is one project with one author: a **real product and business** for dog owners, documented in public so the same repository can also support learning and engineering practice. There is no external paying client in these docs. The interview annex records product decisions in that author’s product-owner voice; the Scope is where product boundaries and any learning aims for the repository sit together.
+**The Doghouse** is my project: a **real product** for dog owners, a **learning** vehicle, and a **reusable skeleton** documented in public (including context such as Doses Pediátricas) because related private work cannot be exposed here. There is no external paying client for this repository. The interview annex records answers from a **simulated product owner** (I ran the interview). The Scope is where I set the boundary of what the first version includes, excludes, and what I deliberately set out to learn.
 
-The **proposal package** is published (interview through schedule, plus the proposal report). Design documents may still evolve. This README is updated when documents here change, so a visitor always sees a map that matches what is currently published.
+The interview pack and Scope are aligned. Personas through Schedule and the proposal report are on disk but still pending human review. Design documents may still evolve. This README is updated when documents here change, so a visitor always sees a map that matches what is currently published.
 
 Technical terms are introduced briefly the first time they appear, so the text stays readable whether you already know the jargon or not.
 
-This index is **not** a commercial contract. It is a guide to the public documentation of that personal product-and-learning project. The proposal package (interview through schedule, plus the proposal report) is published and aligned on disk.
+This index is **not** a commercial contract. It is a guide to the public documentation of that personal product-and-learning project. Interview + Scope are aligned; the rest of the proposal track is still being reviewed document by document.
 
 ---
 
@@ -18,7 +18,7 @@ This index is **not** a commercial contract. It is a guide to the public documen
 
 Read in this order — from kickoff decisions, through *what* and *who*, to *how* the work is organised in time, then the public proposal report (or start with the report alone):
 
-1. **Interview** — structured questions and frozen product decisions (author as product owner) that ground the scope.  
+1. **Interview** — structured questions to a simulated product owner, and their frozen product decisions that ground the scope.  
 2. **Scope** — what the minimum viable product (*MVP* — the smallest useful version of the product) includes and excludes.  
 3. **Personas and flows** — who the product is for, and the main journeys those people take.  
 4. **Business rules** — the rules the product must obey for the proposal commitment.  
@@ -28,7 +28,7 @@ Read in this order — from kickoff decisions, through *what* and *who*, to *how
 
 ### Published reading order (today)
 
-The **interview questionnaire**, the **interview annex**, proposal documents **Scope through Schedule** (`01`–`05`), and the **proposal report** are published and aligned to the frozen product decisions. File names for `01`–`11` follow the target order above. Prefer starting with [reports/R1_PROPOSAL.md](reports/R1_PROPOSAL.md) for a single overview, or read [00_INTERVIEW.md](00_INTERVIEW.md), [INTERVIEW_ANNEX.md](INTERVIEW_ANNEX.md), then `01`–`05` in order. The schedule document is the **proposal calendar** (milestone weeks); execution may shift weeks for quality without changing product scope. Design documents (`06`–`11`) remain on disk for a later stage and may still need review.
+Start with [00_INTERVIEW.md](00_INTERVIEW.md), [INTERVIEW_ANNEX.md](INTERVIEW_ANNEX.md), and [01_SCOPE.md](01_SCOPE.md) — those are aligned. Then read Personas through Schedule (`02`–`05`) and the [proposal report](reports/R1_PROPOSAL.md) knowing they are still pending review. File names for `01`–`11` follow the target order above. Design documents (`06`–`11`) remain on disk for a later stage and may still need review.
 
 Diagrams and other visual assets used by the documentation are kept in [`images/`](images/). A shared vocabulary is available in [`GLOSSARY.md`](GLOSSARY.md).
 
@@ -38,23 +38,23 @@ Diagrams and other visual assets used by the documentation are kept in [`images/
 
 ### Proposal documents (on disk today)
 
-File **names and numbers** follow the numbered reading order in this README. Proposal documents `00` through `05` (including the interview annex) and the proposal report under `reports/` are aligned to the [frozen decisions in the interview annex](INTERVIEW_ANNEX.md).
+File **names and numbers** follow the numbered reading order in this README. Interview + Scope are aligned to the [frozen decisions in the interview annex](INTERVIEW_ANNEX.md). `02`–`05` and the proposal report are on disk and pending review.
 
 | Document | What it covers | Status |
 | -------- | -------------- | ------ |
-| [00_INTERVIEW.md](00_INTERVIEW.md) | Project interview questionnaire (questions only). | On disk |
-| [INTERVIEW_ANNEX.md](INTERVIEW_ANNEX.md) | Answers and frozen product decisions (author as product owner). | On disk |
-| [01_SCOPE.md](01_SCOPE.md) | Product goals, included and excluded scope, high-level solution outline, and success criteria for the *MVP*. | On disk (aligned to interview annex) |
-| [02_PERSONAS_AND_FLOWS.md](02_PERSONAS_AND_FLOWS.md) | User personas and the main flows (happy paths and important failure cases) across the website and the application. | On disk (aligned to interview annex) |
-| [03_BUSINESS_RULES.md](03_BUSINESS_RULES.md) | Business rules for the proposal commitment. | On disk (aligned to interview annex) |
-| [04_WBS.md](04_WBS.md) | Work breakdown structure (*WBS* — a hierarchical list of work packages): deliveries, effort estimates, and completion criteria. | On disk (aligned to interview annex) |
-| [05_GANTT.md](05_GANTT.md) | Schedule view: premises, milestones, and the temporal map of the deliveries. | On disk (aligned to interview annex) |
+| [00_INTERVIEW.md](00_INTERVIEW.md) | Project interview questionnaire (questions only). | On disk (aligned) |
+| [INTERVIEW_ANNEX.md](INTERVIEW_ANNEX.md) | Answers and frozen product decisions (simulated product-owner voice). | On disk (aligned) |
+| [01_SCOPE.md](01_SCOPE.md) | Product goals, included and excluded scope, high-level solution outline, and success criteria for the *MVP*. | On disk (aligned) |
+| [02_PERSONAS_AND_FLOWS.md](02_PERSONAS_AND_FLOWS.md) | User personas and the main flows (happy paths and important failure cases) across the website and the application. | On disk (pending review) |
+| [03_BUSINESS_RULES.md](03_BUSINESS_RULES.md) | Business rules for the proposal commitment. | On disk (pending review) |
+| [04_WBS.md](04_WBS.md) | Work breakdown structure (*WBS* — a hierarchical list of work packages): deliveries, effort estimates, and completion criteria. | On disk (pending review) |
+| [05_GANTT.md](05_GANTT.md) | Schedule view: premises, milestones, and the temporal map of the deliveries. | On disk (pending review) |
 
 ### Proposal report
 
 | Document | What it covers | Status |
 | -------- | -------------- | ------ |
-| [reports/R1_PROPOSAL.md](reports/R1_PROPOSAL.md) | Self-contained public proposal overview (product, decisions, scope, work/schedule summary). | On disk (aligned) |
+| [reports/R1_PROPOSAL.md](reports/R1_PROPOSAL.md) | Self-contained public proposal overview (product, decisions, scope, work/schedule summary). | On disk (pending review) |
 
 ### Design documents (on disk)
 
@@ -80,25 +80,26 @@ These files belong to the **design** stage (after the proposal track). Names mat
 
 ## Checklist – proposal package
 
-Two columns matter: **on disk** (a file you can open today) versus **aligned** (reviewed and placed in the final proposal order). The proposal package is ready when both columns are complete for the rows below.
+Two columns matter: **on disk** (a file you can open today) versus **aligned** (reviewed and accepted for the proposal track). The proposal package is ready when both columns are complete for the rows below.
 
-| Item | On disk | Aligned to final proposal order |
-| ---- | ------- | ------------------------------- |
+| Item | On disk | Aligned |
+| ---- | ------- | ------- |
 | Interview questionnaire (`00_INTERVIEW`) | [x] | [x] |
 | Interview annex (`INTERVIEW_ANNEX`) | [x] | [x] |
 | Scope | [x] | [x] |
-| Personas and flows | [x] | [x] |
-| Business rules | [x] | [x] |
-| Work breakdown | [x] | [x] |
-| Schedule | [x] | [x] |
-| Public proposal report (`reports/R1_PROPOSAL.md`) | [x] | [x] |
+| Personas and flows | [x] | [ ] |
+| Business rules | [x] | [ ] |
+| Work breakdown | [x] | [ ] |
+| Schedule | [x] | [ ] |
+| Public proposal report (`reports/R1_PROPOSAL.md`) | [x] | [ ] |
 | This README refreshed after each change above | — | [x] (living document) |
 
 ---
 
 ## Open points
 
-- The proposal package (interview pack, `01`–`05`, and [reports/R1_PROPOSAL.md](reports/R1_PROPOSAL.md)) is published and aligned to the [frozen decisions in the interview annex](INTERVIEW_ANNEX.md).  
+- Interview pack and Scope are aligned (simulated product-owner interview; Scope in the developer’s voice).  
+- Personas, business rules, work breakdown, schedule, and the proposal report are on disk and **pending** review.  
 - File names for `01`–`11` match the numbered reading order in this README.  
 - Design documents (`06`–`11`) may still need later review; they are not part of the proposal package.
 
@@ -106,4 +107,4 @@ Two columns matter: **on disk** (a file you can open today) versus **aligned** (
 
 ## Closing note
 
-If you are new to the repository, start with the [proposal report](reports/R1_PROPOSAL.md), or follow the **target reading order** above (interview → Scope through Schedule → report). Design documents (`06`–`11`) come after the proposal track.
+If you are new to the repository, start with the interview questionnaire, annex, and Scope. Treat `02`–`05` and the proposal report as drafts until their checklist rows are marked aligned. Design documents (`06`–`11`) come after the proposal track.

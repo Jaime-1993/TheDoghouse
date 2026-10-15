@@ -2,9 +2,9 @@
 
 ## 1. Introduction
 
-This document is the structured interview for **The Doghouse**. It turns an early, informal conversation about the product into a short set of questions you can answer in writing and refine in follow-up meetings.
+This document is the structured interview for **The Doghouse**. It turns an early conversation about the product into a short set of questions for a **simulated client** (simulated product owner) to answer in writing. I (the developer) run the interview; the answers are recorded in the interview annex.
 
-The aim is alignment: so that whoever builds the first version knows what you want, what you do not want, and what “good enough” means. Detail that belongs in later design meetings is left out on purpose. A questionnaire that is too long produces rushed or careless answers; this one is sized for one sitting (about **20–30 minutes**), including the scope checklist in question 8.
+The aim is alignment: so that I know what the (simulated) product owner wants, what they do not want, and what “good enough” means. Detail that belongs in later design meetings is left out on purpose. A questionnaire that is too long produces rushed or careless answers; this one is sized for one sitting (about **20–30 minutes**), including the scope checklist in question 8.
 
 In our previous informal talks we already touched on a digital presence around dog care — an institutional website, a member-facing application, and a first version that should be useful while remaining realistic to build. Nothing below assumes those ideas are final. Please confirm, correct, or replace them.
 

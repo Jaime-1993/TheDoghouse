@@ -1,12 +1,12 @@
 # The Doghouse
 
-**A real product for dog owners** — website, members’ area, and tools you can use and buy from — documented in public so the same repository also supports learning and engineering practice.
+**A real product for dog owners**, a public learning ground, and a reusable technical skeleton — documented openly because the related private work cannot be.
 
 ## About
 
-**The Doghouse** is a product and business for dog owners: a site that presents the project and articles, and a members’ area with a weight calculator, video workshops, and pet-friendly hotels. The author of this repository is the same person who decides product scope. There is no external paying client, and **no other brands or professional identities** are mixed into The Doghouse in public materials.
+**The Doghouse** is a product for dog owners (site, articles, members’ area with calculator, workshops, and pet-friendly hotels) and at the same time a reusable skeleton and open simulation of engineering work that, in private, I continue for **Doses Pediátricas**. I own this repository and I decide scope. There is no external paying client for this public repo. I may name other brands in documentation to explain context. They do not appear in the shipping Doghouse UI or app. I may later publish engineering write-ups on **The Pharmacist, but tech**.
 
-Product decisions for the first version are frozen in the [interview annex](./docs/INTERVIEW_ANNEX.md) (answers to the [interview questionnaire](./docs/00_INTERVIEW.md)). The [Scope](./docs/01_SCOPE.md) states product boundaries and any learning aims for this public repository side by side.
+I ran a simulated product-owner interview; their answers are in the [interview annex](./docs/INTERVIEW_ANNEX.md) (questionnaire: [interview](./docs/00_INTERVIEW.md)). I spell out product boundaries and my learning aims in the [Scope](./docs/01_SCOPE.md).
 
 - **Audience:** dog owners (not a clinic, shelter, or breeder operations tool)
 - **Language:** English for site, app, and user-facing content
@@ -62,13 +62,13 @@ Start with the interview pack, then the proposal documents. Full map: [`docs/REA
 - [UML diagrams](./docs/11_UML_DIAGRAMS.md)
 - [Glossary](./docs/GLOSSARY.md)
 
-Proposal documents through schedule (`01`–`05`) and the [proposal report](./docs/reports/R1_PROPOSAL.md) are published; see the map in [`docs/README.md`](./docs/README.md). Design docs (`06`–`11`) may still need later review.
+Interview pack and Scope are aligned; Personas through Schedule and the [proposal report](./docs/reports/R1_PROPOSAL.md) are on disk and still under review — see [`docs/README.md`](./docs/README.md). Design docs (`06`–`11`) may still need later review.
 
 ## Project status
 
 | Area | Status |
 | ---- | ------ |
-| Public documentation (proposal track) | Interview pack, Scope through Schedule, and proposal report published |
+| Public documentation (proposal track) | Interview + Scope aligned; `02`–`05` and proposal report pending review |
 | Institutional website | Live (landing + blog) |
 | Backend / members’ area | Planned / in progress |
 | Payments, invoicing, store publishing | Planned for the first version |

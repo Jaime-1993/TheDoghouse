@@ -1,22 +1,23 @@
 # Interview annex – The Doghouse
 
-**Status:** English version — product decisions in the product-owner voice of the project author.  
+**Status:** Answers from a **simulated client** (simulated product owner), in first person.  
 **Source questionnaire:** `00_INTERVIEW.md`  
-**Who answers:** the same person who owns the repository and decides scope. This annex records **product** choices (what and why). **How** it is built is decided in design and implementation. Learning or portfolio aims for the public repository are stated in the Scope, alongside these decisions — not as a separate external client.  
+**Who interviewed:** I (the developer who owns this public repository) ran the interview.  
+**Who answers:** a **simulated product owner / client**. This annex records their **product** choices (what and why). **How** the system is built, and learning or portfolio aims for this public repository, are my decisions as developer and are stated in the Scope — not as answers from this simulated client.  
 **Answers / freeze date (proposal):** 2026-10-13  
 
 ---
 
-## Frozen decisions (proposal — product-owner voice)
+## Frozen decisions (proposal — simulated product-owner voice)
 
 | ID | Decision |
 | -- | -------- |
 | **A** | The product is called **The Doghouse**. There is a website that presents the project and a members’ area with useful tools for dog owners. |
-| **B** | This is a **real product and a real business** for dog owners — not an abstract exercise. The author of this repository is the same person who decides product scope. |
-| **C** | I decide what is in and out of scope. I do not want other brands or identities mixed into The Doghouse in anything public. |
+| **B** | This is a **real product and a real business** for dog owners — not an abstract exercise. As product owner, I decide product scope. |
+| **C** | As product owner, I decide what is in and out of scope. I do not want other brands or professional identities mixed into The Doghouse on the site or in the app. |
 | **D** | Primary audience: dog owners. This is not a tool for clinics, shelters, or breeders to run their operations. |
 | **E** | Some people only visit, some sign up for free, and some pay for extra content. No in-product admin panel in the first version — content is placed directly into the product (files or database), not through owner-facing edit screens. |
-| **F** | In the first version: site + articles; members’ area on phone, computer browser, and **installable web app** (add to home screen); **one shared product** (same codebase and same experience everywhere); calculator (free and full paid version); workshops (**2 free** and **4 paid** at launch), **organised by breed**; map / list of pet-friendly hotels to attract people; simple sign-in; **signed-in members** (free or paying) move from the site to the members’ area without signing in again; ability to **sell**; **receipt/invoice is in for v1** (start in trial/test mode if safer; going fully live later is a separate step); app available in the app stores. |
+| **F** | In the first version: site + articles; members’ area on phone, computer browser, and **installable web app** (add to home screen); **one shared product** (same codebase and same experience everywhere); calculator (free and full paid version); workshops (**2 free** and **4 paid** at launch), **organised by breed**, with purchase of individual paid videos and **bundles** (by breed, complete present set of then-existing videos, and lifetime access to present and future workshop videos); map / list of pet-friendly hotels to attract people; simple sign-in; **signed-in members** (free or paying) move from the site to the members’ area without signing in again; ability to **sell**; **receipt/invoice is in for v1** (start in trial/test mode if safer; going fully live later is a separate step); app available in the app stores. |
 | **G** | In the first version I do **not** want: comments on articles; social features inside the product (likes, followers, profiles); live support chat; languages other than English. |
 | **H** | Start with low costs. No expensive custom domain at the start. Receipt/invoice in v1 may run in trial/test mode first (see **F**); the business goal is still to **make money** from workshops and paid content. |
 | **I** | **Sell** workshops and premium content. Buyers keep access to what they paid for (no monthly subscription in the first version). |
@@ -35,11 +36,11 @@
 
 **2. Real product vs something else**  
 **Question:** Is the first version mainly a product for end users, mainly technical learning, or both?  
-**Answer:** For this annex it is a **real product and business** for dog owners. I am the same person who owns the public repository and who will state any learning or portfolio aims in the Scope. What matters here is that the product works for people and that I can sell.
+**Answer:** For this annex it is a **real product and business** for dog owners. What matters here is that the product works for people and that I can sell.
 
 **3. Who decides and what must not appear**  
 **Question:** Who decides scope changes, who else must be consulted, and is there any brand or identity that must not appear?  
-**Answer:** I decide. There is no one else who must be consulted. I do not want other brands or professional “faces” mixed into The Doghouse on the site, in the app, or in the project’s public documents.
+**Answer:** As product owner, I decide. There is no one else who must be consulted. I do not want other brands or professional “faces” mixed into The Doghouse on the site or in the app.
 
 **4. Tone and language**  
 **Question:** What tone and language(s) should the first version use with users?  
@@ -84,7 +85,7 @@
 | Installable web app (home screen) | **In** | People can install / add the members’ area from the browser |
 | Same experience everywhere | **In** | Same product and same codebase on phone, browser, and installable web — not a weaker version on one platform |
 | Weight calculator | **In** | A useful free version; the full version only for who paid |
-| Video workshops | **In** | At launch: **2 free** and **4 paid**, **organised by breed** |
+| Video workshops | **In** | At launch: **2 free** and **4 paid**, **organised by breed**; individual paid videos and bundles (breed, complete present, lifetime) |
 | Pet-friendly hotels | **In** | People see relevant places, ideally near them or in a city they search, and can open them in the phone’s maps |
 | Account / sign-in | **In** | Simple sign-in: email and/or Google or Facebook — the exact mix is chosen in design |
 | From site to members’ area without signing in again | **In** | **Signed-in members** (free or paying) do not sign in again; visitors who are not signed in still need to sign in |
@@ -168,10 +169,10 @@ These stay open for design and implementation (unless noted):
 - Legal / proper **source of hotel data** — choose in design (no illegal copying).  
 - When to move payments and invoices from **trial/test to fully live** — propose what is safe; v1 already includes receipt/invoice in trial/test if needed.  
 - Whether the **2–3 month** horizon becomes firm milestones — set as work proceeds.  
-- Turning “success” stories (Q7) into **measurable** checks — in the Scope document.
+- Turning “success” stories (Q7) into **measurable** checks — the Scope already states flow-level measurable criteria; refine further in design if needed.
 
 ---
 
 ## Closing
 
-These answers are **product decisions** from the repository author in product-owner voice: what the product is and why. How it is built is decided in design and implementation. Any learning or portfolio aims for this public repository belong in the Scope, next to these decisions — one project, one author, no external paying client in this annex.
+These answers are **product decisions from a simulated client / simulated product owner**: what the product is and why. I (the developer) ran the interview and I decide how it is built, plus any learning or portfolio aims for this public repository — that sits in the Scope, next to these product choices.

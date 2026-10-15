@@ -2,47 +2,61 @@
 
 ## 1. Introduction
 
-This document defines the scope of the Minimum Viable Product (_MVP_ — the smallest useful first version) of **The Doghouse**: a **real product and business** for dog owners. It combines an institutional website (landing page and articles) with a members’ area that offers a weight calculator, video workshops, and a map/list of pet-friendly hotels — so people can discover the project, use free tools, and buy paid workshops and extras.
+This document establishes the scope of the Minimum Viable Product (_MVP_) for the project _The Doghouse_. The goal is a functional digital ecosystem that is at once a real product for dog owners, a practical learning ground for emerging technologies, and a reusable technical skeleton for future work. The _MVP_ consists of an institutional website (_landing page_ and _blog_) and a members’ area developed in _Flutter_. The members’ area will be deployed to the _Web_ (as a _PWA_ – _Progressive Web App_), _iOS_, and _Android_ from the same codebase, without duplicating business logic or interface. That multiplatform approach is a central differentiator and part of what this project sets out to learn and demonstrate.
 
-The author of this public repository is the same person who decides product scope. There is **no external paying client**. Learning and portfolio practice for engineering are welcome in this repository and are stated **alongside** the product boundaries below — they do not replace the product goal, and they do not introduce other brands or professional identities into The Doghouse (see the [interview annex](INTERVIEW_ANNEX.md)).
+There is no external paying client for this public repository. I own the repository and decide the technical and learning boundaries of the work. _The Doghouse_ is the public product and documentation surface. In parallel it acts as an open simulation and reusable skeleton for private work on **Doses Pediátricas** ([Instagram](https://www.instagram.com/dosespediatricas/)), whose code and client data cannot be exposed here. Engineering write-ups may later appear on **The Pharmacist, but tech**. Other brands may be named in documentation when they explain why this repository exists. They must not appear in the production user interface or in the shipping _Doghouse_ application experience.
 
-Product decisions for the proposal are frozen in the interview annex (table of decisions **A–K** and the answers that support them). This Scope must stay consistent with those decisions. How the system is built in detail is decided in later design documents (research, requirements, architecture, and so on).
-
-The project is conducted using a _paper-first_ methodology: documentation and planning guide implementation so that product and technical choices are conscious before code is written.
+The project follows a _paper-first_ methodology: documentation and planning precede implementation so that technical and functional decisions are conscious and written down before code is produced. A **simulated client** interview (simulated product owner), of the same kind used for Doses Pediátricas, recorded the product answers in the interview annex. This Scope turns those product choices into the boundary of what the _MVP_ includes and excludes, and adds the technical and learning decisions that belong to me as the developer.
 
 ## 2. Motivation
 
-1. **Product for dog owners.** Tips and tools are scattered across social media. The Doghouse is a stable place with a clear site, useful members’ tools, workshops that can be sold, and pet-friendly hotels that help attract people.
-2. **One author, one public product.** Scope changes are decided by the repository author. Public site, app, and documentation stay under the **The Doghouse** name only — no other brands mixed in.
-3. **Learning in the open.** The same public repository supports deliberate practice with a modern stack (for example _Go_, _Flutter_, _Docker_, payments, and maps). Those aims sit next to the product scope; they do not turn the _MVP_ into an abstract exercise or a skeleton “for another client”.
+The motivation for this project is threefold, and the three strands stand together.
+
+First, there is a need for a public, reusable skeleton. A strong social-media presence and a real product such as Doses Pediátricas require authentication, payments, invoicing, multiplatform delivery, and careful handling of data. That real work stays private. _The Doghouse_ recreates the same class of problems in a domain that can be shown openly (dog care, workshops, pet-friendly hotels), so architecture and practice can be documented without leaking secrets. The same skeleton is meant to be adapted later to other real projects, including the private line of work already under way.
+
+Second, there is a deliberately chosen learning agenda: _containerization_ with _Docker_, _backend_ development in _Go_, passwordless authentication (_magic links_) and social login, payment gateways (_Stripe_), invoicing (_Moloni_), the _Overpass API_, _Progressive Web Apps_, and above all _Flutter_ multiplatform delivery where one codebase serves _Web_, _iOS_, and _Android_. Those technologies are not optional flavouring. They are a core reason this project exists.
+
+Third, there is the will to apply sound software engineering in the open, from requirements and modelling through _UML_, testing, and _cloud_ deployment, so that the result is both a usable product for dog owners and a credible portfolio piece.
 
 ## 3. Objectives
 
-The _MVP_ objectives follow _SMART_ criteria and the frozen interview decisions:
+The _MVP_ objectives follow the _SMART_ methodology.
 
-- **Specific:** Ship a usable first version: institutional site + articles; members’ area on phone, computer browser, and installable web app (same shared product/codebase); free and paid calculator; workshops at launch (**2 free** and **4 paid**), organised by breed; pet-friendly hotels map/list; simple sign-in; selling with receipt/invoice in v1 (trial/test mode first if safer); app-store publication path.
-- **Measurable:** Done when a dog owner can find the site, create an account without undue friction, use free content, buy a workshop, keep access to what they paid for, use the hotels map usefully, and — if already signed in — move from the site to the members’ area without signing in again. Flows work on phone and computer.
-- **Achievable:** Prefer free or cheap plans at the start; no expensive custom domain required for v1. Quality beats a rigid date that hurts the product.
-- **Relevant:** Success is a product people can use and buy from, with careful handling of personal and payment data — not a pretty shell that cannot sell or help.
-- **Time-bound:** Horizon on the order of **two to three months** of work for something usable; milestones are set as work proceeds.
+**Specific** — Build a working platform with an institutional website (_landing page_ and _blog_) and a _Flutter_ multiplatform members’ area with three domains (ideal weight calculator, workshops, maps), plus passwordless and social authentication, payments, and invoicing. The members’ area ships to _Web_ (as a _PWA_), _iOS_, and _Android_ from one codebase.
+
+**Measurable** — The _MVP_ is complete when a dog owner can register and sign in via _magic link_ or social login, move from the static site to the members’ area without signing in again when already authenticated, use free content, buy premium content via _Stripe_ (sandbox or trial as needed), receive a receipt or invoice via _Moloni_ (trial or sandbox for the first version), and find pet-friendly hotels through the _Overpass API_ on an interactive map. Those flows must work on _Web_, _iOS_, and _Android_.
+
+**Achievable** — With the chosen stack, a horizon on the order of two to three months of focused work, and free or low-cost persistent services, the _MVP_ is feasible. Quality takes priority over a date that would damage the product.
+
+**Relevant** — The _MVP_ is a real product for dog owners and at the same time a technical and methodological foundation that can be reused for private real projects such as Doses Pediátricas and for public engineering narrative on The Pharmacist, but tech.
+
+**Time-bound** — The target horizon for a usable first version and its supporting documentation is about two to three months of work. Detailed weeks belong in the schedule documents, not as the heart of this Scope.
 
 ## 4. Proposed Solution
 
-### 4.1. Institutional Website (_Landing Page_ + Articles)
+The solution is a digital ecosystem with three main components.
 
-Developed in pure _HTML_, _CSS_, and _JavaScript_, without heavy _frameworks_, to favour _SEO_ and fast loading. The landing page presents The Doghouse and a clear path to the members’ area. Articles are readable without an account and help attract visitors. No article comments in the first version.
+### 4.1. Institutional Website (_Landing Page_ + _Blog_)
 
-### 4.2. Members’ Area (_Flutter_ — _Web_ / _PWA_, _iOS_, _Android_)
+The site is built in pure _HTML_, _CSS_, and _JavaScript_, without heavy _frameworks_, to favour _SEO_ and fast loading. The _landing page_ presents _The Doghouse_ and a clear path into the members’ area. The _blog_ holds static articles on dog care and related topics, readable without an account, to attract organic traffic. Article comments are out of scope for the first version.
 
-One shared product and codebase across phone, computer browser, and installable web app (add to home screen), also published toward the main app stores. Three functional areas:
+### 4.2. _Flutter_ Multiplatform Members’ Area (_Web_, _iOS_, _Android_)
 
-- **Ideal weight calculator:** useful free version; full paid version for who paid.
-- **Workshops:** video library organised by breed. At launch: **2 free** and **4 paid** videos. Buyers keep access to what they paid for (no monthly subscription in v1).
-- **Pet-friendly hotels:** map/list (for example via the _Overpass API_), ideally near the user or a searched city, with a way to open a place in the device’s maps app.
+The members’ area is developed in _Flutter_ and compiled for the three platforms from the same codebase, sharing business logic, data models, _API_ services, and interface. That choice removes duplicated effort and keeps behaviour consistent.
+
+It contains three functional areas.
+
+The **ideal weight calculator** lets the user pick a breed and enter age. The free version returns an approximate ideal weight. The paid full version returns a richer result (for example percentiles, growth curves, and dietary recommendations).
+
+The **workshops** area is a video library organised by breed. At launch the inventory is two free videos and four paid videos. Purchase options include individual paid videos and _bundles_ (by breed, complete present set of then-existing videos, and lifetime access to present and future workshop videos as designed). Buyers keep access to what they paid for. There is no monthly subscription in the first version.
+
+The **maps** area shows pet-friendly hotels from the _Overpass API_ on an interactive map, with geolocation when the user consents, and a control to open a place in the device’s native maps app. Text search via geocoding remains available when location is declined. Concrete map packages and geocoding services are chosen in design.
+
+On the _Web_ the members’ area is configured as a _PWA_ (_service worker_ and _manifest.json_) so it can be installed from the browser. The same codebase is aimed at the _App Store_ and _Play Store_.
 
 ### 4.3. _Backend_ in _Go_ with _REST API_
 
-A _REST_ (_Representational State Transfer_) _API_ in _Go_ supports accounts and sessions, content access, payments, invoicing (trial/test mode acceptable for v1), hotel search integration, and email for sign-in flows as designed. There is **no in-product admin panel** in v1 — content is placed directly (files or database).
+A _REST_ _API_ in _Go_ covers user registration and authentication (_magic link_ and social login), content for breeds, workshops, and calculator data, _Stripe_ for payments (sandbox or trial as needed), _Moloni_ for receipts or invoices (trial or sandbox in the first version), _Overpass_ queries for hotels, and transactional email for _magic links_. There is no in-product administration panel in the first version. Content is placed directly through files or the database.
 
 ## 5. Functional Scope
 
@@ -50,121 +64,127 @@ A _REST_ (_Representational State Transfer_) _API_ in _Go_ supports accounts and
 
 **Institutional website**
 
-- Landing page that presents The Doghouse and a path to the members’ area
-- Articles / blog readable without an account
+- Institutional _landing page_
+- Static _blog_ articles accessible without _login_
 
-**Accounts and access**
+**Authentication and access**
 
-- Visitor → free member → member who paid for something
-- Simple sign-in (email and/or Google or Facebook — exact mix in design)
-- **Signed-in members** (free or paying) move from the site to the members’ area without signing in again; visitors who are not signed in still need to sign in
+- Registration with email
+- Authentication via _magic link_
+- Authentication via _Google_ and/or _Facebook_
+- Access ladder of visitor, free member, and member who paid for something
+- _Seamless_ transition from the static website to the _Flutter_ members’ area for **signed-in** members only (session sharing)
+- Visitors who are not signed in must still sign in
 
-**Members’ area — calculator**
+**Calculator**
 
-- Free useful version
-- Full paid version
+- Free basic ideal weight calculator
+- Paid complete calculator
 
-**Members’ area — workshops**
+**Workshops**
 
-- At launch: **2 free** and **4 paid**, organised by breed
-- Ability to sell; buyers keep access to purchased content (no v1 subscription)
+- Free videos at launch (two)
+- Paid videos at launch (four), organised by breed
+- Purchase of individual videos and of _bundles_ (breed, complete present, lifetime) as designed
+- Lifetime access to purchased items without a v1 subscription
 
-**Members’ area — hotels**
+**Maps**
 
-- Map/list of pet-friendly hotels; open in native maps where useful
+- Interactive map of pet-friendly hotels via _Overpass API_
+- Geolocation with consent
+- Open in native maps
+- Text location search
 
 **Payments and invoicing**
 
-- Charge for workshops / premium content
-- Receipt/invoice **in for v1**, starting in trial/test mode if safer; fully live invoicing can follow later
+- Checkout via _Stripe_ for premium content
+- Receipt or invoice via _Moloni_ in the first version, starting in trial or sandbox if safer
 
 **Deployment**
 
-- Members’ area as installable web app and on phone (_iOS_ / _Android_) from the same codebase
-- Publication path for the main app stores
+- _Flutter_ members’ area on _Web_ (_PWA_), _iOS_, and _Android_ from one codebase
+- Publication path to the _App Store_ and _Play Store_
 
-### 5.2. Excluded Features (first version)
+### 5.2. Excluded Features
 
-- Other brands or professional identities mixed into The Doghouse public materials
-- In-product admin panel for editing all content
-- Comments on articles
-- Social features inside the product (likes, followers, profiles, in-product social network)
+- In-product administration panel for editing all content
+- Traditional email-and-password authentication (forbidden in the first version; only _magic link_ and social login)
+- _Blog_ comment system
+- In-product social network features (likes, followers, profiles)
 - Live support chat
-- Languages other than English
+- Languages other than English in the product
 - Expensive custom domain required at the start
-- Advanced visit statistics / analytics beyond what is needed to operate carefully
-- Clinic, shelter, or breeder **operations** tooling (audience is dog owners)
-- Monthly subscription as the v1 commerce model
+- Advanced visit analytics as a v1 requirement
+- Clinic, shelter, or breeder **operations** tooling
+- Other brands inside the shipping _Doghouse_ UI or app experience
 
 ## 6. Technical Scope
 
 ### 6.1. Technology Stack
 
-- **Backend:** _Go_
+- **Backend:** _Go_ (learning from scratch)
 - **Frontend (website):** Pure _HTML_, _CSS_, _JavaScript_
-- **Frontend (members’ area):** _Flutter_, compiled for the _Web_ (as a _PWA_), _iOS_, and _Android_ from the same codebase
+- **Frontend (members’ area):** _Flutter_, compiled for _Web_ (_PWA_), _iOS_, and _Android_ from the same codebase
 - **Database:** _PostgreSQL_
-- **Containerization:** _Docker_
-- **Authentication:** _Magic links_ and/or social login (_Google_/_Facebook_) as chosen in design
-- **Payments:** _Stripe_ (sandbox / trial as needed)
-- **Invoicing:** _Moloni_ (trial/test mode for v1)
-- **Maps:** multiplatform map package in _Flutter_; geolocation; hotels via _Overpass API_; geocoding (e.g. _Nominatim_) for text search
-
-Detail and alternatives live in the research, requirements, and architecture documents.
+- **Containerization:** _Docker_ (learning from scratch)
+- **Authentication:** _Magic links_ and social login (_Google_/_Facebook_) (learning from scratch). Email-and-password is out of scope
+- **Payments:** _Stripe_ in sandbox or trial as needed (learning from scratch)
+- **Invoicing:** _Moloni_ in trial or sandbox for the first version (learning from scratch)
+- **Maps:** Multiplatform map in _Flutter_, device geolocation, hotels via _Overpass API_, text geocoding (learning from scratch; package choices in design)
 
 ### 6.2. External Services and Deployment
 
-Prefer free or cheap plans that hold up. Typical choices for this project (subject to design updates):
+Deployment prefers free or cheap plans that hold up for an _MVP_.
 
-- **Repository:** _GitHub_ (public) — secrets and private personal data stay out
-- **Database:** persistent free-tier _PostgreSQL_ (e.g. _Neon_)
-- **Backend:** container-friendly host (e.g. _Render_, _[Fly.io](https://fly.io/)_, or _Railway_)
-- **Website and Flutter Web:** _Vercel_ or _Netlify_
-- **Transactional email** for sign-in flows (e.g. _SendGrid_, _Mailgun_, or _Resend_)
-- **Stripe** and **Moloni** in sandbox/trial for v1 as needed
-- **Domain:** no expensive custom domain required at the start; free subdomains from hosts are acceptable
+The public repository is on _GitHub_. Secrets and private personal data stay out of it. _Docker_ keeps development and production consistent. The database is expected on a persistent free-tier _PostgreSQL_ host such as _Neon_. The _Go_ _API_ runs on a container-friendly host such as _Render_, _Fly.io_, or _Railway_, accepting that some free tiers show _cold starts_. The static site and the _Flutter_ _Web_ _PWA_ sit on _Vercel_ or _Netlify_. Store builds use Apple and Google developer accounts. Transactional email for _magic links_ may use _SendGrid_, _Mailgun_, or _Resend_ on free tiers. _Stripe_ and _Moloni_ run in sandbox or trial for the first version. Simulated or trial invoices demonstrate the flow without pretending to be fully live tax documents until a later step.
 
-### 6.3. Delivery Sequence and Effort (summary)
+No expensive custom domain is required at the start. Free subdomains from the hosts are acceptable, for example separate hosts for the institutional site, the members’ _PWA_, and the _API_, so that session cookies or tokens can be shared carefully for seamless navigation of signed-in members.
 
-Incremental deliveries keep the product usable early. Estimated effort for the whole *MVP* (including planning, design start, testing, write-up, and contingency) is about **515 hours** of work, on a **two-to-three-month** horizon. No currency amounts are quoted here.
+### 6.3. Delivery Sequence
 
-| Delivery / package (build path) | Estimated hours |
-| ------------------------------- | --------------- |
-| 1 – Institutional website | 18 |
-| 2 – Backend with authentication / members’ shell | 46 |
-| 3 – Free calculator | 25 |
-| 4 – Hotels map/list | 42 |
-| 5 – Free workshops | 25 |
-| 6 – Payments, premium content, invoicing (trial/test) | 72 |
-| 7 – App-store publishing path | 24 |
+Deployment is incremental so each slice can be validated early. Effort detail and week-by-week planning live in the work breakdown and schedule. This Scope only names the intended order of deliveries.
 
-The proposal report repeats this summary with planning, testing, and contingency totals and the proposed milestone weeks. The work breakdown lists every task behind these numbers.
+- **Delivery 1** — Institutional website (_landing page_ and _blog_)
+- **Delivery 2** — Base _backend_ with authentication and a members’ shell
+- **Delivery 3** — Free calculator
+- **Delivery 4** — Map with _Overpass API_ and geolocation
+- **Delivery 5** — Free workshops
+- **Delivery 6** — Payments, premium content (including _bundles_), and invoicing in trial or sandbox
+- **Delivery 7** — Store publishing path
 
-### 6.4. Critical Product–Technical Constraints
+Each delivery is tested in development and again after deployment. Supporting practices include _Docker_ consistency, _HTTPS_ on public endpoints, environment variables for secrets, a database decoupled from the _API_ container, and independent updates of site, _API_, and members’ area where possible.
 
-- Hotel data: prefer stable public geospatial sources (e.g. _Overpass_ / _OpenStreetMap_) over scraping commercial sites.
-- Seamless browsing: only for **signed-in** members between site and members’ area.
-- Invoicing: in scope for v1 in trial/test mode; production tax setup can be a later step.
-- Privacy and security: secure connections and careful handling of emails and payment details from day one (serious minimum; detail in design).
+### 6.4. Critical Technical Decisions
 
-## 7. Learning Aims (repository)
+These decisions are part of the learning and delivery goals of the project.
 
-Alongside the product, this public repository is used to practice:
+- Hotel data comes from the _Overpass API_ (_OpenStreetMap_) with pet-friendly tags, not from scraping commercial hotel sites. Text search uses a proper geocoding service chosen in design.
+- Hosting splits site and _PWA_ on static hosts, _Go_ on container hosts, and _PostgreSQL_ on a persistent free-tier service.
+- _Moloni_ in the first version stays in trial or sandbox, with a possible later move to production invoicing.
+- Authentication for the first version is _magic link_ and social login only. Traditional email-and-password is forbidden.
+- Secrets and integration settings (payments, invoicing, database, email, OAuth, Overpass) live in environment variables, never in the public repository.
 
-- _Docker_, _Go_, passwordless and social authentication
-- Payments and invoicing integrations in safe modes
-- _Overpass_ / maps, _PWA_ installability, _Flutter_ multiplatform, store publishing
-- Session continuity between the static site and the members’ area
+## 7. Technologies to Learn
 
-These aims do not expand v1 into excluded features (section 5.2) and do not introduce other product brands into public materials.
+This project is deliberately built so that the following are practised in a real integrated product, not only in isolated tutorials.
 
-## 8. Success and Failure
+- _Docker_ for development and production consistency
+- _Go_ for the _REST API_ and external integrations
+- _Magic links_ and social _OAuth_ login
+- _Stripe_ in sandbox or trial, including _webhooks_ and purchase state
+- _Moloni_ in trial or sandbox for the receipt or invoice path
+- _Overpass API_ for geospatial hotel data
+- _PWA_ installation (_service workers_, _manifest.json_)
+- _Flutter_ multiplatform structure, builds, and store submission
+- Maps in _Flutter_ with geolocation
+- Seamless session sharing between the static site and the members’ area on free subdomains
 
-Aligned with the interview annex:
+Store publishing requires signing material (_iOS_ certificates, _Android_ keystore). The detailed steps belong in the work breakdown.
 
-- **Success:** someone finds the site, sees the value, creates an account without hassle, uses what is free, buys a workshop, and finds useful hotels — on phone and on computer.
-- **Failure:** something pretty that nobody can use; inability to sell; a map or workshops that help no one; a confusing or unprofessional message; other brands competing with The Doghouse in public docs or UI.
+## 8. Conclusion
 
-## 9. Conclusion
+The _The Doghouse_ _MVP_ is an ambitious but bounded project. It must work as a product dog owners can use and buy from, and remain an honest learning vehicle and a reusable skeleton for private real work such as Doses Pediátricas and for public engineering narrative on The Pharmacist, but tech. This Scope is the base contract for later specification, design, implementation, and validation.
 
-The Doghouse _MVP_ is a **real product for dog owners**, with a clear in/out list grounded in the [interview annex](INTERVIEW_ANNEX.md). The public repository also supports learning — without turning the project into a placeholder for another brand or an abstract exercise. Later design and implementation documents refine *how*; this Scope fixes *what* the first version must be.
+Shipping one _Flutter_ codebase to _Web_, _iOS_, and _Android_ is a central differentiator. Free and persistent services, trial modes where safer, and a public repository without secrets are conscious trade-offs for a first version that can still sell and still teach.
+
+Meeting this scope means a usable multiplatform product within about two to three months of focused work, practical exposure to the target technologies, and a skeleton robust enough to reuse beyond this public dog-care domain.
