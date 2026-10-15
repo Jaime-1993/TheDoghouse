@@ -203,8 +203,8 @@ A _deployment_ platform for static and dynamic _frontend_ applications, with fre
 **Viewport**  
 The visible area of a web page or application on a screen, defined by the current display boundaries. In the project, the map area uses dynamic _viewport_ to load only the hotels visible in the map area, optimizing performance and user experience.
 
-**WBS** (_Work Breakdown Structure_)  
-A hierarchical decomposition of the work to be performed in a project, organized into work packages. In the project, the _WBS_ is documented in [04_WBS.md](04_WBS.md) and organizes the work into six main phases, with incremental deliveries.
+**WBS** (_Work Breakdown Structure_)
+A hierarchical decomposition of the work to be performed in a project, organized into work packages with estimated hours and *Done when* criteria. In the project, the _WBS_ is documented in [04_WBS.md](04_WBS.md): planning and design, incremental Deliveries **1–7**, validation, closure, and contingency (proposal estimate on the order of **~591 hours** including contingency).
 
 **Webhook**  
 A mechanism that allows one application to send real‑time notifications to another application when a specific event occurs. In the project, the _Stripe_ _webhook_ notifies the _Go_ _backend_ when a payment is successfully processed, triggering the unlocking of premium content.

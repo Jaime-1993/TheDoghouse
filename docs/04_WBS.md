@@ -1,349 +1,412 @@
 # Work Breakdown Structure (WBS) – _The Doghouse_
 
-This work breakdown supports the first usable version of **The Doghouse** as a real product for dog owners. It must stay consistent with the [interview annex](INTERVIEW_ANNEX.md), [Scope](01_SCOPE.md), [personas and flows](02_PERSONAS_AND_FLOWS.md), and [business rules](03_BUSINESS_RULES.md).
+## 1. Introduction
 
-**Product constraints reflected here:** site + articles; shared members’ area (phone, browser, installable web); free and paid calculator; workshops at launch (**2 free** + **4 paid**, by breed); hotels map/list; selling with receipt/invoice in v1 (trial/test mode allowed); no in-product admin panel; no other brands in public materials. Horizon: on the order of **two to three months** of work, preferring quality over a rigid date.
+This document decomposes the work for the first usable version of **The Doghouse** into packages with **estimated solo hours** and **Done when** criteria. It must stay consistent with the [interview annex](INTERVIEW_ANNEX.md), [Scope](01_SCOPE.md), [Personas and flows](02_PERSONAS_AND_FLOWS.md), and [business rules](03_BUSINESS_RULES.md) (`RN-xx`).
 
-**General note:** Each implementation activity must include a self-review and verification against specifications before deployment. Hours below are the **proposal effort estimate** (about **515 hours** leaf total including contingency). Milestone weeks live in the schedule (proposal calendar) and are repeated in the proposal report.
+It is an **effort forecast** (proposal estimate). It does not replace a fine roadmap when a delivery is opened for implementation. Hours are order-of-magnitude; revisit after the first implemented delivery.
 
-## 1. Planning and Specification
+**General note:** Each implementation activity includes self-review against specifications before deployment. Source documentation (comments, technical README) is part of each delivery, not an afterthought.
 
-1.1. Scope Definition – 8h
+### 1.1. Conventions
 
-1.2. User Personas and Flows Identification – 10h
+| Item | Value |
+| ---- | ----- |
+| Unit | **Hours** of effective solo work |
+| Granularity | **Medium** — enough to plan; daily tasks live in a delivery roadmap when coding starts |
+| Capacity (reference for the schedule) | **2–4 h/day** across up to **7 calendar days/week** when time allows → about **14–28 h/week** (a planning reference, not a commitment to work every day) |
+| Leaf hours only | Parent headings are labels; **totals sum leaf packages** |
+| Horizon | About **two to three months** for a usable first version (core Deliveries 1–7); the full WBS (planning + design + validation + report) is longer — see §2 |
+| IDs | **Delivery 1…7** match the Scope delivery sequence |
 
-1.3. WBS Elaboration – 6h
+### 1.2. Out of this WBS
 
-1.4. Initial Gantt Elaboration – 4h
+- Continuous social-media / marketing campaigns
+- Paid acquisition and partnerships
+- Endless editorial video production beyond the launch inventory (**2 free** + **4 paid** workshops)
+- Live (real-money) Stripe or production Moloni — v1 is **sandbox** only (`RN-19`…`RN-21`)
 
-_Milestone: Initial proposal delivery_
+### 1.3. Test and security policy (per delivery)
 
-## 2. Specification, Design, and Implementation Start
+Aligned to the project’s software process (unit + e2e per delivery; security when the delivery creates or changes an attack surface):
 
-2.1. Research and analysis of similar solutions – 6h
+| Type | When mandatory | Frozen tools |
+| ---- | -------------- | ------------ |
+| **Unit tests** | Critical logic in that delivery | Go `testing`; Flutter `flutter_test`; site JS only if non-trivial logic |
+| **E2E** | Critical flows of that delivery | **Playwright**; Stripe **sandbox** + fixtures — **never** live charges |
+| **Security pass** | Same Done as unit/e2e **only if** the delivery creates/changes attack surface (auth, session, API, payments, personal data). Not a full-product pentest. If no surface: state **N/A** | Checklist against threats for that surface; tooling chosen at implementation but pass is mandatory |
+| **Done** | Delivery *Done when* includes required tests **green** (local CI or simple pipeline when it exists) | |
 
-2.2. Functional and non-functional requirements specification – 12h
+Roughly **15–25%** of implementation effort sits in automated tests where there is logic.
 
-2.3. General architecture design – 10h
+---
 
-2.3.1. Backend architecture definition in Go – 3h
+## 2. Summary by phase and delivery
 
-2.3.2. Frontend architecture definition (HTML website and Flutter application) – 3h
+| ID | Package | Hours (est.) | Dependencies |
+| -- | ------- | ------------ | ------------ |
+| 1 | Planning and specification | **36** | — |
+| 2 | Specification, design, and implementation start | **69** | 1 |
+| D1 | Delivery 1 – Institutional website | **23** | — (can be first) |
+| D2 | Delivery 2 – Backend + authentication | **60** | can run parallel to D1 |
+| D3 | Delivery 3 – Free calculator | **30** | D2 |
+| D4 | Delivery 4 – Hotels map | **47** | D2; parallel to D3 possible |
+| D5 | Delivery 5 – Free workshops | **30** | D2; parallel to D3/D4 possible |
+| D6 | Delivery 6 – Payments + premium (sandbox) | **86** | D3+D4+D5 |
+| D7 | Delivery 7 – Store publishing | **28** | D6 |
+| 3.8 | Cross-cutting code documentation | **11** | continuous with D1–D7 |
+| 4 | Testing, validation, deployment hardening | **55** | after core deliveries |
+| 5 | Conclusions, report, public article | **30** | after validation |
+| | **Subtotal (leaves)** | **~505** | |
+| 6.1 | Contingency (~15% of subtotal) | **76** | |
+| 6.2 | Unforeseen final adjustments | **10** | |
+| | **Grand total** | **~591 h** | |
 
-2.3.3. Containerization strategy definition with Docker – 2h
+*Of which automated tests (unit + e2e + delivery security passes) are on the order of **~110–130 h** (~20% of implementation-heavy packages).*
 
-2.3.4. Session sharing strategy definition between website and application – 2h
+**Calendar reference** (detail belongs in the schedule document):
 
-2.4. Database modeling – 10h
+| Pace | h/week | Weeks ≈ for **591 h** | Months ≈ |
+| ---- | ------ | --------------------- | -------- |
+| 2 h/day | 14 | ~42 | ~9–10 |
+| 3 h/day | 21 | ~28 | ~6.5 |
+| 4 h/day | 28 | ~21 | ~5 |
 
-2.5. UML diagrams elaboration – 8h
+The annex/Scope **two-to-three-month** usable-product horizon targets **Deliveries 1–7** at focused pace (quality over a harmful rigid date), not necessarily every hour of phases 1, 2, 4, and 5 in the same window.
 
-2.5.1. Class diagram – 4h
+---
 
-2.5.2. Sequence diagrams (critical flows) – 4h
+## 3. Planning and specification (~36 h)
 
-2.6. API (Application Programming Interface) endpoints definition and interaction flows – 10h
+3.1. Scope definition – **8h**
 
-2.7. Development environment setup – 4h
+3.2. User personas and flows (+ use-case diagram) – **10h** (`02`, diagram under `diagrams/`)
 
-2.7.1. GitHub repository creation – 1h
+3.3. Business rules inventory (`RN-xx`) – **8h** (`03`)
 
-2.7.2. Initial Docker Compose configuration (database, backend, proxy) – 2h
+3.4. WBS elaboration – **6h** (this document)
 
-2.7.3. Project folder structure definition – 1h
+3.5. Initial schedule (Gantt) elaboration – **4h** (`05`)
 
-2.8. Base structure implementation start – 6h
+_Milestone: Initial proposal package ready for review_
 
-2.8.1. Hello World implementation in Go backend – 2h
+**Done when:** Scope, personas/flows, business rules, WBS, and schedule exist and are mutually consistent with the interview annex.
 
-2.8.2. Institutional website skeleton creation (HTML/CSS/JS) – 2h
+---
 
-2.8.3. Flutter application skeleton creation (Web, iOS, and Android configuration) – 1h
+## 4. Specification, design, and implementation start (~69 h)
 
-2.8.4. manifest.json and service worker configuration for PWA (Progressive Web App) – 1h
+4.1. Research and analysis of similar solutions – **6h**
 
-2.9. Use case diagram elaboration (PlantUML) – 3h
+4.2. Functional and non-functional requirements specification – **12h**
 
-_Milestone: Architecture and specifications validation_
+4.3. General architecture design
 
-_Milestone: Interim report delivery_
+- 4.3.1. Backend architecture in Go – **3h**
+- 4.3.2. Frontend architecture (HTML site + Flutter) – **3h**
+- 4.3.3. Containerization strategy with Docker – **2h**
+- 4.3.4. Session sharing strategy (**site ↔ Flutter Web** only; `RN-13`) – **2h**
 
-## 3. Complete MVP Implementation (Incremental Deliveries)
+4.4. Database modelling – **10h**
 
-**Note on source code documentation:** Each delivery must include internal documentation (comments, docstrings, technical README) as an integral part of development, ensuring code maintainability.
+4.5. UML diagrams
 
-### 3.1. Delivery 1 – Institutional Website
+- 4.5.1. Class diagram – **4h**
+- 4.5.2. Sequence diagrams (critical flows) – **4h**
 
-_Dependencies: None (can be the first)_
+4.6. API endpoint contracts and interaction flows – **10h**
 
-3.1.1. Landing page HTML structure – 4h
+4.7. Development environment setup
 
-3.1.2. CSS styling and responsiveness – 4h
+- 4.7.1. GitHub repository setup – **1h**
+- 4.7.2. Initial Docker Compose (database, backend, proxy) – **2h**
+- 4.7.3. Project folder structure – **1h**
 
-3.1.3. Static blog content – 3h
+4.8. Base structure implementation start
 
-3.1.4. SEO (Search Engine Optimization) optimization (meta tags, JSON-LD, HTML semantics) – 3h
+- 4.8.1. Hello World Go backend – **2h**
+- 4.8.2. Institutional website skeleton (HTML/CSS/JS) – **2h**
+- 4.8.3. Flutter skeleton (Web, iOS, Android) – **1h**
+- 4.8.4. `manifest.json` + service worker for PWA – **1h**
 
-3.1.5. Website unit tests – 2h
+4.9. Use-case diagram maintenance (PlantUML source + render) – **3h**
 
-3.1.6. Website deployment on Vercel or Netlify – 2h
+_Milestone: Architecture and specifications validated_
+
+_Milestone: Interim design package ready_
+
+**Done when:** Research, requirements, architecture, data model, UML, API contracts, and local Docker/Flutter/Go skeletons exist and match `RN-10`…`RN-13` and Scope stack choices.
+
+---
+
+## 5. Complete MVP implementation (Deliveries 1–7)
+
+### 5.1. Delivery 1 – Institutional website (~23 h)
+
+_Dependencies: none (can be first)._  
+_Security pass: **N/A** or light static hardening only (no auth/payments)._
+
+- 5.1.1. Landing page HTML structure – **4h**
+- 5.1.2. CSS styling and responsiveness – **4h**
+- 5.1.3. Static blog content – **3h**
+- 5.1.4. SEO (meta tags, JSON-LD, semantics) – **3h**
+- 5.1.5. Unit tests (non-trivial JS only; else minimal) – **2h**
+- 5.1.6. E2E smoke (Playwright: home, article, key CTAs) – **4h**
+- 5.1.7. Deploy on Vercel or Netlify – **2h**
+- 5.1.8. Basic security headers / XSS hygiene on static pages – **1h**
 
 _Milestone: Delivery 1 available online_
 
-### 3.2. Delivery 2 – Base Backend with Authentication
+**Done when:** Landing + blog online; SEO basics in place; Playwright smoke green; no other brands in UI (`RN-03`); English-only product copy (`RN-05`).
+
+### 5.2. Delivery 2 – Base backend with authentication (~60 h)
+
+_Dependencies: can run parallel to Delivery 1; required before D3–D5._  
+_Attack surface: auth, session, email, API — **security pass mandatory**._  
+_`RN-10`…`RN-13`, `RN-06`._
+
+- 5.2.1. Data model + DB connection (PostgreSQL / Neon path) – **6h**
+- 5.2.2. Authentication service (magic link **and/or** Google **and/or** Facebook) – **12h**
+- 5.2.3. Transactional email for magic links – **4h**
+- 5.2.4. Flutter auth UI (register / sign-in) – **6h**
+- 5.2.5. Cookie/token sharing for **site ↔ Flutter Web** – **4h**
+- 5.2.6. Seamless redirect with active session (`RN-13`) – **3h**
+- 5.2.7. Unit tests (magic link 15 min / single use, JWT 7 days, OAuth stubs) – **6h**
+- 5.2.8. E2E (Playwright: magic-link and social happy paths; expired link) – **6h**
+- 5.2.9. Security pass (JWT handling, magic-link rate limit, OAuth config, HTTPS, secrets in env) – **4h**
+- 5.2.10. Deploy Go API in Docker (Render / Fly.io / Railway) – **3h**
+- 5.2.11. Deploy database on persistent free tier (e.g. Neon) – **2h**
+- 5.2.12. Deploy Flutter Web shell (login + profile, features later) – **2h**
+- 5.2.13. Environment variables + HTTPS verification – **2h**
+
+_Milestone: Delivery 2 online (functional authentication)_
 
-_Dependencies: Can be parallel to Delivery 1 (but authentication is the base for the following ones)_
+**Done when:** Signed-in free member exists; magic link and social paths work per `RN-10`/`RN-11`; JWT per `RN-12`; seamless site↔Flutter Web for signed-in users only; unit + e2e + security pass green; no email/password (`RN-10`); native apps still authenticate in-app (`RN-13`).
 
-3.2.1. Data model and ORM (Object-Relational Mapping) implementation (database connection) – 6h
+### 5.3. Delivery 3 – Free calculator (~30 h)
 
-3.2.2. Authentication service implementation (magic link and social login) – 10h
+_Dependencies: Delivery 2._  
+_`RN-08`, `RN-29`._  
+_Security: API content endpoints — light pass._
 
-3.2.3. Email sending service implementation for magic links – 4h
+- 5.3.1. Backend content service (breeds + calculator data) – **6h**
+- 5.3.2. Free calculator UI in Flutter – **8h**
+- 5.3.3. API integration – **4h**
+- 5.3.4. Unit tests (breed/age → approximate weight) – **4h**
+- 5.3.5. E2E (Playwright: signed-in free calc path) – **4h**
+- 5.3.6. Security pass (authz on calculator endpoints) – **2h**
+- 5.3.7. Deploy update – **2h**
 
-3.2.4. Authentication interface implementation in Flutter application (registration and login) – 6h
+_Milestone: Delivery 3 online (functional free calculator)_
 
-3.2.5. Cookie/token sharing configuration between HTML website and Flutter application – 4h
+**Done when:** Signed-in users get approximate ideal weight; paid complete calc remains locked with purchase path visible; tests green.
 
-3.2.6. Redirect implementation with active session (seamless transition) – 3h
+### 5.4. Delivery 4 – Map with Overpass API and geolocation (~47 h)
 
-3.2.7. Authentication unit tests – 4h
+_Dependencies: Delivery 2; may run parallel to Delivery 3._  
+_`RN-33`…`RN-37`._
 
-3.2.8. Backend deployment in Go (in Docker container on Render, Fly.io, or Railway) – 3h
+- 5.4.1. Overpass module (pet-friendly tags `dog=yes` / `pets=yes`) – **10h**
+- 5.4.2. Nominatim geocoding – **3h**
+- 5.4.3. Cache with **TTL 24 h** (`RN-36`) – **4h**
+- 5.4.4. Flutter map (geolocator with consent, dynamic viewport) – **12h**
+- 5.4.5. API integration – **4h**
+- 5.4.6. Unit tests (viewport bounds, cache hit/miss) – **5h**
+- 5.4.7. E2E (near-me consent decline → text search; marker → open in maps) – **5h**
+- 5.4.8. Security pass (input validation on search/viewport; no secret leakage) – **2h**
+- 5.4.9. Deploy update – **2h**
 
-3.2.9. Database deployment on persistent service (Neon) – 2h
+_Milestone: Delivery 4 online (functional map)_
 
-3.2.10. Flutter application deployment with login and profile interface (still without features) – 2h
+**Done when:** Signed-in users search hotels by viewport; geolocation only after consent; cache TTL respected; visitors cannot use the map (`RN-33`); tests green.
 
-3.2.11. Environment variables and HTTPS (Hypertext Transfer Protocol Secure) configuration – 2h
+### 5.5. Delivery 5 – Free workshops (~30 h)
 
-_Milestone: Delivery 2 available online (functional authentication)_
+_Dependencies: Delivery 2; may run parallel to D3/D4._  
+_Launch inventory: **2 free introductory** videos by breed (`RN-15`, `RN-31`)._
 
-### 3.3. Delivery 3 – Free Calculator
+- 5.5.1. Backend content service (free intros) – **6h**
+- 5.5.2. Flutter workshops area (breed list + free playback) – **8h**
+- 5.5.3. API integration – **4h**
+- 5.5.4. Unit tests (free vs locked listing) – **4h**
+- 5.5.5. E2E (watch free intro; paid item locked) – **4h**
+- 5.5.6. Security pass (authz on media URLs / content API) – **2h**
+- 5.5.7. Deploy update – **2h**
 
-_Dependencies: Delivery 2 (backend and authentication)_
+_Milestone: Delivery 5 online (functional free workshops)_
 
-3.3.1. Content service implementation in backend (breeds and calculator data) – 6h
+**Done when:** Two free intros play for signed-in users; paid workshops visible but locked; tests green.
 
-3.3.2. Calculator implementation (basic version) in Flutter application – 8h
+### 5.6. Delivery 6 – Payments and premium content (~86 h)
 
-3.3.3. Calculator integration with backend API – 4h
+_Dependencies: Deliveries 3, 4, and 5 (matches Scope sequence — map before monetization is a **delivery-order** choice, not a business-rule dependency; payments need calculator/workshop SKUs from D3/D5; D4 is sequenced with them for a complete free surface before premium)._  
+_Sandbox only (`RN-19`…`RN-23`); no store IAP (`RN-20`); no refunds (`RN-17`); catalogues independent (`RN-16`); full bundle price on partial upgrade (`RN-25`)._  
+_Attack surface: payments — **security pass mandatory**._
 
-3.3.4. Calculator unit tests – 3h
+- 5.6.1. Stripe Checkout module (**sandbox only**) – **10h**
+- 5.6.2. Stripe webhooks (idempotent, retriable) + Flutter polling – **6h**
+- 5.6.3. Moloni simulated invoice module (**sandbox**) – **6h**
+- 5.6.4. Stripe sandbox account/config – **2h**
+- 5.6.5. Moloni sandbox account (logo/template) – **2h**
+- 5.6.6. Complete calculator UI (paid SKU, EUR **9.90**) – **6h**
+- 5.6.7. Paid workshops + bundles (individual **4.90**, breed **12.90**, complete present **24.90**, lifetime **49.90**) – **12h**
+- 5.6.8. Conditional access (purchased vs locked; no global premium) – **6h**
+- 5.6.9. Anti-repurchase + partial-bundle upgrade at **full** price (`RN-24`, `RN-25`) – **4h**
+- 5.6.10. Promotional codes / auto campaigns / **0.00 EUR** path (`RN-26`…`RN-28`) – **6h**
+- 5.6.11. Profile + invoice viewing – **4h**
+- 5.6.12. Unit tests (webhook idempotency, entitlements, 0 € without Moloni, discount non-stack) – **8h**
+- 5.6.13. E2E (sandbox purchase → unlock; declined card stays locked; delayed webhook + poll) – **8h**
+- 5.6.14. Security pass (webhook signatures, secret handling, authz on entitlements) – **4h**
+- 5.6.15. Deploy update – **2h**
 
-3.3.5. Calculator flow tests in development environment – 2h
+_Milestone: Delivery 6 online (sandbox monetization path)_
 
-3.3.6. Flutter application update deployment (with functional calculator) – 2h
+**Done when:** Test-card purchase unlocks only bought SKUs; simulated Moloni invoice for amount > 0; failed payment unlocks nothing; same catalogue on Web and native via Stripe (no IAP); unit + e2e + security green.
 
-_Milestone: Delivery 3 available online (functional free calculator)_
+### 5.7. Delivery 7 – Store publishing (~28 h)
 
-### 3.4. Delivery 4 – Map with Overpass API and Geolocation
+_Dependencies: Delivery 6._  
+_`RN-38`. Security: store signing secrets handling — short pass._
 
-_Dependencies: Delivery 2 (backend and authentication) – can be parallel to Delivery 3_
+- 5.7.1. iOS final config (certificates, profiles, build) – **8h**
+- 5.7.2. Android final config (keystore, build) – **4h**
+- 5.7.3. App Store submission – **4h**
+- 5.7.4. Play Store submission – **4h**
+- 5.7.5. Real-device checks after publish – **4h**
+- 5.7.6. Security pass (signing material never in public repo; `RN-39`) – **2h**
+- 5.7.7. Smoke: native app sign-in + open a free feature – **2h**
 
-3.4.1. Overpass API integration module implementation for pet-friendly hotels – 10h
+_Milestone: Delivery 7 available (store path exercised)_
 
-3.4.1a. Nominatim integration implementation for geocoding (converting text location into geographic coordinates) – 3h
+**Done when:** Store builds submitted or submission path documented as complete; secrets out of Git; native auth in-app works; purchases still Stripe sandbox (no IAP).
 
-3.4.2. Cache logic implementation for map results (with TTL – Time To Live of 24 hours) – 4h
+### 5.8. Cross-cutting source code documentation (~11 h)
 
-3.4.3. Map area implementation in Flutter application (geolocation, dynamic viewport, backend and Overpass API integration) – 12h
+_Continuous across deliveries (counted once)._
 
-3.4.4. Map integration with backend API – 4h
+- 5.8.1. Comments / docs in Go – **4h**
+- 5.8.2. Comments / docs in Flutter – **4h**
+- 5.8.3. Technical repository README – **3h**
 
-3.4.5. Map and cache unit tests – 4h
+**Done when:** A new contributor can run local Docker + understand main packages from README and in-code docs.
 
-3.4.6. Hotel search flow tests on map (dynamic viewport and cache) – 3h
+---
 
-3.4.7. Backend and Flutter application update deployment (with functional map) – 2h
+## 6. Testing, validation, and deployment hardening (~55 h)
 
-_Milestone: Delivery 4 available online (functional map with real data)_
+_Builds on per-delivery tests; this phase is cross-cutting validation before calling the usable version “done”._
 
-### 3.5. Delivery 5 – Free Workshops
+6.1. Functional / non-functional sweeps – **16h**
 
-_Dependencies: Delivery 2 (backend and authentication) – can be parallel to Deliveries 3 and 4_
+- 6.1.1. Manual full-flow checks in development – **4h**
+- 6.1.2. Usability / UX pass – **3h**
+- 6.1.3. Performance (map density, DB, cache hit/miss) – **5h**
+- 6.1.4. Cross-platform consistency (Web PWA, iOS, Android) – **4h**
 
-_Launch inventory (annex): **2 free** workshop videos, organised by breed._
+6.2. Final deployment adjustments – **8h**
 
-3.5.1. Content service implementation in backend (introductory / free videos) – 6h
+- 6.2.1. Subdomain layout (site / PWA / API) – **2h**
+- 6.2.2. HTTPS verification – **1h**
+- 6.2.3. Seamless cookie/token verification (site↔Flutter Web) – **2h**
+- 6.2.4. PWA load-time optimization – **3h**
 
-3.5.2. Workshops area implementation in Flutter application (breeds list and free videos) – 8h
+6.3. End-user tests – **6h**
 
-3.5.3. Workshops integration with backend API – 4h
+- 6.3.1. Select 3–5 testers – **1h**
+- 6.3.2. Collect UX feedback – **3h**
+- 6.3.3. Log bugs / suggestions – **2h**
 
-3.5.4. Workshops unit tests – 3h
+6.4. Final adjustments from feedback – **8h**
 
-3.5.5. Free workshops flow tests – 2h
+- 6.4.1. Bug fixes – **4h**
+- 6.4.2. UX polish – **3h**
+- 6.4.3. Redeploy – **1h**
 
-3.5.6. Flutter application update deployment (with free workshops) – 2h
+6.5. Consolidated security tests – **8h**
 
-_Milestone: Delivery 5 available online (functional free workshops)_
+- 6.5.1. Input validation / injection (SQL, XSS) – **3h**
+- 6.5.2. AuthZ / JWT / magic-link rate limiting – **3h**
+- 6.5.3. CORS and security headers – **2h**
 
-### 3.6. Delivery 6 – Payments and Premium Content
+6.6. Monitoring and logging – **6h**
 
-_Dependencies: Deliveries 3, 4, and 5 (base content to become premium)_
+- 6.6.1. Sentry (or similar) for error tracking – **2h**
+- 6.6.2. Centralized Go logging – **2h**
+- 6.6.3. Alerts for critical failures – **2h**
 
-3.6.1. Payments module implementation (Stripe in sandbox) – 10h
+6.7. Rollback / disaster recovery docs – **3h**
 
-3.6.2. Stripe webhooks implementation in backend (with retry logic) and polling in Flutter application to check purchase status – 6h
+- 6.7.1. Backend rollback plan – **1.5h**
+- 6.7.2. Flutter / release rollback plan – **1.5h**
 
-3.6.3. Invoicing module implementation (Moloni in trial/test or sandbox mode for v1) – 6h
+_Milestone: Usable first version online (core deliveries complete)_
 
-3.6.4. Stripe account configuration in sandbox / trial mode as needed – 2h
+**Done when:** Critical flows work on Web and stores path; HTTPS and seamless checks pass; consolidated security sweep done; monitoring in place; rollback notes written.
 
-3.6.5. Moloni account configuration in trial/test mode (with logo and invoice template) – 2h
+---
 
-3.6.6. Calculator implementation (complete premium version) in Flutter application – 6h
+## 7. Conclusions and final report (~30 h)
 
-3.6.7. Paid workshops implementation in Flutter application (**4 paid** at launch, organised by breed; purchase packaging as designed) – 10h
+7.1. Final report consolidation – **12h**
 
-3.6.8. Conditional access logic implementation (purchased vs. locked) – 6h
+- 7.1.1. Executive summary – **2h**
+- 7.1.2. Planned vs executed – **3h**
+- 7.1.3. Challenges and solutions – **4h**
+- 7.1.4. Lessons learned (Docker, Go, Stripe, Moloni, Flutter, PWA, Overpass) – **3h**
 
-3.6.9. Profile area and invoice viewing implementation – 4h
+7.2. Review and formatting – **6h**
 
-3.6.10. Payments and invoices unit tests – 4h
+- 7.2.1. Language / style pass on documentation – **3h**
+- 7.2.2. Final formatting for delivery – **3h**
 
-3.6.11. Purchase flow tests (Stripe webhook and content unlocking) – 4h
+7.3. Public article (e.g. engineering narrative outlet) – **8h**
 
-3.6.12. Invoice issuance flow tests (Moloni) – 3h
+- 7.3.1. Draft on paper-first methodology – **4h**
+- 7.3.2. Screenshots and diagrams – **2h**
+- 7.3.3. Publication – **2h**
 
-3.6.13. Complete purchase flow integration tests (Stripe → Webhook → Moloni → unlocking in Flutter application) – 4h
+7.4. Technical glossary elaboration – **4h**
 
-3.6.14. Access upgrade flow tests (e.g., one paid video → additional paid videos of the same breed) – 3h
+_Milestone: Final report and article published_
 
-3.6.15. Backend and Flutter application update deployment (with premium content and payments) – 2h
+**Done when:** Report and glossary published in the public docs set; article published or publication path completed.
 
-_Milestone: Delivery 6 available online (complete ecosystem with monetization)_
+---
 
-### 3.7. Delivery 7 – Store Publishing
+## 8. Contingency and final adjustments (~85 h)
 
-_Dependencies: Delivery 6 (complete app)_
+8.1. Contingency buffer (~**15%** of ~505 h subtotal) – **76h**
 
-3.7.1. Final Flutter application configuration for iOS (certificates, profiles, build) – 8h
+8.2. Unforeseen final adjustments – **10h**
 
-3.7.2. Final Flutter application configuration for Android (signing key, build) – 4h
+**Done when:** Buffer is tracked; remaining hours released or consumed with a short note in the schedule / report.
 
-3.7.3. Application submission to the App Store (Apple developer account) – 4h
+---
 
-3.7.4. Application submission to the Play Store (Google developer account) – 4h
+## 9. Delivery dependencies
 
-3.7.5. Tests on real devices after publishing – 4h
+| Delivery | Depends on | Parallelism |
+| -------- | ---------- | ----------- |
+| **1** Website | — | Can be first |
+| **2** Auth | — | Parallel to Delivery 1 |
+| **3** Free calculator | **2** | — |
+| **4** Hotels map | **2** | Parallel to **3** |
+| **5** Free workshops | **2** | Parallel to **3** / **4** |
+| **6** Payments + premium | **3** + **4** + **5** | — |
+| **7** Stores | **6** | — |
 
-_Milestone: Delivery 7 available (application published on stores)_
+```text
+D1 (site) ──┐
+            ├── (parallel OK)
+D2 (auth) ──┼──► D3 (free calculator) ──┐
+            ├──► D4 (map) ─────────────┼──► D6 (sandbox pay + premium) ──► D7 (stores)
+            └──► D5 (free workshops) ──┘
+```
 
-### 3.8. Cross-Cutting Source Code Documentation
+---
 
-_Continuous activity throughout all deliveries_
+## 10. Conclusion
 
-3.8.1. Comments and docstrings in Go – 4h
+This WBS estimates about **591 hours** solo (including contingency) for planning, design, Deliveries **1–7**, validation, and closure. Implementation deliveries freeze **sandbox** commerce, passwordless auth, and the launch workshop inventory from the business rules. Per-delivery **unit + e2e** (Playwright / Go `testing` / `flutter_test`) and **security passes** on attack surfaces are part of Done when.
 
-3.8.2. Comments and docstrings in Flutter – 4h
-
-3.8.3. Technical repository README – 3h
-
-## 4. Testing, Validation, and Deployment
-
-4.1. Functional tests – 16h
-
-4.1.1. Manual tests of complete flows in development environment – 4h
-
-4.1.2. Usability and user experience tests – 3h
-
-4.1.3. Performance and response time tests (map with many hotels, database queries, cache hit/miss) – 5h
-
-4.1.4. Flutter cross-platform compatibility tests (consistency verification between Web PWA, iOS, and Android) – 4h
-
-4.2. Final deployment and adjustments – 8h
-
-4.2.1. Subdomain configuration for website and application – 2h
-
-4.2.2. HTTPS verification on all services – 1h
-
-4.2.3. Cookie/token sharing verification for seamless transition – 2h
-
-4.2.4. PWA optimization for loading times – 3h
-
-4.3. End-user tests – 6h
-
-4.3.1. Testers group selection (3 to 5 users) – 1h
-
-4.3.2. User experience feedback collection – 3h
-
-4.3.3. Bugs and improvement suggestions registration – 2h
-
-4.4. Final adjustments based on feedback – 8h
-
-4.4.1. Reported bugs correction – 4h
-
-4.4.2. Usability and interface improvements – 3h
-
-4.4.3. Final deployment with adjustments – 1h
-
-4.5. Security tests – 8h
-
-4.5.1. Input validation and injection protection (SQL, XSS) – 3h
-
-4.5.2. Authentication and authorization tests (JWT, rate limiting for magic links) – 3h
-
-4.5.3. CORS and security headers configuration – 2h
-
-4.6. Production Monitoring and Logging Configuration – 6h
-
-4.6.1. Sentry or similar integration for error tracking – 2h
-
-4.6.2. Centralized logging configuration in backend (Go) – 2h
-
-4.6.3. Alerts configuration for critical failures – 2h
-
-4.7. Rollback and Disaster Recovery Procedure – 3h
-
-4.7.1. Rollback plan documentation for backend – 1.5h
-
-4.7.2. Rollback plan documentation for Flutter – 1.5h
-
-_Milestone: Beta Launch (available online – all deliveries complete)_
-
-## 5. Conclusions and Final Report
-
-5.1. Final report consolidation – 12h
-
-5.1.1. Executive project summary – 2h
-
-5.1.2. Comparison between planned and executed – 3h
-
-5.1.3. Technical challenges encountered and solutions adopted – 4h
-
-5.1.4. Lessons learned on each technology (Docker, Go, Stripe, Moloni, Flutter multiplatform, PWA, Overpass API) – 3h
-
-5.2. Final review and formatting – 6h
-
-5.2.1. Orthographic and style review of all documentation – 3h
-
-5.2.2. Final document formatting for delivery – 3h
-
-5.3. Public article about the project approach – 8h
-
-5.3.1. Article writing about the paper-first methodology – 4h
-
-5.3.2. Screenshots and diagrams inclusion – 2h
-
-5.3.3. Article publication – 2h
-
-5.4. Technical glossary elaboration – 4h
-
-_Milestone: Final report delivery and article publication_
-
-## 6. Contingency and Final Adjustments
-
-6.1. Contingency buffer (15% of total estimated) – 60h
-
-6.2. Unforeseen final adjustments – 10h
-
-## Delivery Dependencies Legend
-
-- **Delivery 1** – No dependencies (can be first)
-- **Delivery 2** – No external dependencies (can be parallel to Delivery 1)
-- **Delivery 3** – Depends on Delivery 2 (backend and authentication)
-- **Delivery 4** – Depends on Delivery 2 (backend and authentication) – can be parallel to Delivery 3
-- **Delivery 5** – Depends on Delivery 2 (backend and authentication) – can be parallel to Deliveries 3 and 4
-- **Delivery 6** – Depends on Deliveries 3, 4, and 5 (base content to become premium)
-- **Delivery 7** – Depends on Delivery 6 (complete application)
+**Next:** the schedule document maps these packages onto calendar weeks within the two-to-three-month usable-product horizon, preferring quality over a harmful rigid date.

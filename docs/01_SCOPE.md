@@ -142,7 +142,7 @@ No expensive custom domain is required at the start. Free subdomains from the ho
 
 ### 6.3. Delivery Sequence
 
-Deployment is incremental so each slice can be validated early. Effort detail and week-by-week planning live in the work breakdown and schedule. This Scope only names the intended order of deliveries.
+Deployment is incremental so each slice can be validated early. Effort detail (proposal estimate on the order of **~591 hours** including contingency), *Done when* criteria, and week-by-week planning live in the [work breakdown](04_WBS.md) and schedule. This Scope only names the intended order of deliveries.
 
 - **Delivery 1** — Institutional website (_landing page_ and _blog_)
 - **Delivery 2** — Base _backend_ with authentication and a members’ shell

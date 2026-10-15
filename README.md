@@ -62,13 +62,13 @@ Start with the interview pack, then the proposal documents. Full map: [`docs/REA
 - [UML diagrams](./docs/11_UML_DIAGRAMS.md)
 - [Glossary](./docs/GLOSSARY.md)
 
-Interview pack through Business rules are aligned; Work breakdown, Schedule, and the [proposal report](./docs/reports/R1_PROPOSAL.md) are on disk and still under review — see [`docs/README.md`](./docs/README.md). Design docs (`06`–`11`) may still need later review.
+Interview pack through Work breakdown are aligned; Schedule and the [proposal report](./docs/reports/R1_PROPOSAL.md) are on disk and still under review — see [`docs/README.md`](./docs/README.md). Design docs (`06`–`11`) may still need later review.
 
 ## Project status
 
 | Area | Status |
 | ---- | ------ |
-| Public documentation (proposal track) | Interview through Business rules aligned; `04`–`05` and proposal report pending review |
+| Public documentation (proposal track) | Interview through Work breakdown aligned; `05` and proposal report pending review |
 | Institutional website | Live (landing + blog) |
 | Backend / members’ area | Planned / in progress |
 | Payments, invoicing, store publishing | Planned for the first version |
