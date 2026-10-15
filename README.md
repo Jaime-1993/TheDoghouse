@@ -20,7 +20,7 @@ The first version combines:
 - **Members’ area** — one shared product on phone, computer browser, and installable web app (add to home screen), also aimed at the app stores
 - **Three functional areas** — ideal weight calculator (free and paid full version), workshops (**2 free** and **4 paid** at launch, organised by breed), and a map/list of pet-friendly hotels
 
-Signed-in members (free or paying) can move from the site to the members’ area without signing in again. Visitors who are not signed in still need to sign in. Selling workshops and premium content is in scope; receipt/invoice is in for v1 (trial/test mode first if safer). No in-product admin panel in the first version — content is placed directly into the product.
+Signed-in members (free or paying) can move from the site to the members’ area without signing in again. Visitors who are not signed in still need to sign in. Selling workshops and premium content is in scope; receipt/invoice is in for v1 via Stripe and Moloni **sandbox** only (no real-money charges in the first version). No in-product admin panel in the first version — content is placed directly into the product.
 
 ## Tech stack
 
@@ -32,8 +32,8 @@ Signed-in members (free or paying) can move from the site to the members’ area
 | Database | PostgreSQL (Neon) |
 | Containerization | Docker |
 | Authentication | Magic links + social login (Google/Facebook) |
-| Payments | Stripe (sandbox / trial as needed) |
-| Invoicing | Moloni (trial/test mode for v1) |
+| Payments | Stripe (sandbox only in v1) |
+| Invoicing | Moloni (sandbox only in v1) |
 | Maps | Overpass API + Nominatim |
 
 ## Key features
@@ -62,20 +62,20 @@ Start with the interview pack, then the proposal documents. Full map: [`docs/REA
 - [UML diagrams](./docs/11_UML_DIAGRAMS.md)
 - [Glossary](./docs/GLOSSARY.md)
 
-Interview pack through Work breakdown are aligned; Schedule and the [proposal report](./docs/reports/R1_PROPOSAL.md) are on disk and still under review — see [`docs/README.md`](./docs/README.md). Design docs (`06`–`11`) may still need later review.
+Interview pack through Schedule are aligned; the [proposal report](./docs/reports/R1_PROPOSAL.md) is on disk and still under review — see [`docs/README.md`](./docs/README.md). Design docs (`06`–`11`) may still need later review.
 
 ## Project status
 
 | Area | Status |
 | ---- | ------ |
-| Public documentation (proposal track) | Interview through Work breakdown aligned; `05` and proposal report pending review |
+| Public documentation (proposal track) | Interview through Schedule aligned; proposal report pending review |
 | Institutional website | Live (landing + blog) |
 | Backend / members’ area | Planned / in progress |
 | Payments, invoicing, store publishing | Planned for the first version |
 
 **Live website:** https://the-doghouse-iota.vercel.app/
 
-Target horizon for a usable first version: on the order of **two to three months** of work, preferring quality over a rigid date that hurts the product (see the interview annex).
+Target horizon for a usable first version: on the order of **two to three months** of focused work under parallelism and/or a stronger weekly pace (see the interview annex and [Schedule](./docs/05_GANTT.md)). A conservative sequential calendar is longer; prefer quality over a rigid date that hurts the product.
 
 ## Getting started
 

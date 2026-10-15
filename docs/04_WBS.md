@@ -409,4 +409,4 @@ D2 (auth) ──┼──► D3 (free calculator) ──┐
 
 This WBS estimates about **591 hours** solo (including contingency) for planning, design, Deliveries **1–7**, validation, and closure. Implementation deliveries freeze **sandbox** commerce, passwordless auth, and the launch workshop inventory from the business rules. Per-delivery **unit + e2e** (Playwright / Go `testing` / `flutter_test`) and **security passes** on attack surfaces are part of Done when.
 
-**Next:** the schedule document maps these packages onto calendar weeks within the two-to-three-month usable-product horizon, preferring quality over a harmful rigid date.
+**Next:** the [schedule](05_GANTT.md) maps these packages onto calendar weeks. The annex/Scope **two-to-three-month** usable-product horizon remains the target under parallelism and/or a faster pace; the schedule’s sequential base map is the conservative calendar. Prefer quality over a harmful rigid date.

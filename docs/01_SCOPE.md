@@ -30,7 +30,7 @@ The _MVP_ objectives follow the _SMART_ methodology.
 
 **Relevant** — The _MVP_ is a real product for dog owners and at the same time a technical and methodological foundation that can be reused for private real projects such as Doses Pediátricas and for public engineering narrative on The Pharmacist, but tech.
 
-**Time-bound** — The target horizon for a usable first version and its supporting documentation is about two to three months of work. Detailed weeks belong in the schedule documents, not as the heart of this Scope.
+**Time-bound** — The target horizon for a **usable first version** (core Deliveries 1–7) is about **two to three months** of focused work, under parallelism and/or a stronger weekly pace as explained in the [schedule](05_GANTT.md). Supporting closure documentation (final report, glossary, public write-up) follows that usable checkpoint. A conservative sequential calendar at a steady solo pace is longer; detailed weeks live in the schedule, not as the heart of this Scope.
 
 ## 4. Proposed Solution
 
