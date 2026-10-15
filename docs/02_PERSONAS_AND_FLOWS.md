@@ -43,7 +43,7 @@ The free user has completed registration and authentication via **magic link** a
 **Human context:** the owner who paid for the complete calculator for richer guidance, or for a specific workshop video or _bundle_, and expects lifetime access to those items plus a clear view of what they still do not own.
 
 - **Goals:** use purchased content; keep lifetime access to those items; buy more later; view receipts/invoices for purchases.
-- **Needs:** a transparent portfolio (“I have this / I do not have that”); reliable unlock after payment; consultable invoicing even in trial/sandbox mode.
+- **Needs:** a transparent portfolio (“I have this / I do not have that”); reliable unlock after payment; consultable invoicing even in _Moloni_ sandbox (simulated documents).
 - **Access rules (critical):**
   - Buying the **complete calculator** does **not** unlock paid workshops.
   - Buying a **workshop video** or **bundle** does **not** unlock the complete calculator or unrelated workshops.
@@ -89,7 +89,7 @@ Paid content (complete calculator, paid workshops and bundles) remains visible b
 
 #### 3.4a. Purchase initiation
 
-The free (or already paying) user tries locked content — complete calculator, a paid workshop video, or a workshop _bundle_. The system shows that the item is premium, the price, and **Buy**. On confirm, the backend creates a _Stripe_ Checkout session (sandbox or trial as configured for the first version) and redirects the user to Stripe. The user pays with test or live cards according to the environment and confirms.
+The free (or already paying) user tries locked content — complete calculator, a paid workshop video, or a workshop _bundle_. The system shows that the item is premium, the catalogue price (EUR amounts frozen in the business rules), and **Buy**. On confirm, the backend creates a _Stripe_ Checkout session in **sandbox** only (no real-money charges in the first version) and redirects the user to Stripe. The user pays with **test cards** and confirms.
 
 Purchase options for workshops include:
 
@@ -181,15 +181,15 @@ The **premium user** keeps everything a free user can do, plus lifetime access t
 The following rules condition the flows above. Normative detail lives in [03_BUSINESS_RULES.md](03_BUSINESS_RULES.md); this section is the bridge for readers of personas and flows.
 
 1. Authentication is **magic link** and/or social login (**Google** and/or **Facebook**) only — no email-and-password in the first version.
-2. Purchases are **individual** (or explicit _bundles_); access is **lifetime**; no monthly subscription in v1.
+2. Purchases are **individual** (or explicit _bundles_); access is **lifetime**; no monthly subscription in v1; **no refunds**.
 3. Access is **conditional per content** — no global premium status.
 4. Free content for signed-in members: basic calculator, two free intros at launch, hotels map.
 5. Magic link: **15 minutes**, single use.
 6. Overpass-backed hotel data may be cached with **TTL 24 hours**.
 7. Geolocation only after consent; text search remains available if declined.
-8. Moloni invoices in v1 run in **sandbox** as **simulated** documents (no legal/tax effect until a later production step).
+8. _Stripe_ checkouts in v1 are **sandbox only** (no real-money charges). Moloni invoices run in **sandbox** as **simulated** documents (no legal/tax effect until a later production step).
 9. Map queries respect the current **viewport**.
-10. Seamless session sharing is **signed-in site ↔ Flutter Web**; native store apps authenticate inside the app.
+10. Seamless session sharing is **signed-in site ↔ Flutter Web**; native store apps authenticate inside the app (same Stripe catalogue; no store IAP in v1).
 11. Breed-bundle upgrade after owning an individual video charges the **full bundle price** and grants the broader entitlement without duplicating access records needlessly.
 
 ## 6. Conclusion

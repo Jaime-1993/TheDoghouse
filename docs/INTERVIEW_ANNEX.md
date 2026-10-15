@@ -19,8 +19,8 @@
 | **E** | Some people only visit, some sign up for free, and some pay for extra content. No in-product admin panel in the first version — content is placed directly into the product (files or database), not through owner-facing edit screens. |
 | **F** | In the first version: site + articles; members’ area on phone, computer browser, and **installable web app** (add to home screen); **one shared product** (same codebase and same experience everywhere); calculator (free and full paid version); workshops (**2 free** and **4 paid** at launch), **organised by breed**, with purchase of individual paid videos and **bundles** (by breed, complete present set of then-existing videos, and lifetime access to present and future workshop videos); map / list of pet-friendly hotels to attract people; simple sign-in; **signed-in members** (free or paying) move from the site to the members’ area without signing in again; ability to **sell**; **receipt/invoice is in for v1** (start in trial/test mode if safer; going fully live later is a separate step); app available in the app stores. |
 | **G** | In the first version I do **not** want: comments on articles; social features inside the product (likes, followers, profiles); live support chat; languages other than English. |
-| **H** | Start with low costs. No expensive custom domain at the start. Receipt/invoice in v1 may run in trial/test mode first (see **F**); the business goal is still to **make money** from workshops and paid content. |
-| **I** | **Sell** workshops and premium content. Buyers keep access to what they paid for (no monthly subscription in the first version). |
+| **H** | Start with low costs. No expensive custom domain at the start. Receipt/invoice in v1 may run in trial/test mode first (see **F**); the business goal is still to **make money** from workshops and paid content. **Note:** “make money” is the product goal; the first technical MVP freezes **Stripe sandbox** (no real charges) and **simulated Moloni** invoices — live money comes after that freeze (see Open points and the [business rules](03_BUSINESS_RULES.md)). |
+| **I** | **Sell** workshops and premium content. Buyers keep access to what they paid for (no monthly subscription in the first version). Same timing note as **H**: demonstrate the sell path in sandbox in v1; charge for real in a later step. |
 | **J** | The project repository is **public** (code and documentation). Secrets, passwords, keys, and people’s private data stay **out** of that public place. |
 | **K** | I answer contacts when I can. In the first version I do not need advanced visit statistics. (Content: see **E**.) |
 
@@ -127,7 +127,7 @@
 
 **15. How I make money**  
 **Question:** Revenue in the first version? What do you sell? One-time purchase or subscription?  
-**Answer:** I want to **make money** selling workshops and premium content. Buyers keep access to what they paid for. I do **not** want a monthly subscription in the first version. Payments may start in test mode for safety; the goal is still to sell for real. Receipt/invoice is in for v1 (see **F**).
+**Answer:** I want to **make money** selling workshops and premium content. Buyers keep access to what they paid for. I do **not** want a monthly subscription in the first version. Payments may start in test mode for safety; the goal is still to sell for real. Receipt/invoice is in for v1 (see **F**). *(Developer freeze for the first MVP: sandbox-only Stripe and simulated Moloni — see **H**/**I** notes and the [business rules](03_BUSINESS_RULES.md). Live charges are a later step, not a change of product intent.)*
 
 **16. Where people find me**  
 **Question:** External channels? Ideal next step? Marketing emails?  
@@ -164,10 +164,10 @@
 
 These stay open for design and implementation (unless noted):
 
-- Workshop / package **prices** (exact amounts) — still to set.  
-- Exact **sign-in method** mix (email and/or Google / Facebook) — choose the safest simple option in design.  
-- Legal / proper **source of hotel data** — choose in design (no illegal copying).  
-- When to move payments and invoices from **trial/test to fully live** — propose what is safe; v1 already includes receipt/invoice in trial/test if needed.  
+- Workshop / package **prices** — **resolved** for v1 in the [business rules](03_BUSINESS_RULES.md) (EUR catalogue; developer freeze).  
+- Exact **sign-in method** mix (magic link and/or Google and/or Facebook) — both social providers remain in scope; exact enabled mix may still be configured in implementation.  
+- Legal / proper **source of hotel data** — Overpass with pet-friendly tags is the chosen approach in Scope / Personas / business rules (no illegal copying).  
+- When to move payments and invoices from **sandbox / simulated** to fully live — **still open** as a later step. Product intent stays “sell for real / make money” (**H**, **I**, Q15); the first MVP freezes **Stripe sandbox** (no real-money charges) and **Moloni sandbox** simulated invoices in the business rules.  
 - Whether the **2–3 month** horizon becomes firm milestones — set as work proceeds.  
 - Turning “success” stories (Q7) into **measurable** checks — the Scope already states flow-level measurable criteria; refine further in design if needed.
 

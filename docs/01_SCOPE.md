@@ -24,7 +24,7 @@ The _MVP_ objectives follow the _SMART_ methodology.
 
 **Specific** — Build a working platform with an institutional website (_landing page_ and _blog_) and a _Flutter_ multiplatform members’ area with three domains (ideal weight calculator, workshops, maps), plus passwordless and social authentication, payments, and invoicing. The members’ area ships to _Web_ (as a _PWA_), _iOS_, and _Android_ from one codebase.
 
-**Measurable** — The _MVP_ is complete when a dog owner can register and sign in via _magic link_ or social login, move from the static site to the members’ area without signing in again when already authenticated, use free content, buy premium content via _Stripe_ (sandbox or trial as needed), receive a receipt or invoice via _Moloni_ (trial or sandbox for the first version), and find pet-friendly hotels through the _Overpass API_ on an interactive map. Those flows must work on _Web_, _iOS_, and _Android_.
+**Measurable** — The _MVP_ is complete when a dog owner can register and sign in via _magic link_ or social login, move from the static site to the members’ area without signing in again when already authenticated, use free content, buy premium content via _Stripe_ **sandbox** (no real-money charges in the first version), receive a simulated receipt or invoice via _Moloni_ **sandbox**, and find pet-friendly hotels through the _Overpass API_ on an interactive map. Those flows must work on _Web_, _iOS_, and _Android_.
 
 **Achievable** — With the chosen stack, a horizon on the order of two to three months of focused work, and free or low-cost persistent services, the _MVP_ is feasible. Quality takes priority over a date that would damage the product.
 
@@ -56,7 +56,7 @@ On the _Web_ the members’ area is configured as a _PWA_ (_service worker_ and 
 
 ### 4.3. _Backend_ in _Go_ with _REST API_
 
-A _REST_ _API_ in _Go_ covers user registration and authentication (_magic link_ and social login), content for breeds, workshops, and calculator data, _Stripe_ for payments (sandbox or trial as needed), _Moloni_ for receipts or invoices (trial or sandbox in the first version), _Overpass_ queries for hotels, and transactional email for _magic links_. There is no in-product administration panel in the first version. Content is placed directly through files or the database.
+A _REST_ _API_ in _Go_ covers user registration and authentication (_magic link_ and social login), content for breeds, workshops, and calculator data, _Stripe_ for payments in **sandbox** only in the first version, _Moloni_ for **simulated** receipts or invoices in **sandbox**, _Overpass_ queries for hotels, and transactional email for _magic links_. There is no in-product administration panel in the first version. Content is placed directly through files or the database.
 
 ## 5. Functional Scope
 
@@ -98,7 +98,7 @@ A _REST_ _API_ in _Go_ covers user registration and authentication (_magic link_
 **Payments and invoicing**
 
 - Checkout via _Stripe_ for premium content
-- Receipt or invoice via _Moloni_ in the first version, starting in trial or sandbox if safer
+- Receipt or invoice via _Moloni_ **sandbox** (simulated documents; no legal/tax effect in the first version)
 
 **Deployment**
 
@@ -128,15 +128,15 @@ A _REST_ _API_ in _Go_ covers user registration and authentication (_magic link_
 - **Database:** _PostgreSQL_
 - **Containerization:** _Docker_ (learning from scratch)
 - **Authentication:** _Magic links_ and social login (_Google_/_Facebook_) (learning from scratch). Email-and-password is out of scope
-- **Payments:** _Stripe_ in sandbox or trial as needed (learning from scratch)
-- **Invoicing:** _Moloni_ in trial or sandbox for the first version (learning from scratch)
+- **Payments:** _Stripe_ **sandbox** only in the first version — no real-money charges (learning from scratch)
+- **Invoicing:** _Moloni_ **sandbox**, simulated documents for the first version (learning from scratch)
 - **Maps:** Multiplatform map in _Flutter_, device geolocation, hotels via _Overpass API_, text geocoding (learning from scratch; package choices in design)
 
 ### 6.2. External Services and Deployment
 
 Deployment prefers free or cheap plans that hold up for an _MVP_.
 
-The public repository is on _GitHub_. Secrets and private personal data stay out of it. _Docker_ keeps development and production consistent. The database is expected on a persistent free-tier _PostgreSQL_ host such as _Neon_. The _Go_ _API_ runs on a container-friendly host such as _Render_, _Fly.io_, or _Railway_, accepting that some free tiers show _cold starts_. The static site and the _Flutter_ _Web_ _PWA_ sit on _Vercel_ or _Netlify_. Store builds use Apple and Google developer accounts. Transactional email for _magic links_ may use _SendGrid_, _Mailgun_, or _Resend_ on free tiers. _Stripe_ and _Moloni_ run in sandbox or trial for the first version. Simulated or trial invoices demonstrate the flow without pretending to be fully live tax documents until a later step.
+The public repository is on _GitHub_. Secrets and private personal data stay out of it. _Docker_ keeps development and production consistent. The database is expected on a persistent free-tier _PostgreSQL_ host such as _Neon_. The _Go_ _API_ runs on a container-friendly host such as _Render_, _Fly.io_, or _Railway_, accepting that some free tiers show _cold starts_. The static site and the _Flutter_ _Web_ _PWA_ sit on _Vercel_ or _Netlify_. Store builds use Apple and Google developer accounts. Transactional email for _magic links_ may use _SendGrid_, _Mailgun_, or _Resend_ on free tiers. _Stripe_ and _Moloni_ run in **sandbox** for the first version (no real-money charges; simulated invoices only). Fully live payments and tax documents are a later step, outside this _MVP_ freeze — see the business rules.
 
 No expensive custom domain is required at the start. Free subdomains from the hosts are acceptable, for example separate hosts for the institutional site, the members’ _PWA_, and the _API_, so that session cookies or tokens can be shared carefully for seamless navigation of signed-in members.
 
@@ -149,7 +149,7 @@ Deployment is incremental so each slice can be validated early. Effort detail an
 - **Delivery 3** — Free calculator
 - **Delivery 4** — Map with _Overpass API_ and geolocation
 - **Delivery 5** — Free workshops
-- **Delivery 6** — Payments, premium content (including _bundles_), and invoicing in trial or sandbox
+- **Delivery 6** — Payments, premium content (including _bundles_), and invoicing in _Stripe_/_Moloni_ **sandbox**
 - **Delivery 7** — Store publishing path
 
 Each delivery is tested in development and again after deployment. Supporting practices include _Docker_ consistency, _HTTPS_ on public endpoints, environment variables for secrets, a database decoupled from the _API_ container, and independent updates of site, _API_, and members’ area where possible.
@@ -160,7 +160,7 @@ These decisions are part of the learning and delivery goals of the project.
 
 - Hotel data comes from the _Overpass API_ (_OpenStreetMap_) with pet-friendly tags, not from scraping commercial hotel sites. Text search uses a proper geocoding service chosen in design.
 - Hosting splits site and _PWA_ on static hosts, _Go_ on container hosts, and _PostgreSQL_ on a persistent free-tier service.
-- _Moloni_ in the first version stays in trial or sandbox, with a possible later move to production invoicing.
+- _Moloni_ in the first version stays in **sandbox** (simulated documents), with a possible later move to production invoicing.
 - Authentication for the first version is _magic link_ and social login only. Traditional email-and-password is forbidden.
 - Secrets and integration settings (payments, invoicing, database, email, OAuth, Overpass) live in environment variables, never in the public repository.
 
@@ -171,8 +171,8 @@ This project is deliberately built so that the following are practised in a real
 - _Docker_ for development and production consistency
 - _Go_ for the _REST API_ and external integrations
 - _Magic links_ and social _OAuth_ login
-- _Stripe_ in sandbox or trial, including _webhooks_ and purchase state
-- _Moloni_ in trial or sandbox for the receipt or invoice path
+- _Stripe_ **sandbox**, including _webhooks_ and purchase state (no real-money charges in v1)
+- _Moloni_ **sandbox** for the simulated receipt or invoice path
 - _Overpass API_ for geospatial hotel data
 - _PWA_ installation (_service workers_, _manifest.json_)
 - _Flutter_ multiplatform structure, builds, and store submission
@@ -185,6 +185,6 @@ Store publishing requires signing material (_iOS_ certificates, _Android_ keysto
 
 The _The Doghouse_ _MVP_ is an ambitious but bounded project. It must work as a product dog owners can use and buy from, and remain an honest learning vehicle and a reusable skeleton for private real work such as Doses Pediátricas and for public engineering narrative on The Pharmacist, but tech. This Scope is the base contract for later specification, design, implementation, and validation.
 
-Shipping one _Flutter_ codebase to _Web_, _iOS_, and _Android_ is a central differentiator. Free and persistent services, trial modes where safer, and a public repository without secrets are conscious trade-offs for a first version that can still sell and still teach.
+Shipping one _Flutter_ codebase to _Web_, _iOS_, and _Android_ is a central differentiator. Free and persistent services, **sandbox** commerce (demonstrate selling without real charges), and a public repository without secrets are conscious trade-offs for a first version that still teaches the full sell-and-invoice path.
 
 Meeting this scope means a usable multiplatform product within about two to three months of focused work, practical exposure to the target technologies, and a skeleton robust enough to reuse beyond this public dog-care domain.
