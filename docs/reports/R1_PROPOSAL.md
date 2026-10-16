@@ -1,15 +1,6 @@
 # Proposal Report – The Doghouse
 
-| Field | Value |
-| ----- | ----- |
-| **Document** | Proposal report – first version (*MVP*) |
-| **Project** | The Doghouse |
-| **Date** | 2026-10-14 |
-| **Version** | 1.0 |
-| **Author** | Jaime Mendonça |
-| **Audience** | Public repository visitors — engineers and recruiters |
-
-This report is a **self-contained** proposal snapshot. You should understand what I am building, why, what is in and out, how much effort I estimate, and how I map that effort onto calendar weeks — without opening other files. There is no external paying client and no commercial acceptance block.
+This report is a **self-contained** proposal snapshot. You should understand what I am building, why, what is in and out, how much effort I estimate, and how I map that effort onto calendar weeks — without opening other files. There is no external paying client and no commercial acceptance block. Identity, version, and publication status are in the **Document status** table at the end.
 
 ---
 
@@ -31,7 +22,7 @@ I want a usable multiplatform product that a dog owner can actually walk through
 
 Success, for this proposal, means those flows work end to end in sandbox. Failure would be a pretty shell nobody can use, a sell path that does not unlock what was “bought”, a map or workshops that help no one, or other brands leaking into the Doghouse UI.
 
-The simulated owner asked for something usable on the order of **two to three months** of focused work, preferring quality over a rigid date that hurts the product. I keep that as the product-horizon target under parallelism and/or a stronger weekly pace. The conservative sequential calendar later in this report is longer; both readings are intentional.
+**Calendar rule (same as Scope and schedule):** work is **solo**. **Usable first version** = Deliveries **1–7** Done when (~**420 hours**); cross-cutting validation comes **after**. Solo hours add: **420 ÷ 28 ≈ 15 weeks** (~**three and a half months** from S01); **420 ÷ 21 = 20 weeks** (~**four to five months**). Overlapping delivery bars do **not** cancel solo hours. **Two months** is not a published target. Prefer quality over a harmful rigid date; freelance and private client weeks can stretch wall-clock further.
 
 ---
 
@@ -44,7 +35,7 @@ The simulated product owner decided, among other things:
 - **No other brands** in the site or app experience.
 - Audience: **dog owners**; not clinic, shelter, or breeder operations software.
 - Access: visitor → free member → member who paid for something. **No** in-product admin panel in the first version; content is placed directly.
-- In scope: site and articles; shared members’ area on phone, browser, and installable web; calculator (free and paid full); workshops (**2 free** + **4 paid** at launch, by breed, with individual videos and bundles); pet-friendly hotels map/list; simple sign-in; seamless site ↔ members’ area for **signed-in** members; ability to sell; receipt/invoice in the first version; app-store path.
+- In scope: site and articles; shared members’ area on phone, browser, and installable web; calculator (free and paid full); workshops (**2 free** + **4 paid** at launch, by breed, with individual videos and breed / complete-present bundles — no future-video SKU); pet-friendly hotels map/list; simple sign-in; seamless **site ↔ Flutter Web** for **signed-in** members (native apps sign in inside the app); ability to sell; receipt/invoice in the first version; store **publication path** (Play download; App Store best effort).
 - Out of scope for the first version: article comments; in-product social network; live chat; languages other than English; expensive custom domain required at the start.
 - Money brief (owner voice): sell workshops and premium content; lifetime access per purchase; **no monthly subscription**; start low cost; they still speak of making money. Developer stance for this public repo: demonstrate that path in **sandbox**; live banking and fiscal invoicing are for reusers who configure their own environment, not an operating promise of this public simulation.
 - Repository: **public** code and documentation; secrets and private personal data stay out.
@@ -60,15 +51,15 @@ Tone: friendly and clear, like someone who likes animals. User-facing language: 
 
 **Institutional website** — landing page and static blog articles (HTML/CSS/JS, SEO-friendly), with a clear path into the members’ area.
 
-**Members’ area** — one Flutter product for Web (PWA), iOS, and Android: free and complete calculator; workshop library (**2 free** + **4 paid** at launch, by breed, with individual paid videos and bundles — breed, complete present, lifetime); hotels map/list from Overpass with consent-based geolocation and text search.
+**Members’ area** — one Flutter product for Web (PWA), iOS, and Android: free and complete calculator; workshop library (**2 free** + **4 paid** at launch, by breed, with individual paid videos and breed / complete-present bundles — **no** SKU for unpublished future videos); hotels map/list from Overpass with consent-based geolocation and text search.
 
 **Backend** — Go REST API for accounts, content access, sandbox payments, sandbox invoicing, hotel queries, and transactional email for magic links.
 
 **Authentication** — magic link and/or Google and/or Facebook. Traditional email-and-password is out. Signed-in members move from the static site to Flutter Web without signing in again; visitors still must sign in. Native apps authenticate inside the app.
 
-**Commerce (sandbox)** — Stripe sandbox checkout for premium SKUs; Moloni sandbox for simulated receipts/invoices (no legal/tax effect in this public project). No Apple/Google in-app purchase storefront for these SKUs in v1. Buyers keep lifetime access to what they purchased. Catalogue currency is **EUR** (numbers in §6).
+**Commerce (sandbox)** — Stripe sandbox checkout for premium SKUs; Moloni sandbox for simulated receipts/invoices (no legal/tax effect in this public project). Optional promotional **codes** and automatic **campaigns** (do not stack; higher percentage wins). Partial bundle upgrade at the **full catalogue price**; only missing entitlements are granted. Checkout at **0.00 EUR** grants access without Stripe or Moloni. No Apple/Google in-app purchase storefront for these SKUs in v1. Buyers keep lifetime access to what they purchased. Catalogue currency is **EUR** (numbers in §6).
 
-**Stores** — exercise the publishing path to the main app stores as far as viable.
+**Stores** — exercise the **publication path** (Play as download channel; App Store submission best effort). Store approval does not block the rest of this proposal.
 
 **Engineering practices** — Docker for consistency; public GitHub without secrets; unit and end-to-end tests on critical flows; a security pass when a delivery creates or changes an attack surface.
 
@@ -82,11 +73,11 @@ Tone: friendly and clear, like someone who likes animals. User-facing language: 
 6. Payments, premium content, sandbox invoicing  
 7. Store publishing path  
 
-After authentication is in place, calculator, map, and free workshops may run in parallel. Payments depend on the free surface being ready. Planning, design, validation, and a final report sit around those deliveries in the effort table.
+After authentication is in place, calculator, map, and free workshops may share calendar focus, but solo hours still add. Payments depend on the free surface being ready. Planning and design sit before Deliveries 1–7; **validation (~55 h) sits after usable v1**; report and contingency close the full package.
 
 ### 4.3. Exclusions
 
-Not in this proposal commitment: in-product admin UI; email-and-password auth; blog comments; in-product social features; live support chat; languages other than English in the product; expensive custom domain required at start; advanced analytics as a v1 requirement; clinic/shelter/breeder operations tooling; other brands in the shipping UI; monthly subscriptions; real-money Stripe charges or fiscal Moloni invoices **as operated by this public project** (reusers may enable live mode with their own secrets); infinite editorial production beyond the launch workshop inventory; detailed design lock of every API field and database table (that depth belongs in later design work, already budgeted as a package of hours below).
+Not in this proposal commitment: in-product admin UI; email-and-password auth; blog comments; in-product social features; live support chat; languages other than English in the product; expensive custom domain required at start; advanced analytics as a v1 requirement; clinic/shelter/breeder operations tooling; other brands in the shipping UI; monthly subscriptions; real-money Stripe charges or fiscal Moloni invoices **as operated by this public project** (reusers may enable live mode with their own secrets); editorial production beyond the launch workshop inventory (**2 free** + **4 paid**), including any “future video” catalogue promise; guaranteed App Store approval; detailed design lock of every API field and database table (that depth belongs in later design work, already budgeted as a package of hours below).
 
 ---
 
@@ -114,9 +105,9 @@ Access: visitor / free / paid-per-purchase. No admin panel in v1.
 
 Auth: magic link (fifteen minutes, single use) and/or Google/Facebook; JWT session about seven days; seamless site ↔ Flutter Web for signed-in members only.
 
-Commerce model: sell complete calculator, individual paid workshops, and workshop bundles; lifetime access; no monthly subscription in v1; no refunds for these purchases.
+Commerce model: sell complete calculator, individual paid workshops, and workshop bundles (breed, complete present); buyers keep **lifetime access** to purchased items; **no** SKU for unpublished future videos; no monthly subscription in v1; no refunds for these purchases.
 
-**Catalogue prices (EUR)** used by the sandbox checkout (illustrative product catalogue for this simulation):
+**Catalogue prices (EUR)** — product SKU prices for the sandbox checkout (not an author hourly rate or service fee):
 
 | SKU | Price (EUR) |
 | --- | ----------- |
@@ -124,11 +115,10 @@ Commerce model: sell complete calculator, individual paid workshops, and worksho
 | Individual paid workshop video | 4.90 |
 | Breed bundle | 12.90 |
 | Complete present workshop bundle | 24.90 |
-| Lifetime workshop bundle | 49.90 |
 
 Free intros and the basic calculator remain 0.00. A checkout that resolves to 0.00 creates access without a Stripe session and without a Moloni document.
 
-Sandbox: all paid checkouts in Stripe test mode; Moloni simulated PDFs with no legal value in this public project. Failed payment never unlocks. After sandbox confirmation, unlock only purchased entitlements; if invoice simulation fails after unlock, access stays and issuance is retried.
+Sandbox: all paid checkouts in Stripe test mode; Moloni simulated PDFs with no legal value in this public project. Failed payment never unlocks. After sandbox confirmation, unlock only purchased entitlements; if invoice simulation fails after unlock, access stays and issuance is retried. Promotional codes and campaigns follow the stacking rule above; partial bundle purchases charge the full bundle catalogue price.
 
 Hotels: available to all signed-in members; Overpass pet-friendly tags; viewport queries; optional 24-hour cache; geolocation only with consent.
 
@@ -167,38 +157,37 @@ Planning and design hours are **inside** this total. They are not a separate com
 
 ## 8. Reference calendar
 
-The calendar is a **reference map**, not a rigid contract of calendar days. Base capacity for planning is about **3 hours per day** across up to seven calendar days — about **21 hours per week**. Optimistic pace ~28 h/week; pessimistic ~14 h/week.
+The calendar is a **reference map**, not a rigid contract of calendar days. It uses the **same calendar rule** as Scope and schedule (§2 above).
 
-**Calendar anchor (S01):** week of **3 August 2026** (Monday 2026-08-03). Stance: forecast **as if starting from zero**. Any work already done in the real world does not shorten this proposal map.
+**Calendar anchor (S01):** week of **3 August 2026** (Mon 2026-08-03 – Sun 2026-08-09). Stance: forecast **as if starting from zero**. A live institutional site elsewhere does not shorten this proposal map; that progress is real, but this baseline does not spend the credit.
 
-**Availability:** I work on The Doghouse in the time left after private client work and smaller freelance jobs. This repository is the piece I want to show publicly to engineers and recruiters, so wall-clock delivery can stretch when client work takes priority. The hour totals below do not change when that happens; the end dates do.
+**Availability:** I work on The Doghouse in the time left after private client work and smaller freelance jobs. This repository is the public showcase for engineers and recruiters, so wall-clock delivery can stretch when client work takes priority. Hour totals do not change when that happens; end dates do.
 
-On the **conservative sequential** map at 21 h/week, usable first version (Deliveries 1–7) lands around **mid-December 2026** (~week S20), and the full package including validation, report, and contingency around **mid-February 2027** (~week S29). That sequential path is about **four to five months** to usable v1 — longer than the simulated owner’s **two-to-three-month** horizon. The shorter horizon remains the product target if I run allowed parallelism (for example calculator ∥ map ∥ free workshops after auth) and/or a stronger weekly pace. Prefer quality over a harmful rigid date; expect further slip when freelance or private client work crowds the calendar.
+| Pace | h/week | Usable v1 (~420 h) | Full package (~591 h) |
+| ---- | ------ | ------------------ | --------------------- |
+| Base (schedule map) | 21 | **~20 weeks** (S20, 14–20 Dec 2026) | **~29 weeks** (S29, 15–21 Feb 2027) |
+| Higher capacity | 28 | **~15 weeks** (~9–15 Nov 2026) | **~21 weeks** (~late Dec 2026) |
+| Lower capacity | 14 | **~30 weeks** | **~42 weeks** |
 
-| Scenario (full ~591 h) | h/week | Approx. horizon from S01 |
-| ---------------------- | ------ | ------------------------ |
-| Base | 21 | ~28–29 weeks (~mid-Feb 2027) |
-| Optimistic | 28 | ~21 weeks |
-| Pessimistic | 14 | ~42 weeks |
+### Milestones (21 h/week map — windows match the schedule)
 
-### Milestones (sequential baseline)
+| Milestone | Window (start–end) |
+| --------- | ------------------ |
+| Proposal docs ready | 3–16 Aug 2026 (S01–S02) |
+| Architecture and design validated | 10 Aug – 6 Sep 2026 (S02–S05) |
+| Delivery 1 online (website) | 7–20 Sep 2026 (S06–S07) |
+| Delivery 2 online (auth / members’ shell) | 14 Sep – 4 Oct 2026 (S07–S09) |
+| Delivery 3 online (free calculator) | 28 Sep – 18 Oct 2026 (S09–S11) |
+| Delivery 4 online (hotels map) | 12 Oct – 1 Nov 2026 (S11–S13) |
+| Delivery 5 online (free workshops) | 26 Oct – 15 Nov 2026 (S13–S15) |
+| Delivery 6 online (sandbox payments and premium) | 9 Nov – 13 Dec 2026 (S15–S19) |
+| Delivery 7 available (store publication path) | 7–20 Dec 2026 (S19–S20) |
+| **Usable first version (M9)** — Deliveries 1–7 only | **14–20 Dec 2026 (S20)** at 21 h/week |
+| Beta hardened (validation) | 21 Dec 2026 – 10 Jan 2027 (S21–S23) |
+| Final report / public write-up | 4–24 Jan 2027 (S23–S25) |
+| Contingency closed / full package (M12) | 18 Jan – 21 Feb 2027 (S25–S29) |
 
-| Milestone | Planned window (base) |
-| --------- | --------------------- |
-| Proposal docs ready | weeks of 3–16 Aug 2026 |
-| Architecture and design validated | week of 31 Aug 2026 |
-| Delivery 1 online (website) | week of 14 Sep 2026 |
-| Delivery 2 online (auth / members’ shell) | week of 28 Sep 2026 |
-| Delivery 3 online (free calculator) | week of 12 Oct 2026 |
-| Delivery 4 online (hotels map) | week of 26 Oct 2026 |
-| Delivery 5 online (free workshops) | week of 9 Nov 2026 |
-| Delivery 6 online (sandbox payments and premium) | week of 7 Dec 2026 |
-| Delivery 7 available (store path) | week of 14 Dec 2026 |
-| **Usable first version** | **week of 14 Dec 2026** |
-| Final report / public write-up | weeks of early–mid Jan 2027 |
-| Contingency closed / full package | week of 15 Feb 2027 |
-
-Weekly capacity on that map is planning bandwidth, not a leaf-by-leaf copy of the hour table. Weeks may shift; frozen product decisions above do not change without a new freeze of the interview answers and this proposal’s substance.
+Same-week handoffs in those windows match the schedule week table. Weekly capacity is planning bandwidth, not a leaf-by-leaf copy of the hour table.
 
 ---
 
@@ -216,7 +205,7 @@ Conscious parameters left for delivery time inside their hour envelopes: exact e
 
 ## 10. What “done” means for this proposal
 
-At a high level, the usable first version is done when a dog owner can register and sign in, move from site to members’ area when already signed in, use free content, complete a sandbox purchase that unlocks only what was bought, see a simulated invoice path, and use the hotels map — on Web, iOS, and Android paths in scope — with the launch workshop inventory and EUR catalogue above. Supporting report and contingency close the full ~591-hour package.
+At a high level, the **usable first version** is done when Deliveries **1–7** meet their Done when criteria: a dog owner can register and sign in, move from site to **Flutter Web** when already signed in (native apps sign in inside the app), use free content, complete a sandbox purchase (including code/campaign and partial-bundle rules) that unlocks only what was bought, see a simulated invoice path, and use the hotels map — with the launch workshop inventory and EUR catalogue above. **Validation (~55 h) is hardening after that checkpoint**, not part of the 420 h usable-v1 sum. Report and contingency close the full ~591-hour package.
 
 This published snapshot replaces any earlier draft of the same report title. It does not invent a client signature.
 
@@ -224,7 +213,7 @@ This published snapshot replaces any earlier draft of the same report title. It 
 
 ## 11. Closing
 
-I am proposing to build The Doghouse in public as a **simulation that behaves like a real product**: site, members’ area, sandbox commerce, and a reusable skeleton, for about **591 hours** of solo work including contingency, on a reference calendar anchored at **3 August 2026**, with a two-to-three-month usable-v1 target under parallelism or a faster pace, and a longer honest sequential baseline at twenty-one hours per week.
+I am proposing to build The Doghouse in public as a **simulation that behaves like a real product**: site, members’ area, sandbox commerce, and a reusable skeleton, for about **591 hours** of solo work including contingency, on a reference calendar anchored at **3 August 2026**, with usable v1 at **~15 weeks** of solo work at 28 h/week or **~20 weeks** at 21 h/week.
 
 ---
 
@@ -232,12 +221,15 @@ I am proposing to build The Doghouse in public as a **simulation that behaves li
 
 | Field | Value |
 | ----- | ----- |
-| Document | Proposal report – The Doghouse (this document, v1.0, 2026-10-14) |
+| Document | Proposal report – first version (*MVP*) – The Doghouse |
+| Project | The Doghouse |
+| Document date | 2026-10-16 |
+| Version | 1.1 |
 | Status | Published |
 | Author | Jaime Mendonça |
 | Audience | Public repository visitors — engineers and recruiters |
 
-**Notes:** Snapshot of the proposal track for a public sandbox simulation. No commercial acceptance checkboxes or signatures. Freeze basis: simulated product-owner interview answers dated 2026-10-13, interpreted for this repository as sandbox-operated commerce with a reusable skeleton. Document identity (title, version, date) is in the opening table; this block records publication status only.
+**Notes:** Snapshot of the proposal track for a public sandbox simulation. No commercial acceptance checkboxes or signatures. Freeze basis: simulated product-owner interview answers dated 2026-10-13, interpreted for this repository as sandbox-operated commerce with a reusable skeleton. Product catalogue prices in EUR are SKU prices for that simulation, not author billing. Version **1.1** revises the solo calendar arithmetic, usable-v1 definition, annex decision F, and discount/bundle rules in this report.
 
 ---
 

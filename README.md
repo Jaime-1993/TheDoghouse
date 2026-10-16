@@ -75,7 +75,7 @@ Interview pack through Schedule and the [proposal report](./docs/reports/R1_PROP
 
 **Live website:** https://the-doghouse-iota.vercel.app/
 
-Target horizon for a usable first version: on the order of **two to three months** of focused work under parallelism and/or a stronger weekly pace (see the interview annex and [Schedule](./docs/05_GANTT.md)). A conservative sequential calendar is longer; wall-clock dates may slip further because this public showcase shares my time with private client work and smaller freelance jobs. Prefer quality over a rigid date that hurts the product.
+**Calendar rule (solo):** usable first version = Deliveries 1–7 (~**420 h**) → about **15 weeks** at 28 h/week or **20 weeks** at 21 h/week (see [Schedule](./docs/05_GANTT.md)). Overlapping bars do not erase hours. Two months is not a published target. Wall-clock dates may slip when private client or freelance work takes priority. The proposal calendar is forecast **from zero** even though the institutional site is already live.
 
 ## Getting started
 

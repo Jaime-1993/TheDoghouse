@@ -50,8 +50,9 @@ Each rule has a stable identifier (`RN-xx`) so later requirements, modelling, an
 
 - an **individual** paid video;
 - a **breed bundle** (paid videos for that breed as designed);
-- a **complete present** bundle (all workshop videos existing at purchase time);
-- a **lifetime** bundle (present and future workshop videos as designed).
+- a **complete present** bundle (all **paid** workshop videos existing at purchase time).
+
+There is **no** catalogue SKU that sells unpublished **future** workshop videos. Buyers keep **lifetime access** to what they purchased (**RN-14**). Post-launch editorial production is outside the proposal effort estimate.
 
 Calculator and workshops are **independent catalogues**. Cross-catalogue packages (calculator plus workshops in one SKU) are **out of scope** for v1 unless explicitly added later as a named exception.
 
@@ -65,9 +66,8 @@ Calculator and workshops are **independent catalogues**. Cross-catalogue package
 | Individual paid workshop video | **4.90** |
 | Breed bundle | **12.90** |
 | Complete present workshop bundle | **24.90** |
-| Lifetime workshop bundle | **49.90** |
 
-Free intros and the basic calculator remain **0.00** (no charge).
+Free intros and the basic calculator remain **0.00** (no charge). These figures are **product catalogue** prices for the sandbox simulation, not an author hourly rate or service fee.
 
 ### 5.2. Sandbox payments and invoicing
 

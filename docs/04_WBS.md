@@ -16,14 +16,14 @@ It is an **effort forecast** (proposal estimate). It does not replace a fine roa
 | Granularity | **Medium** — enough to plan; daily tasks live in a delivery roadmap when coding starts |
 | Capacity (reference for the schedule) | **2–4 h/day** across up to **7 calendar days/week** when time allows → about **14–28 h/week** (a planning reference, not a commitment to work every day). Real weeks often share the calendar with private client work and smaller freelance jobs, so wall-clock delivery of this public showcase can stretch |
 | Leaf hours only | Parent headings are labels; **totals sum leaf packages** |
-| Horizon | About **two to three months** for a usable first version (core Deliveries 1–7); the full WBS (planning + design + validation + report) is longer — see §2 |
+| Horizon | Usable first version = Deliveries 1–7 (~**420 h** solo): **420÷28≈15 weeks** (~3.5 months) or **420÷21=20 weeks** (~4–5 months). Validation is after that checkpoint. Full package ~591 h — see schedule |
 | IDs | **Delivery 1…7** match the Scope delivery sequence |
 
 ### 1.2. Out of this WBS
 
 - Continuous social-media / marketing campaigns
 - Paid acquisition and partnerships
-- Endless editorial video production beyond the launch inventory (**2 free** + **4 paid** workshops)
+- Endless editorial video production beyond the launch inventory (**2 free** + **4 paid** workshops); no effort for unpublished “future” workshop videos (no such catalogue SKU in the business rules)
 - Live (real-money) Stripe or fiscal Moloni **as operated by this public project** — this repo stays **sandbox** (`RN-19`…`RN-21`); reusers may enable live mode via environment variables
 
 ### 1.3. Test and security policy (per delivery)
@@ -62,7 +62,7 @@ Roughly **15–25%** of implementation effort sits in automated tests where ther
 | 6.2 | Unforeseen final adjustments | **10** | |
 | | **Grand total** | **~591 h** | |
 
-*Of which automated tests (unit + e2e + delivery security passes) are on the order of **~110–130 h** (~20% of implementation-heavy packages).*
+*Of which automated tests (unit + e2e + per-delivery security passes on D1–D7 leaves) sum to about **~80–90 h**, in line with the **15–25%** of implementation effort note above. A later consolidated security sweep sits in the validation phase (~8 h), after usable v1.*
 
 **Calendar reference** (detail belongs in the schedule document):
 
@@ -72,7 +72,7 @@ Roughly **15–25%** of implementation effort sits in automated tests where ther
 | 3 h/day | 21 | ~28 | ~6.5 |
 | 4 h/day | 28 | ~21 | ~5 |
 
-The annex/Scope **two-to-three-month** usable-product horizon targets **Deliveries 1–7** at focused pace (quality over a harmful rigid date), not necessarily every hour of phases 1, 2, 4, and 5 in the same window.
+The Scope/schedule calendar rule: usable **Deliveries 1–7** (~420 h solo) ≈ **15 weeks** at 28 h/week or **20 weeks** at 21 h/week. Parallel bars do not erase solo hours. Quality over a harmful rigid date.
 
 ---
 
@@ -249,7 +249,7 @@ _Attack surface: payments — **security pass mandatory**._
 - 5.6.4. Stripe sandbox account/config – **2h**
 - 5.6.5. Moloni sandbox account (logo/template) – **2h**
 - 5.6.6. Complete calculator UI (paid SKU, EUR **9.90**) – **6h**
-- 5.6.7. Paid workshops + bundles (individual **4.90**, breed **12.90**, complete present **24.90**, lifetime **49.90**) – **12h**
+- 5.6.7. Paid workshops + bundles (individual **4.90**, breed **12.90**, complete present **24.90**) – **12h**
 - 5.6.8. Conditional access (purchased vs locked; no global premium) – **6h**
 - 5.6.9. Anti-repurchase + partial-bundle upgrade at **full** price (`RN-24`, `RN-25`) – **4h**
 - 5.6.10. Promotional codes / auto campaigns / **0.00 EUR** path (`RN-26`…`RN-28`) – **6h**
@@ -292,9 +292,15 @@ _Continuous across deliveries (counted once)._
 
 ---
 
+_Milestone: Usable first version online (Deliveries 1–7 Done when — schedule **M9**)_
+
+**Usable first version** means Deliveries **1–7** (and continuous code docs) meet their Done when criteria. It does **not** require the cross-cutting validation phase below.
+
+---
+
 ## 6. Testing, validation, and deployment hardening (~55 h)
 
-_Builds on per-delivery tests; this phase is cross-cutting validation before calling the usable version “done”._
+_Builds on per-delivery tests. This phase is **after** usable v1 (schedule **M10**): beta hardening, not a gate to call Deliveries 1–7 done._
 
 6.1. Functional / non-functional sweeps – **16h**
 
@@ -339,9 +345,9 @@ _Builds on per-delivery tests; this phase is cross-cutting validation before cal
 - 6.7.1. Backend rollback plan – **1.5h**
 - 6.7.2. Flutter / release rollback plan – **1.5h**
 
-_Milestone: Usable first version online (core deliveries complete)_
+_Milestone: Beta hardened (schedule **M10**)_
 
-**Done when:** Critical flows work on Web and stores path; HTTPS and seamless checks pass; consolidated security sweep done; monitoring in place; rollback notes written.
+**Done when:** Critical flows re-checked on Web and stores path; HTTPS and seamless checks pass; consolidated security sweep done; monitoring in place; rollback notes written.
 
 ---
 
@@ -373,7 +379,7 @@ _Milestone: Final report and article published_
 
 ---
 
-## 8. Contingency and final adjustments (~85 h)
+## 8. Contingency and final adjustments (~86 h)
 
 8.1. Contingency buffer (~**15%** of ~505 h subtotal) – **76h**
 
@@ -409,4 +415,4 @@ D2 (auth) ──┼──► D3 (free calculator) ──┐
 
 This WBS estimates about **591 hours** solo (including contingency) for planning, design, Deliveries **1–7**, validation, and closure. Implementation deliveries freeze **sandbox** commerce, passwordless auth, and the launch workshop inventory from the business rules. Per-delivery **unit + e2e** (Playwright / Go `testing` / `flutter_test`) and **security passes** on attack surfaces are part of Done when.
 
-**Next:** the [schedule](05_GANTT.md) maps these packages onto calendar weeks. The annex/Scope **two-to-three-month** usable-product horizon remains the target under parallelism and/or a faster pace; the schedule’s sequential base map is the conservative calendar. Prefer quality over a harmful rigid date.
+**Next:** the [schedule](05_GANTT.md) maps these packages onto calendar weeks under the shared solo calendar rule (usable v1 ≈ 15 weeks at 28 h/week or 20 weeks at 21 h/week). Prefer quality over a harmful rigid date.

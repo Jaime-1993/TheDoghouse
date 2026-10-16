@@ -17,7 +17,7 @@
 | **C** | As product owner, I decide what is in and out of scope. I do not want other brands or professional identities mixed into The Doghouse on the site or in the app. |
 | **D** | Primary audience: dog owners. This is not a tool for clinics, shelters, or breeders to run their operations. |
 | **E** | Some people only visit, some sign up for free, and some pay for extra content. No in-product admin panel in the first version — content is placed directly into the product (files or database), not through owner-facing edit screens. |
-| **F** | In the first version: site + articles; members’ area on phone, computer browser, and **installable web app** (add to home screen); **one shared product** (same codebase and same experience everywhere); calculator (free and full paid version); workshops (**2 free** and **4 paid** at launch), **organised by breed**, with purchase of individual paid videos and **bundles** (by breed, complete present set of then-existing videos, and lifetime access to present and future workshop videos); map / list of pet-friendly hotels to attract people; simple sign-in; **signed-in members** (free or paying) move from the site to the members’ area without signing in again; ability to **sell**; **receipt/invoice is in for v1** (trial/test mode acceptable to the owner). **Developer note:** this public project operates that path in **sandbox**; live providers are a reuse option via environment variables. App available in the app stores. |
+| **F** | In the first version: site + articles; members’ area on phone, computer browser, and **installable web app** (add to home screen); **one shared product** (same codebase and same experience everywhere); calculator (free and full paid version); workshops (**2 free** and **4 paid** at launch), **organised by breed**, with purchase of individual paid videos and **bundles** (by breed, and complete present set of then-existing paid videos — buyers keep **lifetime access** to purchased items; **no** SKU for unpublished future videos); map / list of pet-friendly hotels to attract people; simple sign-in; **signed-in members** (free or paying) move from the site to the members’ area on **Flutter Web** without signing in again (**native** iOS/Android apps authenticate **inside the app**); ability to **sell**; **receipt/invoice is in for v1** (trial/test mode acceptable to the owner); store **publication path** exercised (App Store / Play Store). **Developer freeze (how this public repo operates — not owner voice):** Stripe/Moloni **sandbox** here; Play as download channel; App Store submission best effort — approval does not block the rest of v1; reusers may switch live providers via environment variables. |
 | **G** | In the first version I do **not** want: comments on articles; social features inside the product (likes, followers, profiles); live support chat; languages other than English. |
 | **H** | Start with low costs. No expensive custom domain at the start. Receipt/invoice in v1 may run in trial/test mode first (see **F**); the business goal is still to **make money** from workshops and paid content. **Developer note:** the owner’s “make money” answer stays as the simulated brief. This **public** repository implements the sell-and-invoice path in **Stripe/Moloni sandbox**. Someone who reuses the skeleton may switch to live providers with their own secrets and environment variables. |
 | **I** | **Sell** workshops and premium content. Buyers keep access to what they paid for (no monthly subscription in the first version). **Developer note:** same as **H** — owner wants to sell for real; this public project demonstrates that path in **sandbox**; live operation is a reuse choice via env, not an operating promise of this repo. |
@@ -85,13 +85,13 @@
 | Installable web app (home screen) | **In** | People can install / add the members’ area from the browser |
 | Same experience everywhere | **In** | Same product and same codebase on phone, browser, and installable web — not a weaker version on one platform |
 | Weight calculator | **In** | A useful free version; the full version only for who paid |
-| Video workshops | **In** | At launch: **2 free** and **4 paid**, **organised by breed**; individual paid videos and bundles (breed, complete present, lifetime) |
+| Video workshops | **In** | At launch: **2 free** and **4 paid**, **organised by breed**; individual paid videos and bundles (breed, complete present). *(Developer: no future-video SKU; lifetime access = to purchased items.)* |
 | Pet-friendly hotels | **In** | People see relevant places, ideally near them or in a city they search, and can open them in the phone’s maps |
 | Account / sign-in | **In** | Simple sign-in: email and/or Google or Facebook — the exact mix is chosen in design |
-| From site to members’ area without signing in again | **In** | **Signed-in members** (free or paying) do not sign in again; visitors who are not signed in still need to sign in |
+| From site to members’ area without signing in again | **In** | **Signed-in members** move from the site to **Flutter Web** without signing in again; **native** apps authenticate **inside the app**; visitors who are not signed in still need to sign in |
 | Selling content | **In** | I can charge for workshops / extras |
 | Invoice or receipt | **In** | **In for v1**, starting in trial/test mode if safer *(developer: sandbox in this public repo; live via env for reusers)* |
-| App stores (App Store / Play Store) | **In** | The app is published in the main stores |
+| App stores (App Store / Play Store) | **In** | **Publication path** exercised *(developer freeze: Play as download channel; App Store submission best effort — approval does not block the rest of v1)* |
 
 **9. Anything else mandatory?**  
 **Question:** What else must exist or the project is incomplete?  
@@ -107,7 +107,7 @@
 
 **11. Timeline**  
 **Question:** When do you want the first usable version?  
-**Answer:** I would like something usable on the order of **two to three months** of work, but I prefer it done well over a rigid date that hurts quality. Milestones are set as the work proceeds.
+**Answer:** I would like something usable on the order of **two to three months** of work, but I prefer it done well over a rigid date that hurts quality. *(Owner wish.)* Milestones, as I imagined them, would be set as the work proceeds. *(Developer freeze — supersedes the wish for package planning: week map frozen from S01 = 3 Aug 2026; usable v1 = Deliveries 1–7 ≈ **420 h solo** → **~15 weeks** at 28 h/week or **~20 weeks** at 21 h/week. Two months is not a published package target.)*
 
 **12. Money for tools and domain**  
 **Question:** Budget for services, cheap plans, custom domain?  
@@ -168,7 +168,7 @@ These stay open for design and implementation (unless noted):
 - Exact **sign-in method** mix (magic link and/or Google and/or Facebook) — both social providers remain in scope; exact enabled mix may still be configured in implementation.  
 - Legal / proper **source of hotel data** — Overpass with pet-friendly tags is the chosen approach in Scope / Personas / business rules (no illegal copying).  
 - Moving this public project’s operated commerce from **sandbox** to live banking / fiscal invoicing — **closed for this repository**: stay on **sandbox**. The simulated owner’s “make money” intent (**H**, **I**, Q15) remains as interview fiction. Reusers of the skeleton may configure live Stripe/Moloni with their own secrets and environment variables.  
-- Whether the **2–3 month** horizon becomes firm milestones — set as work proceeds.  
+- Week milestones for the proposal calendar — **closed** in the schedule (S01 = 3 Aug 2026 through S29); usable-v1 horizon — **closed** in Scope / schedule / proposal report (~420 h solo ÷ weekly rate).  
 - Turning “success” stories (Q7) into **measurable** checks — the Scope already states flow-level measurable criteria; refine further in design if needed.
 
 ---

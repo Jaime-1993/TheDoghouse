@@ -6,7 +6,7 @@ This document identifies and characterises the user personas that interact with 
 
 Persona definitions make needs, goals, and constraints explicit for each access level. Flows describe, step by step, how people and the system interact. Together they support architecture validation and feature prioritisation for the _MVP_.
 
-The document is grounded in the [interview annex](INTERVIEW_ANNEX.md) and must stay consistent with the [Scope](01_SCOPE.md). **The Doghouse** is a real product for dog owners. There is no in-product administrator persona in the first version: content is placed directly through files or the database. Clinics, shelters, and breeders running their **operations** are out of audience scope.
+The document is grounded in the [interview annex](INTERVIEW_ANNEX.md) and must stay consistent with the [Scope](01_SCOPE.md). **The Doghouse** is a **public simulation** shaped like a product for dog owners: commerce runs in **sandbox** in this repository. There is no in-product administrator persona in the first version: content is placed directly through files or the database. Clinics, shelters, and breeders running their **operations** are out of audience scope.
 
 Rules that constrain these flows are summarised in §5 and detailed in [03_BUSINESS_RULES.md](03_BUSINESS_RULES.md).
 
@@ -95,8 +95,9 @@ Purchase options for workshops include:
 
 - an **individual** paid video;
 - a **breed bundle** (all paid videos for that breed as designed);
-- a **complete present** bundle (all workshop videos existing at purchase time);
-- a **lifetime** bundle (present and future workshop videos as designed).
+- a **complete present** bundle (all paid workshop videos existing at purchase time).
+
+There is no SKU for unpublished future videos; buyers keep lifetime access only to what they purchased.
 
 Each option has its own price and grants the matching access. There is no monthly subscription.
 
@@ -122,8 +123,7 @@ Workshops are organised **by breed**. Launch inventory: **two** free introductor
 - Free users watch free intros only.
 - A purchaser of an individual video watches that video (plus free intros).
 - A breed-bundle purchaser watches all videos of that breed covered by the bundle.
-- A complete-present purchaser watches all workshop videos existing at purchase time.
-- A lifetime-bundle purchaser watches present and future workshop videos as designed.
+- A complete-present purchaser watches all paid workshop videos that existed at purchase time.
 
 Lock and unlock states must make ownership obvious. Buying one item never silently unlocks unrelated catalogue items.
 

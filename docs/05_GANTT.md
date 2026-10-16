@@ -21,7 +21,7 @@ Granularity: **weeks** (not days). Fine task lists live in a delivery roadmap wh
 | Pessimistic | **2 h/day** ≈ **14 h/week** |
 | Work | Solo, interleaved with private client work and smaller freelance jobs |
 | Audience of this public work | Other engineers and recruiters (public showcase) |
-| Stance | Forecast **as if starting from zero** (no “already done” credits on this map) |
+| Stance | Forecast **as if starting from zero** (a live institutional site does not shorten this map) |
 | Commerce | Stripe + Moloni **sandbox** in this public project (`RN-19`…`RN-21`); reusers may switch via env |
 | Auth / seamless | Magic link and/or Google and/or Facebook; seamless **site ↔ Flutter Web** for signed-in members (`RN-10`…`RN-13`) |
 | Workshops | **2 free** + **4 paid** at launch, by breed |
@@ -39,29 +39,20 @@ Granularity: **weeks** (not days). Fine task lists live in a delivery roadmap wh
 | Optimistic (4 h/day) | 28 | ~21 | ~late Dec 2026 |
 | Pessimistic (2 h/day) | 14 | ~42 | ~late May 2027 |
 
-### 3.2. Annex / Scope “two to three months” vs this map
+### 3.2. Shared calendar rule (Scope / schedule / proposal report)
 
-The interview annex and Scope target a **usable first version** (core Deliveries **1–7**) in about **two to three months** of focused work. That horizon is a **product goal**, not a claim that the **sequential** base map below fits inside 12–13 calendar weeks.
+**Same sentence everywhere:** work is **solo**. **Usable first version** = Deliveries **1–7** Done when (milestone **M9**, ~**420 h**). Cross-cutting validation (~55 h) is **after** M9. Solo hours add: **420 ÷ 28 ≈ 15 weeks** (~**three and a half months** from S01, week of **9–15 Nov 2026** if capacity stays at 28 h/week); **420 ÷ 21 = 20 weeks** (~**four to five months**, **S20** / 14–20 Dec 2026 on the §5 map). Delivery parallelism may reorder focus; it does **not** reduce solo hours. **Two months** is not a published target. Prefer quality over a harmful rigid date. Client/freelance weeks that drop capacity slip end dates; total effort (~591 h) does not change.
 
-On this document’s **conservative sequential** map at **21 h/week**:
+| Checkpoint | Meaning | At 21 h/week (§5 map) | At 28 h/week (hours ÷ rate) |
+| ---------- | ------- | --------------------- | --------------------------- |
+| **M9 – Usable first version** | Deliveries **1–7** Done when (~420 h) | **S20** (14–20 Dec 2026) ≈ 20 weeks | ≈ **15 weeks** (9–15 Nov 2026) |
+| **M10 – Beta hardened** | Validation ~55 h | **S21–S23** | after M9 |
+| **M11 – Report & article** | Closure docs | **S23–S25** | after M10 |
+| **M12 – Full package** | + contingency (~591 h total) | **S29** (15–21 Feb 2027) ≈ 29 weeks | **591 ÷ 28 ≈ 21 weeks** (~late Dec 2026) |
 
-| Checkpoint | Meaning | Window (base) | Wall-clock from S01 |
-| ---------- | ------- | ------------- | ------------------- |
-| **M9 – Usable first version** | Deliveries **1–7** Done when | **S20** (~14–20 Dec 2026) | ~**20 weeks** (~**4–5 months**) |
-| **M11 – Report & article** | Supporting closure docs | **S23–S25** (Jan 2027) | after M9 |
-| **M12 – Full package** | + contingency / unforeseen | **S29** (~mid-Feb 2027) | ~**29 weeks** |
+**Usable vs later work:** M9 = Deliveries 1–7 only. M10 = validation/hardening. M11 = report. M12 = contingency closed.
 
-How the annex **2–3 months** can still hold without shrinking product scope:
-
-1. **Parallelism** allowed by the WBS (D1 ∥ D2; after D2, **D3 ∥ D4 ∥ D5**) shortens wall-clock while total hours stay ~591.  
-2. **Higher pace** (≥ **28 h/week**) compresses the same packages.  
-3. Combining (1) and (2) is the realistic path toward the annex horizon for **M9**.
-
-**Reading rule:** the week table in §5 is the **honest sequential baseline** (~4–5 months to M9 at 21 h/week). The annex **2–3 months** is the **target under parallelism and/or a faster weekly pace**. Prefer quality over a harmful rigid date. Effective weekly hours often fall when private client or freelance work comes first — end dates slip; total effort hours do not.
-
-**Usable vs supporting documentation:** annex/Scope “usable first version” = **M9**. Final report, glossary, and public write-up = **M11** (after validation). The full WBS including contingency = **M12**.
-
-Rough sequential load to M9: planning + design **~105 h** + Deliveries 1–7 and cross-cutting code docs **~315 h** → **~420 h** by end of S20 at 21 h/week. Validation, report, and contingency continue after that.
+Rough load to M9: planning + design **~105 h** + Deliveries 1–7 and cross-cutting code docs **~315 h** → **~420 h**.
 
 ---
 
@@ -133,36 +124,38 @@ Contingency (**76 h**) and unforeseen (**10 h**) are booked in **S25–S29** (no
 
 ```mermaid
 gantt
-    title The Doghouse – proposal calendar (base 21 h/week, from 2026-08-03)
+    title The Doghouse – week-table windows (21 h/week map, from 2026-08-03)
     dateFormat  YYYY-MM-DD
     axisFormat  %b %d
     section Planning & design
-    Planning (docs 00–05)           :p1, 2026-08-03, 14d
-    Design (research→skeletons)     :p2, after p1, 28d
-    Milestone M1 design validated   :milestone, m1, 2026-09-06, 0d
+    Planning S01–S02                :p1, 2026-08-03, 2026-08-16
+    Design S02–S05                  :p2, 2026-08-10, 2026-09-06
+    Milestone M1                    :milestone, m1, 2026-09-06, 0d
     section Deliveries 1–7
-    D1 Website                      :d1, 2026-09-07, 14d
-    Milestone M2 D1 online          :milestone, m2, 2026-09-20, 0d
-    D2 Auth + seamless Web          :d2, 2026-09-14, 21d
-    Milestone M3 D2 online          :milestone, m3, 2026-10-04, 0d
-    D3 Free calculator              :d3, 2026-10-04, 14d
-    Milestone M4 D3 online          :milestone, m4, 2026-10-18, 0d
-    D4 Hotels map                   :d4, 2026-10-12, 21d
-    Milestone M5 D4 online          :milestone, m5, 2026-11-01, 0d
-    D5 Free workshops               :d5, 2026-10-26, 21d
-    Milestone M6 D5 online          :milestone, m6, 2026-11-15, 0d
-    D6 Payments sandbox + premium   :d6, 2026-11-09, 35d
-    Milestone M7 D6 online          :milestone, m7, 2026-12-13, 0d
-    D7 Store publishing             :d7, 2026-12-07, 14d
-    Milestone M9 usable first version :milestone, m9, 2026-12-20, 0d
-    section Closure
-    Validation & hardening          :v1, 2026-12-21, 21d
-    Report & public article         :r1, 2027-01-04, 21d
-    Contingency & unforeseen        :c1, 2027-01-18, 35d
-    Milestone M12 full package      :milestone, m12, 2027-02-17, 0d
+    D1 Website S06–S07              :d1, 2026-09-07, 2026-09-20
+    Milestone M2                    :milestone, m2, 2026-09-20, 0d
+    D2 Auth S07–S09                 :d2, 2026-09-14, 2026-10-04
+    Milestone M3                    :milestone, m3, 2026-10-04, 0d
+    D3 Calculator S09–S11           :d3, 2026-09-28, 2026-10-18
+    Milestone M4                    :milestone, m4, 2026-10-18, 0d
+    D4 Hotels S11–S13               :d4, 2026-10-12, 2026-11-01
+    Milestone M5                    :milestone, m5, 2026-11-01, 0d
+    D5 Workshops S13–S15            :d5, 2026-10-26, 2026-11-15
+    Milestone M6                    :milestone, m6, 2026-11-15, 0d
+    D6 Payments S15–S19             :d6, 2026-11-09, 2026-12-13
+    Milestone M7                    :milestone, m7, 2026-12-13, 0d
+    D7 Stores S19–S20               :d7, 2026-12-07, 2026-12-20
+    Milestone M9 usable v1          :milestone, m9, 2026-12-20, 0d
+    section After usable v1
+    Validation S21–S23              :v1, 2026-12-21, 2027-01-10
+    Milestone M10                   :milestone, m10, 2027-01-10, 0d
+    Report S23–S25                  :r1, 2027-01-04, 2027-01-24
+    Milestone M11                   :milestone, m11, 2027-01-24, 0d
+    Contingency S25–S29             :c1, 2027-01-18, 2027-02-21
+    Milestone M12 full package      :milestone, m12, 2027-02-21, 0d
 ```
 
-_Figure 1 – Proposal Gantt (Mermaid). Bars are major packages; diamonds are milestones. Week-level capacity truth is in §5; package hours are in the WBS._
+_Figure 1 – Bars use the **same start and end dates** as the §5 week-table focus windows (including same-week handoffs). Diamonds mark window ends. At 28 h/week, M9 moves earlier by hours÷rate (~15 weeks), not by erasing solo hours. If figure and §5 disagree, **§5 wins**._
 
 ---
 
@@ -173,12 +166,12 @@ _Figure 1 – Proposal Gantt (Mermaid). Bars are major packages; diamonds are mi
 3. If effective hours fall below **21 h/week** (including weeks spent on private client or freelance work), the end date slips (except intentional contingency burn).
 4. Prefer quality over a harmful rigid date; do not change product scope here — freeze changes belong in the annex / Scope / business rules.
 5. When opening a delivery for code, create a fine roadmap; keep unit + e2e (+ security when required) inside that delivery’s Done when.
-6. To chase the annex **2–3 month** usable-v1 goal, prefer **parallel D3/D4/D5** and/or **≥28 h/week** rather than cutting Deliveries 1–7.
+6. To shorten wall-clock, raise weekly hours (e.g. 28 h/week → ~15 weeks to M9). Do not treat overlapping bars as deleted solo hours.
 
 ---
 
 ## 8. Conclusion
 
-From **2026-08-03**, the **sequential** base map at **21 h/week** places **usable first version (M9 / Deliveries 1–7)** around **mid-December 2026 (S20)** and the **full proposal package (M12)** around **mid-February 2027 (S29)** — about **~591 hours** total. The annex **two-to-three-month** usable-v1 horizon remains the product target under **parallelism and/or a faster pace**. Optimistic/pessimistic weekly capacities rescale the same packages.
+From **2026-08-03**, solo arithmetic places **usable first version (M9 / Deliveries 1–7, ~420 h)** at **~20 weeks** on the 21 h/week map (**S20**, 14–20 Dec 2026) or **~15 weeks** at 28 h/week (~9–15 Nov 2026). The **full package (~591 h)** ends about **S29** at 21 h/week or ~**21 weeks** at 28 h/week. Two months is not a published target.
 
-**Next:** keep the proposal report calendar and effort figures aligned with this schedule and the WBS; execution may still shift weeks without changing frozen product decisions.
+**Next:** keep the proposal report on the same calendar rule and windows; execution may still shift weeks without changing frozen product decisions.
