@@ -1,10 +1,10 @@
 # The Doghouse
 
-**A real product for dog owners**, a public learning ground, and a reusable technical skeleton — documented openly because the related private work cannot be.
+**A public product-shaped simulation for dog owners**, a learning ground, and a reusable technical skeleton — documented openly because the related private work cannot be.
 
 ## About
 
-**The Doghouse** is a product for dog owners (site, articles, members’ area with calculator, workshops, and pet-friendly hotels) and at the same time a reusable skeleton and open simulation of engineering work that, in private, I continue for **Doses Pediátricas**. I own this repository and I decide scope. There is no external paying client for this public repo. I may name other brands in documentation to explain context. They do not appear in the shipping Doghouse UI or app. I may later publish engineering write-ups on **The Pharmacist, but tech**.
+**The Doghouse** is shaped like a product for dog owners (site, articles, members’ area with calculator, workshops, and pet-friendly hotels). It is also a **public simulation** and reusable skeleton of engineering work that, in private, I continue for **Doses Pediátricas**. Commerce here runs in **sandbox**; if you reuse the skeleton, you can point your own secrets and environment variables at live providers. I own this repository and I decide scope. There is no external paying client for this public repo. I may name other brands in documentation to explain context. They do not appear in the shipping Doghouse UI or app. I may later publish engineering write-ups on **The Pharmacist, but tech**.
 
 I ran a simulated product-owner interview; their answers are in the [interview annex](./docs/INTERVIEW_ANNEX.md) (questionnaire: [interview](./docs/00_INTERVIEW.md)). I spell out product boundaries and my learning aims in the [Scope](./docs/01_SCOPE.md).
 
@@ -20,7 +20,7 @@ The first version combines:
 - **Members’ area** — one shared product on phone, computer browser, and installable web app (add to home screen), also aimed at the app stores
 - **Three functional areas** — ideal weight calculator (free and paid full version), workshops (**2 free** and **4 paid** at launch, organised by breed), and a map/list of pet-friendly hotels
 
-Signed-in members (free or paying) can move from the site to the members’ area without signing in again. Visitors who are not signed in still need to sign in. Selling workshops and premium content is in scope; receipt/invoice is in for v1 via Stripe and Moloni **sandbox** only (no real-money charges in the first version). No in-product admin panel in the first version — content is placed directly into the product.
+Signed-in members (free or paying) can move from the site to the members’ area without signing in again. Visitors who are not signed in still need to sign in. Selling workshops and premium content is in scope as a **sandbox** path (Stripe and Moloni test mode in this public project — no real-money charges operated here). No in-product admin panel in the first version — content is placed directly into the product.
 
 ## Tech stack
 
@@ -32,8 +32,8 @@ Signed-in members (free or paying) can move from the site to the members’ area
 | Database | PostgreSQL (Neon) |
 | Containerization | Docker |
 | Authentication | Magic links + social login (Google/Facebook) |
-| Payments | Stripe (sandbox only in v1) |
-| Invoicing | Moloni (sandbox only in v1) |
+| Payments | Stripe (sandbox in this public project) |
+| Invoicing | Moloni (sandbox in this public project) |
 | Maps | Overpass API + Nominatim |
 
 ## Key features
@@ -62,20 +62,20 @@ Start with the interview pack, then the proposal documents. Full map: [`docs/REA
 - [UML diagrams](./docs/11_UML_DIAGRAMS.md)
 - [Glossary](./docs/GLOSSARY.md)
 
-Interview pack through Schedule are aligned; the [proposal report](./docs/reports/R1_PROPOSAL.md) is on disk and still under review — see [`docs/README.md`](./docs/README.md). Design docs (`06`–`11`) may still need later review.
+Interview pack through Schedule and the [proposal report](./docs/reports/R1_PROPOSAL.md) are aligned — see [`docs/README.md`](./docs/README.md). Design docs (`06`–`11`) may still need later review.
 
 ## Project status
 
 | Area | Status |
 | ---- | ------ |
-| Public documentation (proposal track) | Interview through Schedule aligned; proposal report pending review |
+| Public documentation (proposal track) | Interview through Schedule and proposal report aligned |
 | Institutional website | Live (landing + blog) |
 | Backend / members’ area | Planned / in progress |
 | Payments, invoicing, store publishing | Planned for the first version |
 
 **Live website:** https://the-doghouse-iota.vercel.app/
 
-Target horizon for a usable first version: on the order of **two to three months** of focused work under parallelism and/or a stronger weekly pace (see the interview annex and [Schedule](./docs/05_GANTT.md)). A conservative sequential calendar is longer; prefer quality over a rigid date that hurts the product.
+Target horizon for a usable first version: on the order of **two to three months** of focused work under parallelism and/or a stronger weekly pace (see the interview annex and [Schedule](./docs/05_GANTT.md)). A conservative sequential calendar is longer; wall-clock dates may slip further because this public showcase shares my time with private client work and smaller freelance jobs. Prefer quality over a rigid date that hurts the product.
 
 ## Getting started
 

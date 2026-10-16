@@ -19,9 +19,10 @@ Granularity: **weeks** (not days). Fine task lists live in a delivery roadmap wh
 | **Base capacity** | **3 h/day × up to 7 calendar days** ≈ **21 h/week** (planning reference) |
 | Optimistic | **4 h/day** ≈ **28 h/week** |
 | Pessimistic | **2 h/day** ≈ **14 h/week** |
-| Work | Solo |
+| Work | Solo, interleaved with private client work and smaller freelance jobs |
+| Audience of this public work | Other engineers and recruiters (public showcase) |
 | Stance | Forecast **as if starting from zero** (no “already done” credits on this map) |
-| Commerce | Stripe + Moloni **sandbox** only in v1 (`RN-19`…`RN-21`) |
+| Commerce | Stripe + Moloni **sandbox** in this public project (`RN-19`…`RN-21`); reusers may switch via env |
 | Auth / seamless | Magic link and/or Google and/or Facebook; seamless **site ↔ Flutter Web** for signed-in members (`RN-10`…`RN-13`) |
 | Workshops | **2 free** + **4 paid** at launch, by breed |
 | Brand in UI | **The Doghouse** only (`RN-03`) |
@@ -56,7 +57,7 @@ How the annex **2–3 months** can still hold without shrinking product scope:
 2. **Higher pace** (≥ **28 h/week**) compresses the same packages.  
 3. Combining (1) and (2) is the realistic path toward the annex horizon for **M9**.
 
-**Reading rule:** the week table in §5 is the **honest sequential baseline** (~4–5 months to M9 at 21 h/week). The annex **2–3 months** is the **target under parallelism and/or a faster weekly pace**. Prefer quality over a harmful rigid date.
+**Reading rule:** the week table in §5 is the **honest sequential baseline** (~4–5 months to M9 at 21 h/week). The annex **2–3 months** is the **target under parallelism and/or a faster weekly pace**. Prefer quality over a harmful rigid date. Effective weekly hours often fall when private client or freelance work comes first — end dates slip; total effort hours do not.
 
 **Usable vs supporting documentation:** annex/Scope “usable first version” = **M9**. Final report, glossary, and public write-up = **M11** (after validation). The full WBS including contingency = **M12**.
 
@@ -169,7 +170,7 @@ _Figure 1 – Proposal Gantt (Mermaid). Bars are major packages; diamonds are mi
 
 1. Treat **S01 = week of 3 Aug 2026** as the planning start of this proposal calendar.
 2. At the start of each week, read **Sxx** and the matching WBS packages / *Done when*.
-3. If effective hours fall below **21 h/week**, the end date slips (except intentional contingency burn).
+3. If effective hours fall below **21 h/week** (including weeks spent on private client or freelance work), the end date slips (except intentional contingency burn).
 4. Prefer quality over a harmful rigid date; do not change product scope here — freeze changes belong in the annex / Scope / business rules.
 5. When opening a delivery for code, create a fine roadmap; keep unit + e2e (+ security when required) inside that delivery’s Done when.
 6. To chase the annex **2–3 month** usable-v1 goal, prefer **parallel D3/D4/D5** and/or **≥28 h/week** rather than cutting Deliveries 1–7.
@@ -180,4 +181,4 @@ _Figure 1 – Proposal Gantt (Mermaid). Bars are major packages; diamonds are mi
 
 From **2026-08-03**, the **sequential** base map at **21 h/week** places **usable first version (M9 / Deliveries 1–7)** around **mid-December 2026 (S20)** and the **full proposal package (M12)** around **mid-February 2027 (S29)** — about **~591 hours** total. The annex **two-to-three-month** usable-v1 horizon remains the product target under **parallelism and/or a faster pace**. Optimistic/pessimistic weekly capacities rescale the same packages.
 
-**Next:** keep the [proposal report](reports/R1_PROPOSAL.md) calendar and effort figures aligned with this schedule and the WBS; execution may still shift weeks without changing frozen product decisions.
+**Next:** keep the proposal report calendar and effort figures aligned with this schedule and the WBS; execution may still shift weeks without changing frozen product decisions.

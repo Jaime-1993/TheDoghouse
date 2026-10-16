@@ -2,7 +2,7 @@
 
 ## 1. Introduction
 
-This document establishes the scope of the Minimum Viable Product (_MVP_) for the project _The Doghouse_. The goal is a functional digital ecosystem that is at once a real product for dog owners, a practical learning ground for emerging technologies, and a reusable technical skeleton for future work. The _MVP_ consists of an institutional website (_landing page_ and _blog_) and a members’ area developed in _Flutter_. The members’ area will be deployed to the _Web_ (as a _PWA_ – _Progressive Web App_), _iOS_, and _Android_ from the same codebase, without duplicating business logic or interface. That multiplatform approach is a central differentiator and part of what this project sets out to learn and demonstrate.
+This document establishes the scope of the Minimum Viable Product (_MVP_) for the project _The Doghouse_. The goal is a functional digital ecosystem shaped like a product for dog owners: a **public simulation** and learning ground, and a **reusable technical skeleton**. Commerce in this repository runs in **sandbox** so the sell path works as if it were real; reusers may point their own environment variables at live providers. The _MVP_ consists of an institutional website (_landing page_ and _blog_) and a members’ area developed in _Flutter_. The members’ area will be deployed to the _Web_ (as a _PWA_ – _Progressive Web App_), _iOS_, and _Android_ from the same codebase, without duplicating business logic or interface. That multiplatform approach is a central differentiator and part of what this project sets out to learn and demonstrate.
 
 There is no external paying client for this public repository. I own the repository and decide the technical and learning boundaries of the work. _The Doghouse_ is the public product and documentation surface. In parallel it acts as an open simulation and reusable skeleton for private work on **Doses Pediátricas** ([Instagram](https://www.instagram.com/dosespediatricas/)), whose code and client data cannot be exposed here. Engineering write-ups may later appear on **The Pharmacist, but tech**. Other brands may be named in documentation when they explain why this repository exists. They must not appear in the production user interface or in the shipping _Doghouse_ application experience.
 
@@ -24,13 +24,13 @@ The _MVP_ objectives follow the _SMART_ methodology.
 
 **Specific** — Build a working platform with an institutional website (_landing page_ and _blog_) and a _Flutter_ multiplatform members’ area with three domains (ideal weight calculator, workshops, maps), plus passwordless and social authentication, payments, and invoicing. The members’ area ships to _Web_ (as a _PWA_), _iOS_, and _Android_ from one codebase.
 
-**Measurable** — The _MVP_ is complete when a dog owner can register and sign in via _magic link_ or social login, move from the static site to the members’ area without signing in again when already authenticated, use free content, buy premium content via _Stripe_ **sandbox** (no real-money charges in the first version), receive a simulated receipt or invoice via _Moloni_ **sandbox**, and find pet-friendly hotels through the _Overpass API_ on an interactive map. Those flows must work on _Web_, _iOS_, and _Android_.
+**Measurable** — The _MVP_ is complete when a dog owner can register and sign in via _magic link_ or social login, move from the static site to the members’ area without signing in again when already authenticated, use free content, buy premium content via _Stripe_ **sandbox** (no real-money charges operated in this public project), receive a simulated receipt or invoice via _Moloni_ **sandbox**, and find pet-friendly hotels through the _Overpass API_ on an interactive map. Those flows must work on _Web_, _iOS_, and _Android_.
 
-**Achievable** — With the chosen stack, a horizon on the order of two to three months of focused work, and free or low-cost persistent services, the _MVP_ is feasible. Quality takes priority over a date that would damage the product.
+**Achievable** — With the chosen stack, a horizon on the order of two to three months of focused work, and free or low-cost persistent services, the _MVP_ is feasible. Quality takes priority over a date that would damage the product. Wall-clock time may stretch because this public project shares my calendar with private client work and smaller freelance jobs; the public repo is what I want to show to other engineers and recruiters.
 
-**Relevant** — The _MVP_ is a real product for dog owners and at the same time a technical and methodological foundation that can be reused for private real projects such as Doses Pediátricas and for public engineering narrative on The Pharmacist, but tech.
+**Relevant** — The _MVP_ is a public product-shaped simulation for dog owners and at the same time a technical and methodological foundation that can be reused for private real projects such as Doses Pediátricas and for public engineering narrative on The Pharmacist, but tech.
 
-**Time-bound** — The target horizon for a **usable first version** (core Deliveries 1–7) is about **two to three months** of focused work, under parallelism and/or a stronger weekly pace as explained in the [schedule](05_GANTT.md). Supporting closure documentation (final report, glossary, public write-up) follows that usable checkpoint. A conservative sequential calendar at a steady solo pace is longer; detailed weeks live in the schedule, not as the heart of this Scope.
+**Time-bound** — The target horizon for a **usable first version** (core Deliveries 1–7) is about **two to three months** of focused work, under parallelism and/or a stronger weekly pace as explained in the [schedule](05_GANTT.md). Supporting closure documentation (final report, glossary, public write-up) follows that usable checkpoint. A conservative sequential calendar at a steady solo pace is longer, and real delivery dates may slip further when private client or freelance work takes priority. Detailed weeks live in the schedule, not as the heart of this Scope.
 
 ## 4. Proposed Solution
 
@@ -98,7 +98,7 @@ A _REST_ _API_ in _Go_ covers user registration and authentication (_magic link_
 **Payments and invoicing**
 
 - Checkout via _Stripe_ for premium content
-- Receipt or invoice via _Moloni_ **sandbox** (simulated documents; no legal/tax effect in the first version)
+- Receipt or invoice via _Moloni_ **sandbox** (simulated documents; no legal/tax effect in this public project; reusers may configure live Moloni via environment variables)
 
 **Deployment**
 
@@ -128,15 +128,15 @@ A _REST_ _API_ in _Go_ covers user registration and authentication (_magic link_
 - **Database:** _PostgreSQL_
 - **Containerization:** _Docker_ (learning from scratch)
 - **Authentication:** _Magic links_ and social login (_Google_/_Facebook_) (learning from scratch). Email-and-password is out of scope
-- **Payments:** _Stripe_ **sandbox** only in the first version — no real-money charges (learning from scratch)
-- **Invoicing:** _Moloni_ **sandbox**, simulated documents for the first version (learning from scratch)
+- **Payments:** _Stripe_ **sandbox** in this public project — no real-money charges operated here (learning from scratch; reusers may switch via environment variables)
+- **Invoicing:** _Moloni_ **sandbox**, simulated documents in this public project (learning from scratch; reusers may switch via environment variables)
 - **Maps:** Multiplatform map in _Flutter_, device geolocation, hotels via _Overpass API_, text geocoding (learning from scratch; package choices in design)
 
 ### 6.2. External Services and Deployment
 
 Deployment prefers free or cheap plans that hold up for an _MVP_.
 
-The public repository is on _GitHub_. Secrets and private personal data stay out of it. _Docker_ keeps development and production consistent. The database is expected on a persistent free-tier _PostgreSQL_ host such as _Neon_. The _Go_ _API_ runs on a container-friendly host such as _Render_, _Fly.io_, or _Railway_, accepting that some free tiers show _cold starts_. The static site and the _Flutter_ _Web_ _PWA_ sit on _Vercel_ or _Netlify_. Store builds use Apple and Google developer accounts. Transactional email for _magic links_ may use _SendGrid_, _Mailgun_, or _Resend_ on free tiers. _Stripe_ and _Moloni_ run in **sandbox** for the first version (no real-money charges; simulated invoices only). Fully live payments and tax documents are a later step, outside this _MVP_ freeze — see the business rules.
+The public repository is on _GitHub_. Secrets and private personal data stay out of it. _Docker_ keeps development and production consistent. The database is expected on a persistent free-tier _PostgreSQL_ host such as _Neon_. The _Go_ _API_ runs on a container-friendly host such as _Render_, _Fly.io_, or _Railway_, accepting that some free tiers show _cold starts_. The static site and the _Flutter_ _Web_ _PWA_ sit on _Vercel_ or _Netlify_. Store builds use Apple and Google developer accounts. Transactional email for _magic links_ may use _SendGrid_, _Mailgun_, or _Resend_ on free tiers. _Stripe_ and _Moloni_ run in **sandbox** in this public project (no real-money charges; simulated invoices only). Live providers remain a **reuse** option via environment variables — see the business rules.
 
 No expensive custom domain is required at the start. Free subdomains from the hosts are acceptable, for example separate hosts for the institutional site, the members’ _PWA_, and the _API_, so that session cookies or tokens can be shared carefully for seamless navigation of signed-in members.
 
@@ -160,7 +160,7 @@ These decisions are part of the learning and delivery goals of the project.
 
 - Hotel data comes from the _Overpass API_ (_OpenStreetMap_) with pet-friendly tags, not from scraping commercial hotel sites. Text search uses a proper geocoding service chosen in design.
 - Hosting splits site and _PWA_ on static hosts, _Go_ on container hosts, and _PostgreSQL_ on a persistent free-tier service.
-- _Moloni_ in the first version stays in **sandbox** (simulated documents), with a possible later move to production invoicing.
+- _Moloni_ in this public project stays in **sandbox** (simulated documents). Live Moloni is optional for reusers via environment variables.
 - Authentication for the first version is _magic link_ and social login only. Traditional email-and-password is forbidden.
 - Secrets and integration settings (payments, invoicing, database, email, OAuth, Overpass) live in environment variables, never in the public repository.
 
@@ -171,7 +171,7 @@ This project is deliberately built so that the following are practised in a real
 - _Docker_ for development and production consistency
 - _Go_ for the _REST API_ and external integrations
 - _Magic links_ and social _OAuth_ login
-- _Stripe_ **sandbox**, including _webhooks_ and purchase state (no real-money charges in v1)
+- _Stripe_ **sandbox**, including _webhooks_ and purchase state (no real-money charges operated here)
 - _Moloni_ **sandbox** for the simulated receipt or invoice path
 - _Overpass API_ for geospatial hotel data
 - _PWA_ installation (_service workers_, _manifest.json_)
@@ -183,8 +183,8 @@ Store publishing requires signing material (_iOS_ certificates, _Android_ keysto
 
 ## 8. Conclusion
 
-The _The Doghouse_ _MVP_ is an ambitious but bounded project. It must work as a product dog owners can use and buy from, and remain an honest learning vehicle and a reusable skeleton for private real work such as Doses Pediátricas and for public engineering narrative on The Pharmacist, but tech. This Scope is the base contract for later specification, design, implementation, and validation.
+The _The Doghouse_ _MVP_ is an ambitious but bounded project. It must work as a product-shaped experience dog owners can walk through — including a sandbox buy path — and remain an honest learning vehicle and a reusable skeleton for private real work such as Doses Pediátricas and for public engineering narrative on The Pharmacist, but tech. This Scope is the base contract for later specification, design, implementation, and validation.
 
-Shipping one _Flutter_ codebase to _Web_, _iOS_, and _Android_ is a central differentiator. Free and persistent services, **sandbox** commerce (demonstrate selling without real charges), and a public repository without secrets are conscious trade-offs for a first version that still teaches the full sell-and-invoice path.
+Shipping one _Flutter_ codebase to _Web_, _iOS_, and _Android_ is a central differentiator. Free and persistent services, **sandbox** commerce in this public simulation, and a public repository without secrets are conscious trade-offs that still teach the full sell-and-invoice path.
 
-Meeting this scope means a usable multiplatform product within about two to three months of focused work, practical exposure to the target technologies, and a skeleton robust enough to reuse beyond this public dog-care domain.
+Meeting this scope means a usable multiplatform product within about two to three months of focused work (under parallelism and/or a stronger weekly pace), practical exposure to the target technologies, and a skeleton robust enough to reuse beyond this public dog-care domain.

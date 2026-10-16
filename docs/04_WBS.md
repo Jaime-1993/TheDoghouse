@@ -14,7 +14,7 @@ It is an **effort forecast** (proposal estimate). It does not replace a fine roa
 | ---- | ----- |
 | Unit | **Hours** of effective solo work |
 | Granularity | **Medium** — enough to plan; daily tasks live in a delivery roadmap when coding starts |
-| Capacity (reference for the schedule) | **2–4 h/day** across up to **7 calendar days/week** when time allows → about **14–28 h/week** (a planning reference, not a commitment to work every day) |
+| Capacity (reference for the schedule) | **2–4 h/day** across up to **7 calendar days/week** when time allows → about **14–28 h/week** (a planning reference, not a commitment to work every day). Real weeks often share the calendar with private client work and smaller freelance jobs, so wall-clock delivery of this public showcase can stretch |
 | Leaf hours only | Parent headings are labels; **totals sum leaf packages** |
 | Horizon | About **two to three months** for a usable first version (core Deliveries 1–7); the full WBS (planning + design + validation + report) is longer — see §2 |
 | IDs | **Delivery 1…7** match the Scope delivery sequence |
@@ -24,7 +24,7 @@ It is an **effort forecast** (proposal estimate). It does not replace a fine roa
 - Continuous social-media / marketing campaigns
 - Paid acquisition and partnerships
 - Endless editorial video production beyond the launch inventory (**2 free** + **4 paid** workshops)
-- Live (real-money) Stripe or production Moloni — v1 is **sandbox** only (`RN-19`…`RN-21`)
+- Live (real-money) Stripe or fiscal Moloni **as operated by this public project** — this repo stays **sandbox** (`RN-19`…`RN-21`); reusers may enable live mode via environment variables
 
 ### 1.3. Test and security policy (per delivery)
 

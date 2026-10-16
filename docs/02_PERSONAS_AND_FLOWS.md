@@ -89,7 +89,7 @@ Paid content (complete calculator, paid workshops and bundles) remains visible b
 
 #### 3.4a. Purchase initiation
 
-The free (or already paying) user tries locked content — complete calculator, a paid workshop video, or a workshop _bundle_. The system shows that the item is premium, the catalogue price (EUR amounts frozen in the business rules), and **Buy**. On confirm, the backend creates a _Stripe_ Checkout session in **sandbox** only (no real-money charges in the first version) and redirects the user to Stripe. The user pays with **test cards** and confirms.
+The free (or already paying) user tries locked content — complete calculator, a paid workshop video, or a workshop _bundle_. The system shows that the item is premium, the catalogue price (EUR amounts frozen in the business rules), and **Buy**. On confirm, the backend creates a _Stripe_ Checkout session in **sandbox** only (no real-money charges operated in this public project) and redirects the user to Stripe. The user pays with **test cards** and confirms.
 
 Purchase options for workshops include:
 
@@ -142,7 +142,7 @@ Selecting a marker shows available details (name, address, contact when present)
 
 ### 3.8. Viewing Invoices
 
-After a successful purchase, the premium user opens **My invoices** (or equivalent) in the members’ area, sees invoices tied to their purchases, and opens or downloads the _PDF_ via the stored Moloni public URL when available. Moloni sandbox customisation (logo/template) is enough to demonstrate visual identity; documents remain simulated until a later production step.
+After a successful purchase, the premium user opens **My invoices** (or equivalent) in the members’ area, sees invoices tied to their purchases, and opens or downloads the _PDF_ via the stored Moloni public URL when available. Moloni sandbox customisation (logo/template) is enough to demonstrate visual identity; documents remain **simulated** in this public project (reusers may configure live Moloni via environment variables).
 
 ### 3.9. Error-handling flows
 
@@ -187,7 +187,7 @@ The following rules condition the flows above. Normative detail lives in [03_BUS
 5. Magic link: **15 minutes**, single use.
 6. Overpass-backed hotel data may be cached with **TTL 24 hours**.
 7. Geolocation only after consent; text search remains available if declined.
-8. _Stripe_ checkouts in v1 are **sandbox only** (no real-money charges). Moloni invoices run in **sandbox** as **simulated** documents (no legal/tax effect until a later production step).
+8. _Stripe_ checkouts in this public project are **sandbox only** (no real-money charges operated here). Moloni invoices run in **sandbox** as **simulated** documents (no legal/tax effect here; reusers may switch via environment variables).
 9. Map queries respect the current **viewport**.
 10. Seamless session sharing is **signed-in site ↔ Flutter Web**; native store apps authenticate inside the app (same Stripe catalogue; no store IAP in v1).
 11. Breed-bundle upgrade after owning an individual video charges the **full bundle price** and grants the broader entitlement without duplicating access records needlessly.

@@ -4,13 +4,13 @@
 
 This document states the **business rules** that constrain the first version of **The Doghouse**. It is the normative reference for product behaviour. It complements the [interview annex](INTERVIEW_ANNEX.md), the [Scope](01_SCOPE.md), and [Personas and flows](02_PERSONAS_AND_FLOWS.md); it does not replace them. Flows in the Personas document illustrate these rules; when wording differs, **this document wins** for product obligations.
 
-Each rule has a stable identifier (`RN-xx`) so later requirements, modelling, and tests can cite it. Rules are written for the **MVP** as frozen here: English product, sandbox commerce, and no in-product administration panel. Product-owner intent to **sell for real** and **make money** (interview annex **H**, **I**, Q15) remains; this document freezes the **first technical MVP** on Stripe/Moloni **sandbox** so the sell path can be demonstrated safely before live charges.
+Each rule has a stable identifier (`RN-xx`) so later requirements, modelling, and tests can cite it. Rules are written for the **MVP** as frozen here: English product, sandbox commerce, and no in-product administration panel. The simulated product owner still answers that they want to **sell** and **make money** (interview annex **H**, **I**, Q15). This **public** project implements that brief as a **sandbox simulation** (Stripe/Moloni test mode). Someone who reuses the skeleton may switch to live providers with their own secrets and environment variables.
 
 ## 2. Identity and brand
 
 **RN-01.** The public product name is **The Doghouse**. There is an institutional website and a members’ area with tools for dog owners.
 
-**RN-02.** The Doghouse is a **real product and business** for dog owners in this public repository’s product surface. There is no external paying client for the repository; the developer owns the repository and decides technical and learning boundaries in the Scope.
+**RN-02.** On the product surface, The Doghouse is shaped like a **real product and business** for dog owners. This public repository is a **simulation and reusable skeleton** (no external paying client). The developer owns the repository and decides technical and learning boundaries in the Scope.
 
 **RN-03.** **No other brands or professional identities** appear in the shipping Doghouse **user interface** or **application experience** (site, members’ area, store builds). Documentation may name other brands (for example Doses Pediátricas or The Pharmacist, but tech) only to explain why this public repository exists. Those names must not leak into production UI copy or chrome.
 
@@ -71,11 +71,11 @@ Free intros and the basic calculator remain **0.00** (no charge).
 
 ### 5.2. Sandbox payments and invoicing
 
-**RN-19.** In the first version, **all** paid checkouts run in **Stripe sandbox** (test mode). There are **no real-money charges** in v1. The product demonstrates the sell-and-unlock path with test cards and sandbox webhooks.
+**RN-19.** In this public project, **all** paid checkouts run in **Stripe sandbox** (test mode). There are **no real-money charges** operated here. The product demonstrates the sell-and-unlock path with test cards and sandbox webhooks. Reusers may point environment variables at live Stripe if they choose.
 
 **RN-20.** Checkout uses **Stripe** with the **same catalogue and rules** on **Flutter Web** and on **native iOS/Android**. There is **no** Apple or Google **in-app purchase** storefront for these SKUs in v1.
 
-**RN-21.** Receipt/invoice is **in for v1** via **Moloni** in **sandbox**. Moloni issues a **simulated** PDF (logo, date, amount, purchase data). Simulated invoices have **no legal value** and no tax-authority effects until a later production step. The backend stores the invoice reference (and public URL when provided) against user and purchase.
+**RN-21.** Receipt/invoice is **in for v1** via **Moloni** in **sandbox**. Moloni issues a **simulated** PDF (logo, date, amount, purchase data). Simulated invoices have **no legal value** and no tax-authority effects in this public project. The backend stores the invoice reference (and public URL when provided) against user and purchase. Reusers may configure live Moloni with their own secrets if they choose.
 
 **RN-22.** A **failed**, declined, abandoned, or timed-out payment must **not** unlock content and must **not** create a successful-looking invoice.
 
@@ -146,6 +146,6 @@ Free intros and the basic calculator remain **0.00** (no charge).
 
 ## 11. Conclusion
 
-These rules freeze how The Doghouse behaves for the first version: English dog-owner product, passwordless access, per-item lifetime purchases in **Stripe sandbox**, **simulated Moloni** invoices, independent calculator and workshop catalogues with explicit bundles, and a signed-in hotels map driven by Overpass viewports. They give a stable base for work breakdown, schedule, requirements, and implementation without an in-product admin persona and without mixing other brands into the shipping experience.
+These rules freeze how The Doghouse behaves for the first version: English dog-owner product, passwordless access, per-item lifetime purchases in **Stripe sandbox**, **simulated Moloni** invoices, independent calculator and workshop catalogues with explicit bundles, and a signed-in hotels map driven by Overpass viewports. The public repository is a sandbox simulation and reusable skeleton. They give a stable base for work breakdown, schedule, requirements, and implementation without an in-product admin persona and without mixing other brands into the shipping experience.
 
 When Personas and flows describe a journey, implementers should satisfy the matching `RN-xx` identifiers above.
