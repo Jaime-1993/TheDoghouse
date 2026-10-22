@@ -28,7 +28,7 @@ Read in this order — from kickoff decisions, through *what* and *who*, to *how
 
 ### Published reading order (today)
 
-Start with [00_INTERVIEW.md](00_INTERVIEW.md), [INTERVIEW_ANNEX.md](INTERVIEW_ANNEX.md), [01_SCOPE.md](01_SCOPE.md), [02_PERSONAS_AND_FLOWS.md](02_PERSONAS_AND_FLOWS.md), [03_BUSINESS_RULES.md](03_BUSINESS_RULES.md), [04_WBS.md](04_WBS.md), [05_GANTT.md](05_GANTT.md), and the [proposal report](reports/R1_PROPOSAL.md) — those are aligned. File names for `01`–`11` follow the target order above. Design documents (`06`–`11`) remain on disk for a later stage and may still need review.
+Start with [00_INTERVIEW.md](00_INTERVIEW.md), [INTERVIEW_ANNEX.md](INTERVIEW_ANNEX.md), [01_SCOPE.md](01_SCOPE.md), [02_PERSONAS_AND_FLOWS.md](02_PERSONAS_AND_FLOWS.md), [03_BUSINESS_RULES.md](03_BUSINESS_RULES.md), [04_WBS.md](04_WBS.md), [05_GANTT.md](05_GANTT.md), and the [proposal report](reports/R1_PROPOSAL.md) — those are aligned. File names for `01`–`11` follow the target order above. Design starts with [06_RESEARCH.md](06_RESEARCH.md) (**aligned**); `07`–`11` remain on disk and may still need review.
 
 Screenshots and other non-generated visual assets are kept in [`images/`](images/). Generated diagram renders and their PlantUML sources (`diagrams/plantuml/`) live in [`diagrams/`](diagrams/). A shared vocabulary is available in [`GLOSSARY.md`](GLOSSARY.md).
 
@@ -58,16 +58,16 @@ File **names and numbers** follow the numbered reading order in this README. Int
 
 ### Design documents (on disk)
 
-These files belong to the **design** stage (after the proposal track). Names match the numbered reading order in this README; content may still need later review.
+These files belong to the **design** stage (after the proposal track). Names match the numbered reading order in this README.
 
-| Document | What it covers |
-| -------- | -------------- |
-| [06_RESEARCH.md](06_RESEARCH.md) | Research and stack decisions. |
-| [07_REQUIREMENTS.md](07_REQUIREMENTS.md) | Functional and non-functional requirements. |
-| [08_ARCHITECTURE.md](08_ARCHITECTURE.md) | System architecture. |
-| [09_DATABASE.md](09_DATABASE.md) | Data model. |
-| [10_API_ENDPOINTS.md](10_API_ENDPOINTS.md) | *API* endpoint contracts. |
-| [11_UML_DIAGRAMS.md](11_UML_DIAGRAMS.md) | UML diagrams. |
+| Document | What it covers | Status |
+| -------- | -------------- | ------ |
+| [06_RESEARCH.md](06_RESEARCH.md) | Market alternatives → numbered lessons for the planned first version. | On disk (**aligned**) |
+| [07_REQUIREMENTS.md](07_REQUIREMENTS.md) | Functional and non-functional requirements. | On disk (may need later review) |
+| [08_ARCHITECTURE.md](08_ARCHITECTURE.md) | System architecture. | On disk (may need later review) |
+| [09_DATABASE.md](09_DATABASE.md) | Data model. | On disk (may need later review) |
+| [10_API_ENDPOINTS.md](10_API_ENDPOINTS.md) | *API* endpoint contracts. | On disk (may need later review) |
+| [11_UML_DIAGRAMS.md](11_UML_DIAGRAMS.md) | UML diagrams. | On disk (may need later review) |
 
 ### Supporting
 
@@ -101,7 +101,7 @@ Two columns matter: **on disk** (a file you can open today) versus **aligned** (
 
 - Interview pack through Schedule and the proposal report are aligned (simulated product-owner interview; developer docs and R1 as a public sandbox simulation / reusable skeleton).  
 - File names for `01`–`11` match the numbered reading order in this README.  
-- Design documents (`06`–`11`) may still need later review; they are not part of the proposal package.
+- Research (`06_RESEARCH.md`) is **aligned** for the design stage. Remaining design documents (`07`–`11`) may still need later review; they are not part of the proposal package.
 
 ---
 

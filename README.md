@@ -62,7 +62,7 @@ Start with the interview pack, then the proposal documents. Full map: [`docs/REA
 - [UML diagrams](./docs/11_UML_DIAGRAMS.md)
 - [Glossary](./docs/GLOSSARY.md)
 
-Interview pack through Schedule and the [proposal report](./docs/reports/R1_PROPOSAL.md) are aligned — see [`docs/README.md`](./docs/README.md). Design docs (`06`–`11`) may still need later review.
+Interview pack through Schedule and the [proposal report](./docs/reports/R1_PROPOSAL.md) are aligned — see [`docs/README.md`](./docs/README.md). Research ([`06_RESEARCH.md`](./docs/06_RESEARCH.md)) is **aligned**; `07`–`11` may still need later review.
 
 ## Project status
 
