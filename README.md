@@ -62,7 +62,7 @@ Start with the interview pack, then the proposal documents. Full map: [`docs/REA
 - [UML diagrams](./docs/11_UML_DIAGRAMS.md)
 - [Glossary](./docs/GLOSSARY.md)
 
-Interview pack through Schedule and the [proposal report](./docs/reports/R1_PROPOSAL.md) are aligned — see [`docs/README.md`](./docs/README.md). Research through Database ([`06`](./docs/06_RESEARCH.md)–[`09`](./docs/09_DATABASE.md)) are **aligned**; `10`–`11` may still need later review.
+Interview pack through Schedule and the [proposal report](./docs/reports/R1_PROPOSAL.md) are aligned — see [`docs/README.md`](./docs/README.md). Research through API endpoints ([`06`](./docs/06_RESEARCH.md)–[`10`](./docs/10_API_ENDPOINTS.md)) are **aligned**; `11` may still need later review.
 
 ## Project status
 
