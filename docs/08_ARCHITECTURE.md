@@ -1,203 +1,220 @@
-# General Architecture Design – _The Doghouse_
+# Architecture – _The Doghouse_
 
 ## 1. Introduction
 
-This document aims to describe the overall architecture of the _The Doghouse_ system, defining the high‑level technological structure, the major components that make up the application, the technologies adopted for each, and how they communicate with each other.
+This document describes the **architecture of the planned first version** of _The Doghouse_: components, hosting, authentication/session, seamless site↔Flutter Web, payments, and the closed decisions that [`07_REQUIREMENTS.md`](07_REQUIREMENTS.md) left for here (especially session transport and seamless mechanism — **RF-16**, **RF-20**).
 
-The system follows a three‑tier client‑server architecture, complemented by external services. The technological choices are justified considering the _MVP_ objectives, resource constraints (free services), and the learning context of the project.
+**Sources:** [`01_SCOPE.md`](01_SCOPE.md), [`02_PERSONAS_AND_FLOWS.md`](02_PERSONAS_AND_FLOWS.md), [`03_BUSINESS_RULES.md`](03_BUSINESS_RULES.md), [`07_REQUIREMENTS.md`](07_REQUIREMENTS.md).
 
-## 2. Overview of the Architecture
+**Principles:**
 
-The _The Doghouse_ system adopts a three‑tier client‑server architecture with the following main components:
+- Stack already fixed in Scope — do not reinvent.
+- Prefer **€0** free tiers while sustainable (API cold start accepted).
+- Solo operation — keep deploy and secrets simple.
+- Schema detail → [`09_DATABASE.md`](09_DATABASE.md); HTTP contracts → [`10_API_ENDPOINTS.md`](10_API_ENDPOINTS.md); UML sequences → [`11_UML_DIAGRAMS.md`](11_UML_DIAGRAMS.md).
 
-**Presentation Layer**
-The presentation layer consists of two distinct components: the institutional website, developed in pure _HTML_, _CSS_, and _JavaScript_, hosted on _Vercel_, and the _Flutter_ application, compiled for the _Web_ (as a _PWA_), _iOS_, and _Android_, also hosted on _Vercel_. The institutional website is responsible for the _landing page_ and the _blog_, serving as a public entry point optimized for _SEO_. The _Flutter_ application is responsible for the restricted area, where authenticated users access the three functional areas: ideal weight calculator, _workshops_, and maps.
+---
 
-**Business Logic Layer**
-The business logic layer is implemented by a _REST API_ developed in _Go_, hosted on a container service such as _Render_, _Fly.io_, or _Railway_. The _API_ implements all system operations, including authentication (via _magic link_ and social login), user management, conditional access to content, payment processing (via _Stripe_), simulated invoice issuance (via _Moloni_), integration with the _Overpass API_ for geospatial data retrieval, and _cache_ management.
+## 2. Closed decisions (this revision)
 
-**Data Layer**
-The data layer is ensured by a relational _PostgreSQL_ database, hosted on _Neon_ (free plan with 500 MB of storage). The database stores all persistent information: users, content (breeds, _workshops_, calculator data), purchases, invoices, _Overpass API_ _cache_, and system metadata.
+| # | Topic | Decision |
+| - | ----- | -------- |
+| **D1** | Session | Single **JWT**, validity **7 days**, renewable on re-authentication — closes **RF-16** / **RN-12** (no access+refresh split in v1) |
+| **D2** | Session transport | **Web** (static site + Flutter Web): session cookie `HttpOnly` + `Secure` (+ `SameSite=Lax` unless a documented exception is needed). **Native iOS/Android:** `Authorization: Bearer` only — closes transport left open in **RF-16** |
+| **D3** | Seamless site → Flutter Web | **Primary:** shared cookie on the **Vercel** host (same project / shareable parent domain). **Validate** cookie sharing on the real Vercel layout (including `*.vercel.app`); if the parent-domain cookie cannot be set or sent, **activate the fallback**. **Do not** put the JWT in the query string. **Fallback:** short-lived **one-time code** (single use) exchanged at the API for a session — not the normal path |
+| **D4** | Auth at Delivery 2 go-live | **Magic link** and **Google** and **Facebook** OAuth available together (**RN-10** / **RF-11**); no email+password; no Apple Sign-In (**RF-12**, **RF-13**) |
+| **D5** | API hosting | **Render** Web Service on the **free** plan, Docker image |
+| **D6** | Cold start UX | Accepted. If the API gives **no HTTP response within 3 seconds** on the login flow → show a user-facing notice (“the server may be waking up…”). Keep waiting; recoverable timeout about **60–90 s** — not a fake “wrong credentials” failure |
+| **D7** | Keep-alive ping | **Out** of plan A (no artificial keep-alive to dodge free-tier idle) |
+| **D8** | Static site + Flutter Web | **Vercel** — institutional site already live at `https://the-doghouse-iota.vercel.app/`; Flutter Web on the **same** Vercel hosting for seamless cookies |
+| **D9** | Database | **PostgreSQL on Neon** (free tier) |
+| **D10** | Payments / invoicing | **Stripe sandbox** + **Moloni sandbox** in this public project; same catalogue on Web and native; **no** store IAP for these SKUs (**RN-19…RN-21**, **RF-56…RF-57**) |
+| **D11** | Transactional email | Provider **not named** yet; Delivery 2 picks a free-tier, reliable sender for magic links (and optional welcome / purchase mail) |
+| **D12** | Error tracking | **Sentry** = **Optional** (not required; product analytics stay out per **RN-42** / **RF-75**) |
+| **D13** | API authority | Frontend = UX; **backend revalidates** session, SKUs, entitlements, discounts (**RNF-13**) |
+| **D14** | Plan B (API host) | If Render free stops serving the product: evaluate another free/cheap container host — **without** changing plan A while free works |
 
-**External Services**
-The architecture integrates several external services that complement system functionalities:
+---
 
-- _Overpass API_ (_OpenStreetMap_) – provision of geospatial data on _pet‑friendly_ hotels.
-- _Nominatim_ (_OpenStreetMap_) – geocoding of textual addresses into coordinates.
-- _Stripe_ (in _sandbox_) – payment processing and _webhook_ management.
-- _Moloni_ (in _sandbox_) – issuance of simulated invoices in _PDF_.
-- _SendGrid_ (or _Mailgun_, _Resend_) – sending transactional _e‑mails_ (_magic links_, purchase confirmations, welcome messages).
-- _Sentry_ – error tracking in production.
+## 3. Context diagram
 
-_Figure 1_ presents the system architecture diagram.
+**PlantUML source:** [`diagrams/plantuml/08_context.puml`](diagrams/plantuml/08_context.puml)
 
-![Architecture Diagram](images/architecture_diagram.png)
+![Architecture context – The Doghouse](diagrams/08_context.png)
 
-_Figure 1 – Architecture diagram of The Doghouse system, illustrating the three main layers (presentation, business logic, and data), integrated external services, and communication flows between components._
+_Figure 1 – Context of the planned first version: dog owner, static site and Flutter Web (Vercel), native apps, Go API (Render), Neon, email, Google/Facebook, Stripe sandbox, Moloni sandbox, Overpass/Nominatim._
 
-## 3. Justification of Technological Choices
+*(Legacy asset [`images/architecture_diagram.png`](images/architecture_diagram.png) is superseded by Figure 1 for this revision.)*
 
-### 3.1. _Backend_ in _Go_
+---
 
-The choice of _Go_ for _backend_ development is justified for several reasons. First, _Go_ is a modern, efficient language with excellent support for concurrency, which is particularly relevant for an _API_ that may need to handle multiple simultaneous requests (authentication, database queries, calls to external services). Second, _Go_ compiles to a single binary, simplifying _deployment_ and _containerization_ with _Docker_. Third, the language is widely used in _backend_ and _REST API_ development, with an active community and good documentation, which facilitates learning – an important factor for a project with a study component. Finally, _Go_ is supported by free _deployment_ services such as _Render_, _Fly.io_, and _Railway_, with plans adequate for the _MVP_ scope.
+## 4. Components
 
-### 3.2. _Frontend_ – Institutional Website (_HTML_/_CSS_/_JS_)
+### 4.1. Institutional site (Vercel)
 
-The institutional website is developed in pure _HTML_, _CSS_, and _JavaScript_, without _frameworks_. This choice is justified by the need to optimize _SEO_ and ensure fast loading, characteristics that are harder to achieve with heavy _frameworks_. The website consists of a _landing page_ and a _blog_ with static articles, functioning as a showcase for the project and a source of organic traffic. The technological simplicity allows for fast _deployment_ on static _hosting_ services such as _Vercel_.
+- Static **HTML / CSS / JS** — landing + blog; SEO-friendly; English UI (**RF-01…RF-09**).
+- CTAs into sign-in / members’ area.
+- **No** payment secrets or privileged business logic in the browser.
+- Publishes the site folder only — not documentation markdown.
 
-### 3.3. _Frontend_ – _Flutter_ Application (_Web_, _iOS_, _Android_)
+### 4.2. Flutter members’ area (Web PWA + iOS + Android)
 
-The _Flutter_ application is the heart of the system's restricted area. The choice of _Flutter_ is justified by its ability to compile for three platforms (_Web_ as _PWA_, _iOS_, and _Android_) from a single codebase, eliminating duplication of effort and ensuring consistency of interface and functionality across all platforms. _Flutter_ is a modern technology with an active community and excellent documentation, and its reactive _widget_ model allows for building rich and dynamic interfaces efficiently. Configuration as a _PWA_ allows direct installation from the browser, complementing publication on the official stores.
+- Calculator (free + paid), workshops, hotels map, profile, purchases, invoices (**RF-25…RF-51**, **RF-69**).
+- **Web:** uses the shared session cookie (**D2**, **D3**).
+- **Native:** authenticates **inside the app** with Bearer JWT; does **not** inherit the static-site cookie path (**RF-22** / **RN-13**).
+- One shared codebase (**RF-71**); store publication path in Delivery 7 (**RF-72**).
+- Map client uses geolocation (`geolocator`) after consent and opens native maps (**RF-44**, **RF-49**); concrete map widget wiring is an implementation detail under this architecture.
 
-### 3.4. Database – _PostgreSQL_ (_Neon_)
+### 4.3. Go REST API (Render free)
 
-The choice of a relational database (_PostgreSQL_) is justified by the structured nature of the system data – users, purchases, content, _cache_ – and the need for referential integrity and transactional consistency. _PostgreSQL_ is a mature database with native _JSON_ support (useful for metadata or configurations) and is widely supported by free services. _Neon_ was chosen as the hosting service for offering a free plan with 500 MB of storage, without the need for periodic renewal, and for providing features such as _point‑in‑time recovery_ and _branches_ for development.
+- Auth, session, catalogue content, entitlements, Stripe checkout + webhooks, Moloni simulation, Overpass proxy/cache, Nominatim geocode, transactional email triggers.
+- Layered internally: routes → handlers → services → data access (**RNF-14**).
+- **Cold start** after idle on free tier is expected; UX per **D6**.
+- Docker for reproducible builds on Render; prefer an **EU** region when available on free.
+- Tests: `go test` for critical logic (**RNF-09**); e2e covered with delivery Done (**RNF-10**).
 
-### 3.5. Containerization – _Docker_
+### 4.4. PostgreSQL (Neon)
 
-_Docker_ is used to _containerize_ the _Go_ _backend_, the _PostgreSQL_ database, and the _proxy_ (if necessary). _Containerization_ ensures consistency between development and production environments, simplifies _deployment_, and facilitates environment replication by other developers – an important factor for a public project on _GitHub_.
+- Users, sessions/tokens as needed, catalogue metadata, purchases, entitlements, invoice references, Overpass cache (TTL 24 h — **RF-47**), promo codes/campaigns when used.
+- Full schema in [`09_DATABASE.md`](09_DATABASE.md).
 
-### 3.6. External Services
+### 4.5. External services
 
-- **_Overpass API_ and _Nominatim_** – are free public services from _OpenStreetMap_. The _Overpass API_ allows structured queries to geospatial data (_pet‑friendly_ hotels), while _Nominatim_ offers geocoding (converting text to coordinates). They are suitable choices for an _MVP_ as they do not require _API_ keys and have accessible documentation.
-- **_Stripe_ (in _sandbox_)** – is one of the most widely used payment gateways, with a _sandbox_ mode that allows simulating payments without real effects. The integration with _webhooks_ is well documented and the platform offers a free plan adequate for the _MVP_.
-- **_Moloni_ (in _sandbox_)** – is a Portuguese invoicing system with _sandbox_ environment support. It allows issuing simulated invoices in _PDF_, demonstrating the invoicing flow without real tax effects.
-- **_SendGrid_ (or _Mailgun_, _Resend_)** – are transactional email services with free plans, used for sending _magic links_, purchase confirmations, and welcome _e‑mails_.
-- **_Sentry_** – is an error tracking platform with a free plan, used to monitor production failures.
+| Service | Role |
+| ------- | ---- |
+| Transactional email (TBD vendor) | Magic link; optional welcome / purchase confirmation (**RF-15**, **RF-19**, **RF-70**) |
+| Google + Facebook OAuth | Social login from Delivery 2 go-live (**D4**) |
+| Stripe **sandbox** | Checkout + webhooks (**RF-56…RF-68**) |
+| Moloni **sandbox** | Simulated PDF invoice when paid amount > 0 (**RF-60**, **RF-61**) |
+| Overpass API | Pet-friendly hotels by viewport (**RF-45…RF-47**) |
+| Nominatim | Text geocoding (**RF-44**) |
+| Sentry (optional) | Error tracking only if enabled (**D12**) |
 
-### 3.7. Hosting
+---
 
-- **Institutional website and _Flutter_ Web application** – _Vercel_ (same base domain, allowing _localStorage_ sharing for _seamless_ transition).
-- **_Backend_ (_Go_)** – _Render_, _Fly.io_, or _Railway_, services that support _Docker_ containers and offer free plans with acceptable limitations for an _MVP_ (e.g., _cold starts_).
-- **Database (_PostgreSQL_)** – _Neon_, with a free 500 MB plan and no need for periodic renewal.
+## 5. Authentication and session
 
-These choices ensure that the prototype can be made publicly available at no cost, fulfilling the demonstration and learning requirements.
+### 5.1. Methods (Delivery 2)
 
-## 4. Description of Components and Flows
+All of the following are in scope for auth go-live:
 
-### 4.1. System Components
+1. **Magic link** — email → link → single use; **15 minutes** (**RN-11** / **RF-14**).
+2. **Google** OAuth — validated at the API.
+3. **Facebook** OAuth — validated at the API.
 
-**Institutional Website (_HTML_/_CSS_/_JS_)**
-The institutional website consists of a _landing page_ and a _blog_ with static articles. The _landing page_ presents the project, its benefits, and a call to action for registration. The _blog_ contains articles about dog care and curiosities, serving as organic content to attract visitors. The website is accessible to all visitors without authentication and includes a button to access the restricted area in the _Flutter_ application.
+**Forbidden:** email + password; Apple Sign-In (**RF-12**, **RF-13**).
 
-**_Flutter_ Application (_Web_, _iOS_, _Android_)**
-The _Flutter_ application is the main interface for the system's restricted area. It contains three functional areas:
+### 5.2. Token model (closes RF-16)
 
-- **Ideal Weight Calculator** – allows the user to select the breed and age of the dog, returning an approximate value (free version) or a complete table with percentiles and recommendations (premium version).
-- **Workshops Area** – organized by breed, with free introductory videos and paid videos on specific care, nutrition, training, and health.
-- **Maps Area** – interactive map for searching _pet‑friendly_ hotels, with search by current location (Near Me) or by text location (e.g., "Porto").
+| Item | Value |
+| ---- | ----- |
+| Token | Single **JWT** |
+| Validity | **7 days** |
+| Renewal | On re-authentication |
+| Web transport | `HttpOnly` + `Secure` cookie (**D2**) |
+| Native transport | `Authorization: Bearer <jwt>` (**D2**) |
 
-The application also includes a profile area, where the user can view their purchase history, acquired content, and invoices.
+Claims stay minimal (subject, expiry, issued-at). Exact cookie name and path are implementation detail; behaviour above is normative for v1.
 
-**_Backend_ in _Go_ (_REST API_)**
-The _REST API_ in _Go_ is responsible for all the system's business logic. It is organized in layers:
+### 5.3. Cold start notice (login)
 
-- **Routes layer** – defines the _API_ _endpoints_ and associates each route with the respective controller.
-- **Controllers layer** – receives requests, validates _inputs_, calls the appropriate services, and returns responses in _JSON_ format.
-- **Services layer** – contains the business logic (authentication, content management, payment processing, _Overpass API_ integration, etc.).
-- **Data Access layer** – interacts with the _PostgreSQL_ database through an _ORM_ or parameterized _queries_.
+Aligned with **D6**:
 
-**_PostgreSQL_ Database**
-The database stores all system entities:
+1. Client starts an API call (magic-link request, OAuth completion, or first authenticated hit of the login path).
+2. If **no HTTP response within 3 seconds** → show a clear notice that the server may be starting after idle; ask the user to wait.
+3. Do **not** cancel the in-flight operation only because the notice appeared.
+4. If still unsuccessful after about **60–90 seconds** → recoverable error (“try again”), not a credentials failure.
 
-- Users (with access profiles and purchase history)
-- Content (breeds, _workshops_, calculator data)
-- Purchases and invoices
-- _Overpass API_ _cache_ (with 24‑hour TTL)
+### 5.4. Seamless site ↔ Flutter Web (closes RF-20 / RF-21)
 
-### 4.2. Interaction Flows
+**Goal:** signed-in on the static site → open members’ area on Flutter Web **without** signing in again.
 
-Communication between the _frontend_ and the _backend_ is carried out through _HTTP_ requests to the _REST API_, exchanging messages in _JSON_ format. To illustrate the interactions, some representative examples are presented:
+**Primary (D3):**
 
-**Authentication and Registration**
+1. Host static site and Flutter Web on **Vercel** under a shareable parent domain.
+2. After auth, set the session cookie for that parent domain (`Secure`, `HttpOnly`, `SameSite=Lax` unless a documented exception is required).
+3. Flutter Web sends that cookie on API calls (CORS and cookie settings must allow the Vercel origins used).
+4. **Validate in the real Vercel deploy** (preview and production URLs). Free `*.vercel.app` hostnames sometimes block useful parent-domain cookies — if sharing fails in practice, use the fallback below rather than inventing `localStorage` or query-string JWTs.
 
-- `POST /api/auth/register` – registers a new user (after _magic link_ validation).
-- `POST /api/auth/magic-link` – requests the sending of a _magic link_ to the provided email.
-- `GET /api/auth/verify/{token}` – validates the _magic link_ and authenticates the user.
-- `POST /api/auth/social` – authentication via social login (_Google_/_Facebook_).
+**Fallback (D3):** if shared cookies cannot be configured on free hosting, use a **one-time code** (short TTL, single use) in the handoff URL; the Flutter Web app exchanges it at the API for a session. **Never** put a long-lived JWT in the query string.
 
-**Ideal Weight Calculator**
+**Native apps:** always authenticate inside the app (**RF-22**).
 
-- `GET /api/calculator/breeds` – retrieves the list of available breeds.
-- `GET /api/calculator/weight?breed={breed}&age={age}` – calculates the ideal weight (free version).
-- `GET /api/calculator/premium?breed={breed}&age={age}` – calculates the ideal weight with complete table (premium version, requires authentication and purchase verification).
+---
 
-**_Workshops_**
+## 6. Payments and invoicing (sandbox)
 
-- `GET /api/workshops` – retrieves the list of breeds with introductory videos (accessible to all authenticated users).
-- `GET /api/workshops/{breed}` – retrieves the list of videos for a breed (paid videos only if the user has purchased the content).
-- `POST /api/workshops/purchase` – records the purchase of a video or _bundle_ (integration with _Stripe_).
+Aligned with Personas §3.4 / §3.9 and **RF-52…RF-70**:
 
-**Maps**
+1. Signed-in user starts checkout — refused if they already own the same SKU; bundles/partial ownership per **RF-64** / **RF-65**.
+2. API resolves discounts (**RF-66**); amount **0.00 EUR** → paid order + entitlements **without** Stripe/Moloni (**RF-67**).
+3. Amount > 0 → **Stripe Checkout** (sandbox).
+4. Stripe webhook → API (**idempotent**, **retriable** — **RF-62**, **RNF-12**).
+5. Unlock purchased entitlements; **Moloni sandbox** simulation when amount > 0, with retry; access stays if Moloni fails (**RF-60**, **RF-63**).
+6. Client may **poll** purchase status if the webhook is delayed (**RF-62**).
+7. Profile lists simulated invoices (**RF-69**).
 
-- `GET /api/maps/hotels?lat={lat}&lng={lng}&north={north}&south={south}&east={east}&west={west}` – retrieves _pet‑friendly_ hotels in the current _viewport_ (queries _cache_ or _Overpass API_).
-- `GET /api/maps/geocode?address={address}` – geocodes a text address via _Nominatim_.
+Live Stripe/Moloni remain a **reuse** option via environment variables — not operated as real money in this public project (**RN-19**, **RN-21**).
 
-**Payments and Invoicing**
+---
 
-- `POST /api/payments/create-checkout` – creates a _checkout_ session on _Stripe_.
-- `POST /api/payments/webhook` – _endpoint_ for the _Stripe_ _webhook_ (payment processing).
-- `GET /api/profile/invoices` – retrieves the list of invoices for the authenticated user.
-- `GET /api/invoices/{id}` – retrieves details of a specific invoice (public _URL_ from _Moloni_).
+## 7. Hotels map (architecture note)
 
-**Profile and Content**
+- Available to **signed-in** members only (**RF-43**).
+- Backend queries **Overpass** for the current **viewport**, caches **24 h**, geocodes text via **Nominatim** (**RF-44…RF-47**).
+- Client: Near me after consent; open in native maps (**RF-44**, **RF-49**).
+- No reviews/booking product (**RF-51**). Endpoint shapes → [`10_API_ENDPOINTS.md`](10_API_ENDPOINTS.md).
 
-- `GET /api/profile` – retrieves the user's profile data.
-- `PUT /api/profile` – updates the user's profile data (name).
-- `GET /api/profile/purchases` – retrieves the purchase history and acquired content.
+---
 
-### 4.3. Integration with External Services
+## 8. Deploy, environments, and secrets
 
-**_Overpass API_ (_OpenStreetMap_)**
-The _backend_ queries the _Overpass API_ to obtain _pet‑friendly_ hotels based on the _viewport_ coordinates and the tags `dog=yes` or `pets=yes`. Results are stored in the database _cache_ with a 24‑hour TTL to avoid excessive queries to the external _API_.
+| Environment | Site / Flutter Web | API | Database | Notes |
+| ----------- | ------------------ | --- | -------- | ----- |
+| Local | static files / Flutter web | Go local (Docker Compose) | Neon branch or local Postgres | Secrets in `.env` (gitignored) |
+| Public demo | **Vercel** | **Render** free | **Neon** | HTTPS; free-tier cold starts |
 
-**_Nominatim_ (_OpenStreetMap_)**
-The _backend_ uses _Nominatim_ to geocode text addresses (e.g., "Porto") into geographic coordinates (latitude and longitude), allowing text‑based location search in the maps area.
+**Secrets (never in Git):** JWT signing key, Google/Facebook OAuth secrets, Stripe sandbox keys, Moloni sandbox credentials, email API/SMTP, Neon connection string (**RF-73**, **RNF-07**).
 
-**_Stripe_ (in _sandbox_)**
-The _backend_ integrates with _Stripe_ to create _checkout_ sessions and process payment _webhooks_. Payments are simulated in a _sandbox_ environment, without real effects.
+**Observability:** API logs without sensitive data in clear text; correlate Stripe webhooks by event id (**RNF-12**). Sentry only if **D12** is enabled.
 
-**_Moloni_ (in _sandbox_)**
-The _backend_ integrates with _Moloni_ to generate simulated invoices in _PDF_ after each successful purchase. Invoices are stored in the database through the public _URL_ provided by _Moloni_.
+**Docker:** Compose for local API (+ optional local Postgres); production API image on Render (**D5**).
 
-**_SendGrid_ (or _Mailgun_, _Resend_)**
-The _backend_ uses a transactional email service to send _magic links_, purchase confirmations, and welcome _e‑mails_.
+---
 
-**_Sentry_**
-The _backend_ integrates _Sentry_ for error tracking in production, allowing monitoring of failures and exceptions.
+## 9. What this document does not close
 
-## 5. Containerization Strategy with _Docker_
+| Topic | Document |
+| ----- | -------- |
+| Tables, indexes, migrations | [`09_DATABASE.md`](09_DATABASE.md) |
+| Endpoint list, payloads, errors | [`10_API_ENDPOINTS.md`](10_API_ENDPOINTS.md) |
+| Class / sequence UML | [`11_UML_DIAGRAMS.md`](11_UML_DIAGRAMS.md) |
+| Exact transactional email vendor | Delivery 2 (criterion in **D11**) |
+| Effort hours | [`04_WBS.md`](04_WBS.md) |
 
-_Docker_ _containerization_ is used to ensure consistency between development and production environments, simplify _deployment_, and facilitate environment replication by other developers. The strategy includes:
+---
 
-- **_Go_ _backend_ container** – _Docker_ image that compiles the _Go_ application and runs it as an _HTTP_ service.
-- **_PostgreSQL_ database container** – official _PostgreSQL_ _Docker_ image, with data persistence through _volumes_.
-- **Orchestration with _Docker Compose_** – `docker-compose.yml` file that defines and orchestrates the containers for the development environment, including the database, the _backend_, and (if necessary) a _proxy_.
+## 10. Traceability (decisions → requirements)
 
-_Docker Compose_ allows starting the entire environment with a single command (`docker-compose up`), facilitating development and local testing. For production, containers are individually deployed on services such as _Render_, _Fly.io_, or _Railway_.
+| Decision / piece | RF / RNF / RN |
+| ---------------- | ------------- |
+| JWT 7 days | RF-16, RN-12 |
+| Cookie Web / Bearer native | RF-16, RF-22, D2 |
+| Seamless + fallback code | RF-20, RF-21, D3 |
+| Magic link + Google + Facebook | RF-11…RF-15, RN-10, D4 |
+| Cold start UX 3 s | D6 (supports usable login on free tier) |
+| Vercel + Render + Neon | RF-71, RNF-01, D5, D8, D9 |
+| Stripe / Moloni sandbox | RF-56…RF-68, RNF-12, RNF-15 |
+| Overpass / Nominatim | RF-43…RF-49 |
+| API authority | RNF-13, D13 |
+| Optional Sentry | D12, RF-75 |
 
-## 6. Session Sharing Strategy Between Website and Application
+---
 
-The _seamless_ transition between the institutional website (_HTML_/_CSS_/_JS_) and the _Flutter_ application is implemented through sharing a JWT token between the two components.
+## 11. Conclusion
 
-**Sharing mechanism:**
+The planned first version runs on **Vercel** (static site + Flutter Web) + **Flutter** native + **Go on Render free** + **Neon**, with **magic link + Google + Facebook**, a **7-day JWT**, **cookie-based seamless Web** (one-time code only as fallback), and **sandbox** Stripe/Moloni. Cold starts are accepted with an honest **3-second** user notice so operators are not blamed for free-tier wake-up.
 
-1. The user authenticates via _magic link_ or social login, and the _backend_ generates a JWT token with a 7‑day validity.
-2. The token is stored in _localStorage_ in the browser.
-3. When the user navigates from the _HTML_ website to the _Flutter_ application, the system redirects to the application with the JWT token in the _URL_ (e.g., `app.thedoghouse.vercel.app?token=JWT_TOKEN`).
-4. The _Flutter_ application extracts the token from the _URL_, stores it in _localStorage_, and validates it with the _backend_ to restore the session.
-5. The session is maintained while the token is valid (7 days), being renewable upon re‑authentication.
+**Status:** architecture **aligned** (D1–D14; glossary session terms aligned to cookie/Bearer). Context diagram source + PNG under `diagrams/`. Database, API contracts, and UML follow in `09`–`11`.
 
-**Requirements for sharing:**
-
-- The institutional website and the _Flutter_ Web application are hosted on the same base domain (e.g., both on _Vercel_), allowing _localStorage_ sharing between subdomains.
-- The _backend_ validates the JWT token on each authenticated request, ensuring that only users with an active session access restricted resources.
-- _CORS_ is configured on the _backend_ to allow requests from authorized subdomains.
-
-## 7. Final Considerations on the Architecture
-
-The adopted architecture is adequate for the _MVP_ objectives, as it clearly separates responsibilities, facilitates maintenance, and allows _deployment_ on free services. The technological choices (_Go_, _Flutter_, _PostgreSQL_, _Docker_) are modern, widely documented, and provide a reasonable learning curve – an important factor for a project with a study component.
-
-The inclusion of external services (_Overpass API_, _Nominatim_, _Stripe_, _Moloni_, _SendGrid_, _Sentry_) solves complex functionalities without reinventing the wheel, allowing the development focus to be on business logic and integration between components.
-
-The architecture naturally supports system requirements: modern authentication (_magic links_ and social login), conditional access to content, payment processing, invoice issuance, integration with external _APIs_, and _seamless_ transition between the website and the application. In future iterations, the architecture can be extended (for example, by adding _push_ notifications, integrating with more payment services, or a content recommendation system) without the need to restructure the fundamental layers.
+**Next (when ordered):** rewrite [`09_DATABASE.md`](09_DATABASE.md).

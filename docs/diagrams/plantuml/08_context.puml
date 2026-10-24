@@ -1,0 +1,56 @@
+@startuml
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam defaultFontName SansSerif
+skinparam rectangle {
+  BackgroundColor<<host>> #F5F5F5
+  BorderColor #333333
+}
+skinparam actorStyle awesome
+
+actor "Dog owner" as User
+
+rectangle "Clients" {
+  component "Static site\nHTML/CSS/JS\n(Vercel)" as Site
+  component "Flutter Web PWA\n(Vercel)" as FlutterWeb
+  component "Flutter\niOS / Android" as FlutterNative
+}
+
+rectangle "Backend" <<host>> {
+  component "Go REST API\n(Render free)" as API
+}
+
+database "PostgreSQL\n(Neon)" as DB
+
+cloud "External services" {
+  component "Email\n(TBD free tier)" as Email
+  component "Google OAuth" as Google
+  component "Facebook OAuth" as Facebook
+  component "Stripe\n(sandbox)" as Stripe
+  component "Moloni\n(sandbox)" as Moloni
+  component "Overpass +\nNominatim" as OSM
+}
+
+User --> Site
+User --> FlutterWeb
+User --> FlutterNative
+
+Site --> API : HTTPS\n(session cookie)
+FlutterWeb --> API : HTTPS\n(session cookie)
+FlutterNative --> API : HTTPS\n(Bearer JWT)
+
+API --> DB
+API --> Email
+API --> Google
+API --> Facebook
+API --> Stripe
+API --> Moloni
+API --> OSM
+
+note right of Site
+  Seamless site ↔ Flutter Web:
+  shared cookie (primary).
+  No JWT in query string.
+end note
+
+@enduml

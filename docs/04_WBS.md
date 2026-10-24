@@ -152,7 +152,7 @@ _Security pass: **N/A** or light static hardening only (no auth/payments)._
 - 5.1.4. SEO (meta tags, JSON-LD, semantics) – **3h**
 - 5.1.5. Unit tests (non-trivial JS only; else minimal) – **2h**
 - 5.1.6. E2E smoke (Playwright: home, article, key CTAs) – **4h**
-- 5.1.7. Deploy on Vercel or Netlify – **2h**
+- 5.1.7. Deploy on **Vercel** (architecture D8; site already live there) – **2h**
 - 5.1.8. Basic security headers / XSS hygiene on static pages – **1h**
 
 _Milestone: Delivery 1 available online_
@@ -174,7 +174,7 @@ _`RN-10`…`RN-13`, `RN-06`._
 - 5.2.7. Unit tests (magic link 15 min / single use, JWT 7 days, OAuth stubs) – **6h**
 - 5.2.8. E2E (Playwright: magic-link and social happy paths; expired link) – **6h**
 - 5.2.9. Security pass (JWT handling, magic-link rate limit, OAuth config, HTTPS, secrets in env) – **4h**
-- 5.2.10. Deploy Go API in Docker (Render / Fly.io / Railway) – **3h**
+- 5.2.10. Deploy Go API in Docker on **Render** free (architecture D5; plan B only if free tier fails — D14) – **3h**
 - 5.2.11. Deploy database on persistent free tier (e.g. Neon) – **2h**
 - 5.2.12. Deploy Flutter Web shell (login + profile, features later) – **2h**
 - 5.2.13. Environment variables + HTTPS verification – **2h**

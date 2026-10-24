@@ -17,8 +17,8 @@ A set of rules and protocols that enables communication between software systems
 **API Endpoint**  
 A specific _URL_ through which an _API_ can be accessed. Each _endpoint_ corresponds to a system feature or resource. In the project, the _REST API endpoints_ are documented in [10_API_ENDPOINTS.md](10_API_ENDPOINTS.md) and organized by functional module, such as authentication, content, maps, payments, and profile.
 
-**Bearer Token**  
-An _HTTP_ authentication mechanism where a _token_ (usually JWT) is sent in the _Authorization_ header to prove the user's identity. In the project, the _Bearer Token_ is used to authenticate requests to the _API_, sent in the format `Authorization: Bearer <jwt_token>`.
+**Bearer Token**
+An _HTTP_ authentication mechanism where a _token_ (usually JWT) is sent in the _Authorization_ header to prove the user's identity. In the project, native **iOS/Android** clients send `Authorization: Bearer <jwt>` to the _API_. The static site and _Flutter Web_ use a session **cookie** instead (see architecture decisions D2/D3).
 
 **Bundle**  
 A package of content sold as a set. In the first-version proposal, workshops are organised by breed with a fixed launch inventory (**2 free** + **4 paid**); any multi-item packaging is optional design detail. Buyers keep access to what they paid for — there is **no monthly subscription** in v1.
@@ -83,8 +83,8 @@ A lightweight data interchange format, based on text, easy for humans to read an
 **JSON‑LD** (_JSON for Linking Data_)  
 A format for structuring data in _JSON_ with well‑defined semantics, primarily used in _SEO_. In the project, _JSON‑LD_ is used to describe data structure (e.g., _blog_ articles) to search engines.
 
-**JWT** (_JSON Web Token_)  
-An open standard for securely representing _claims_ between two parties. In the project, the _JWT_ is used to maintain the authenticated user's session, stored in _localStorage_ and shared between the institutional website and the _Flutter_ application for _seamless_ transition. The _token_ is valid for 7 days and is renewable.
+**JWT** (_JSON Web Token_)
+An open standard for securely representing _claims_ between two parties. In the project, a single session _JWT_ is valid for **7 days** and is renewable on re-authentication. On **Web** (institutional site and _Flutter Web_) it is carried in an `HttpOnly` + `Secure` session **cookie**, not in _localStorage_. On **native** apps it is sent as a _Bearer_ token. The _JWT_ must not be placed in the URL query string for seamless handoff.
 
 **JWT Claim**  
 Information contained within a JWT _token_, represented as a name/value pair. _Claims_ may include the user identifier, expiration date, and other relevant information for authentication and authorization.
@@ -92,8 +92,8 @@ Information contained within a JWT _token_, represented as a name/value pair. _C
 **Lifetime access (purchased content)**  
 Buyers keep access to the specific content they paid for. This is **not** a monthly subscription and is **not** a global unlock of all future catalogue items unless a future product decision explicitly says so. Older “Lifetime Bundle” wording in design drafts is superseded by the proposal rules above.
 
-**localStorage**  
-A browser storage mechanism, persistent across sessions. In the project, _localStorage_ is used to store the JWT _token_ of the authenticated user, enabling the _seamless_ transition between the institutional website and the _Flutter_ application.
+**localStorage**
+A browser storage mechanism, persistent across sessions. In this project it is **not** the session mechanism: authentication on Web uses an `HttpOnly` cookie (architecture D2/D3). _localStorage_ may still hold non-secret UI preferences if needed, never the session _JWT_.
 
 **Logging**  
 The process of recording events and activities of an application in files or centralized services. In the project, centralized _logging_ in the _Go_ _backend_ allows tracking requests, errors, and critical events for debugging and analysis.
@@ -168,7 +168,7 @@ The process of reverting an update or _deployment_ to a previous version in case
 An isolated testing environment that simulates a production environment without affecting real data or production systems. In the project, _Stripe_ and _Moloni_ are used in _sandbox_ mode, allowing payment and invoice simulations without real tax effects.
 
 **Seamless** (_continuous transition_)  
-A fluid and continuous navigation experience between different parts of a system, without noticeable interruptions. In the project, the _seamless_ transition between the institutional website and the _Flutter_ application allows the authenticated user to navigate between both without repeating the _login_.
+A fluid and continuous navigation experience between different parts of a system, without noticeable interruptions. In the project, _seamless_ means a signed-in member moves from the institutional website to **Flutter Web** without repeating _login_, via a **shared session cookie** on the _Vercel_ host (primary). If a shared cookie cannot be configured on free hosting, a short-lived **one-time code** exchanged at the _API_ is the fallback. Native apps authenticate inside the app and do not inherit the site cookie path.
 
 **SendGrid**  
 A transactional email service with free plans. In the project, _SendGrid_ (or _Mailgun_ or _Resend_) is used to send emails with _magic links_, purchase confirmations, and welcome messages.
@@ -197,8 +197,8 @@ The period during which data is considered valid and stored in _cache_ before be
 **UML** (_Unified Modeling Language_)  
 A standardized modeling language for visualizing, specifying, and documenting software systems. In the project, the _UML_ diagrams (class and sequence) are documented in [11_UML_DIAGRAMS.md](11_UML_DIAGRAMS.md).
 
-**Vercel**  
-A _deployment_ platform for static and dynamic _frontend_ applications, with free plans. In the project, _Vercel_ is used to host the institutional website and the _Flutter_ Web application, ensuring the same base domain for _localStorage_ sharing.
+**Vercel**
+A _deployment_ platform for static and dynamic _frontend_ applications, with free plans. In the project, _Vercel_ hosts the institutional website (already live) and the _Flutter_ Web _PWA_, chosen so a **shareable parent domain** can carry the session cookie for seamless navigation. Cookie behaviour on `*.vercel.app` layouts must be validated in the real deploy; if sharing fails, the one-time-code fallback applies (architecture D3).
 
 **Viewport**  
 The visible area of a web page or application on a screen, defined by the current display boundaries. In the project, the map area uses dynamic _viewport_ to load only the hotels visible in the map area, optimizing performance and user experience.
