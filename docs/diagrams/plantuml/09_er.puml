@@ -1,0 +1,217 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam backgroundColor white
+top to bottom direction
+
+' Rule: "one" entity drawn above "many"; edges are 1 — N (or N — N via join table).
+
+entity "users" as users {
+  * id : UUID <<PK>>
+  --
+  email : CITEXT <<UQ>>
+  name
+  google_id <<UQ>>
+  facebook_id <<UQ>>
+}
+
+entity "magic_links" as magic_links {
+  * id : UUID <<PK>>
+  --
+  * email
+  * token_hash <<UQ>>
+  user_id : UUID <<FK>>
+  expires_at
+  used
+}
+
+entity "auth_one_time_codes" as otc {
+  * id : UUID <<PK>>
+  --
+  * user_id : UUID <<FK>>
+  * code_hash <<UQ>>
+  expires_at
+  used
+}
+
+entity "breeds" as breeds {
+  * id : UUID <<PK>>
+  --
+  * name <<UQ>>
+  description
+}
+
+entity "calculator_data" as calc {
+  * id : UUID <<PK>>
+  --
+  * breed_id : UUID <<FK,UQ>>
+  * data : JSONB
+}
+
+entity "contents" as contents {
+  * id : UUID <<PK>>
+  --
+  * sku <<UQ>>
+  * type
+  * title
+  * price_cents : INT
+  breed_id : UUID <<FK>>
+  is_free
+}
+
+entity "bundle_items" as bundle_items {
+  * bundle_id : UUID <<PK,FK>>
+  * content_id : UUID <<PK,FK>>
+  --
+  parent type = bundle
+  child type = video
+}
+
+entity "discount_campaigns" as campaigns {
+  * id : UUID <<PK>>
+  --
+  * name
+  * percent
+  * starts_at
+  * ends_at
+  active
+}
+
+entity "discount_campaign_contents" as dcc {
+  * campaign_id : UUID <<PK,FK>>
+  * content_id : UUID <<PK,FK>>
+}
+
+entity "promo_codes" as promos {
+  * id : UUID <<PK>>
+  --
+  * code : CITEXT <<UQ>>
+  * percent
+  max_redemptions
+  redemption_count
+}
+
+entity "promo_code_contents" as pcc {
+  * promo_code_id : UUID <<PK,FK>>
+  * content_id : UUID <<PK,FK>>
+}
+
+entity "purchases" as purchases {
+  * id : UUID <<PK>>
+  --
+  * user_id : UUID <<FK>>
+  * content_id : UUID <<FK>>
+  * status
+  * catalogue_price_cents
+  * amount_paid_cents
+  discount_type
+  promo_code_id : UUID <<FK>>
+  campaign_id : UUID <<FK>>
+}
+
+entity "entitlements" as entitlements {
+  * id : UUID <<PK>>
+  --
+  * user_id : UUID <<FK>>
+  * content_id : UUID <<FK>>
+  purchase_id : UUID <<FK>>
+  * origin
+}
+
+entity "invoices" as invoices {
+  * id : UUID <<PK>>
+  --
+  * purchase_id : UUID <<FK,UQ>>
+  * amount_cents : INT
+  pdf_url
+  moloni_document_id
+}
+
+entity "promo_code_redemptions" as redemptions {
+  * id : UUID <<PK>>
+  --
+  * promo_code_id : UUID <<FK>>
+  * purchase_id : UUID <<FK,UQ>>
+}
+
+entity "stripe_webhook_events" as swe {
+  * event_id <<PK>>
+  --
+  received_at
+}
+
+entity "checkout_idempotency_keys" as cik {
+  * user_id : UUID <<PK,FK>>
+  * key <<PK>>
+  --
+  purchase_id : UUID <<FK>>
+  expires_at
+}
+
+entity "overpass_cache" as opc {
+  * id : UUID <<PK>>
+  --
+  * cache_key <<UQ>>
+  * data : JSONB
+  * expires_at
+}
+
+entity "weight_history" as wh {
+  * id : UUID <<PK>>
+  --
+  * user_id : UUID <<FK>>
+  * breed_id : UUID <<FK>>
+  age_months
+  result : JSONB
+}
+
+' --- 1 above, N below ---
+
+users ||--o{ magic_links
+users ||--o{ otc
+users ||--o{ purchases
+users ||--o{ entitlements
+users ||--o{ cik
+users ||--o{ wh
+
+breeds ||--|| calc
+breeds ||--o{ contents
+breeds ||--o{ wh
+
+contents ||--o{ bundle_items : "bundle 1"
+contents ||--o{ bundle_items : "video N"
+contents ||--o{ purchases
+contents ||--o{ entitlements
+contents ||--o{ dcc
+contents ||--o{ pcc
+
+campaigns ||--o{ dcc
+campaigns ||--o{ purchases
+
+promos ||--o{ pcc
+promos ||--o{ purchases
+promos ||--o{ redemptions
+
+purchases ||--o| invoices
+purchases ||--o{ entitlements
+purchases ||--o| redemptions
+purchases ||--o{ cik
+
+note bottom of bundle_items
+  Workshop catalogue only (RN-16 / RF-54)
+  Triggers enforce parent=bundle, child=video
+  No calculator_complete in bundles
+end note
+
+note bottom of entitlements
+  UNIQUE (user_id, content_id)
+  Lifetime access for paid SKUs
+  Free / is_free content: no row required
+end note
+
+note bottom of invoices
+  Only when amount_paid_cents > 0
+  (0 EUR purchase → no invoice)
+end note
+
+@enduml

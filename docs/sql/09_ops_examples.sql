@@ -1,0 +1,36 @@
+-- The Doghouse — example ops for campaigns / promo codes (RN-26)
+-- Run against a database that already has `contents` rows (seeded in Delivery 6).
+-- Replace the content UUIDs with real catalogue ids before executing.
+
+-- Example: 20% automatic campaign for the complete calculator SKU (7 days)
+-- INSERT INTO discount_campaigns (id, name, percent, starts_at, ends_at, active)
+-- VALUES (
+--   gen_random_uuid(),
+--   'Calculator launch',
+--   20,
+--   now(),
+--   now() + INTERVAL '7 days',
+--   TRUE
+-- );
+-- INSERT INTO discount_campaign_contents (campaign_id, content_id)
+-- VALUES ('…campaign uuid…', '…calculator_complete content uuid…');
+
+-- Example: promo code SAVE10, 10% off one video SKU, max 100 global redemptions
+-- INSERT INTO promo_codes (code, percent, starts_at, ends_at, max_redemptions, active)
+-- VALUES (
+--   'SAVE10',
+--   10,
+--   now(),
+--   now() + INTERVAL '30 days',
+--   100,
+--   TRUE
+-- );
+-- INSERT INTO promo_code_contents (promo_code_id, content_id)
+-- VALUES ('…promo uuid…', '…video content uuid…');
+
+-- Redemption under concurrency (API must do this pattern — RF-66 / RN-26):
+-- BEGIN;
+--   SELECT * FROM promo_codes WHERE id = $1 FOR UPDATE;
+--   -- validate window, active, product link, redemption_count < max_redemptions
+--   -- complete purchase + entitlements + INSERT promo_code_redemptions + increment count
+-- COMMIT;

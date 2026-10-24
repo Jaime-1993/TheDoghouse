@@ -1,311 +1,231 @@
-# Database Modeling – _The Doghouse_
+# Database – _The Doghouse_
 
 ## 1. Introduction
 
-The database modeling of the _The Doghouse_ system defines the structure that will store all persistent information required for the prototype's operation. A relational model was chosen, implemented in _PostgreSQL_ on the _Neon_ service, to ensure referential integrity, transaction support, and ease of querying.
+This document defines the **PostgreSQL** data model for the planned first version of _The Doghouse_ (**Neon**, architecture **D9**). It closes schema-level choices left open by [`07_REQUIREMENTS.md`](07_REQUIREMENTS.md) and [`08_ARCHITECTURE.md`](08_ARCHITECTURE.md): money as **integer cents**, session JWT **not** stored in the database, lifetime access via **`entitlements`**, and promo/campaign tables operated by script (no admin UI — **RN-26**).
 
-The modeling decisions were based on the functional requirements, user profiles, and previously defined flows, aiming to balance normalization with the efficiency of the most frequent operations. The final model consists of ten main tables, reflecting the _MVP_'s simplicity and the focus on business logic (authentication, content management, purchases, and invoicing) rather than complex administrative functionalities.
+**Sources:** [`03_BUSINESS_RULES.md`](03_BUSINESS_RULES.md), [`07_REQUIREMENTS.md`](07_REQUIREMENTS.md), [`08_ARCHITECTURE.md`](08_ARCHITECTURE.md).
 
-All table, column, key, and constraint names are in English to ensure consistency with the application code (_Go_ and _Flutter_). Descriptions and modeling notes are presented in Portuguese for ease of understanding.
+**Normative DDL:** [`sql/09_schema.sql`](sql/09_schema.sql)  
+**Ops examples (campaigns / codes):** [`sql/09_ops_examples.sql`](sql/09_ops_examples.sql)  
+**ER diagram (PlantUML):** [`diagrams/plantuml/09_er.puml`](diagrams/plantuml/09_er.puml)
 
-## 2. Entities, Attributes, and Relationships
+**Principles:**
 
-The following sections present the entities that compose the model, grouped by functional domain. For each table, the main attributes, keys, and relevant notes on modeling decisions are described.
+- UUID primary keys; `TIMESTAMPTZ` for all timestamps; money in **INTEGER cents** (EUR).
+- Catalogue prices and paid amounts never use floating point in the database.
+- Access to **paid** SKUs = row in `entitlements` (not a global `is_premium` flag) — **RN-14**, **RN-24**, **RF-64**.
+- **Free** catalogue rows (`is_free` and/or `price_cents = 0` intros) do **not** require an `entitlements` row; any signed-in member may use them per product rules (**RN-09**, **RN-29**, **RN-31**).
+- Calculator and workshops stay **independent catalogues** — workshop bundles contain **videos only** (**RN-16**, **RF-54**).
+- Seed / catalogue rows are loaded in implementation deliveries — **not** in this DDL file.
+- HTTP contracts → [`10_API_ENDPOINTS.md`](10_API_ENDPOINTS.md); sequences → [`11_UML_DIAGRAMS.md`](11_UML_DIAGRAMS.md).
 
-### 2.1. Users and Authentication
+---
+
+## 2. Closed decisions (this revision)
+
+| # | Topic | Decision |
+| - | ----- | -------- |
+| **DB-1** | Money | Store catalogue price, discount-derived paid amount, and invoice amount as **INTEGER cents**; currency default `EUR` |
+| **DB-2** | Session | **No** JWT / refresh-token table — cookie (Web) / Bearer (native) only (**D1**, **D2**) |
+| **DB-3** | Seamless fallback | Persist short-lived **one-time codes** (`auth_one_time_codes`) hashed; never put JWT in the query string (**D3**) |
+| **DB-4** | Access | Table **`entitlements`** with `UNIQUE (user_id, content_id)` for **paid** lifetime unlocks; origins `purchase` / `bundle` / `grant`. Free SKUs need **no** entitlement row |
+| **DB-5** | 0.00 EUR checkout | Completed purchase + entitlements **without** Stripe ids and **without** `invoices` row (**RN-27**, **RF-67**) |
+| **DB-6** | Commercial snapshot | On each purchase: `catalogue_price_cents`, `discount_type`, `discount_percent`, optional `promo_code_id` / `campaign_id`, `amount_paid_cents` (**RN-28**, **RF-68**); CHECK keeps snapshot columns consistent with `discount_type` |
+| **DB-7** | Promos | `promo_codes` + `discount_campaigns` with per-SKU link tables; non-stacking resolved in the API (**RN-26**, **RF-66**) |
+| **DB-8** | Stripe | `stripe_webhook_events.event_id` PK for idempotency; `checkout_idempotency_keys` for client retry safety (**RF-62**, **RNF-12**) |
+| **DB-9** | Maps cache | `overpass_cache` with `expires_at` (TTL **24 h** application policy — **RF-47**) |
+| **DB-10** | Weight history | Optional `weight_history` in schema; product UI may omit persistence in v1 |
+| **DB-11** | Workshop bundles | `bundle_items`: parent `contents.type = bundle`, child `contents.type = video` only; enforced by triggers. **No** `calculator_complete` (or other) children — independent catalogues (**RN-16**, **RF-54**) |
+
+---
+
+## 3. Entity–relationship diagram
+
+![Entity–relationship – The Doghouse](diagrams/09_er.png)
+
+_Figure 1 – Relational model of the planned first version. Layout convention: the “one” side of each relationship sits above the “many” side._
+
+*(Legacy asset [`images/erd.png`](images/erd.png) is superseded by Figure 1 for this revision.)*
+
+---
+
+## 4. Conventions
+
+| Concern | Convention |
+| ------- | ---------- |
+| Identifiers | `UUID`, default `gen_random_uuid()` (`pgcrypto`) |
+| Email / promo codes | `CITEXT` (case-insensitive uniqueness) |
+| Money | `INTEGER` cents ≥ 0 (`invoices.amount_cents` > 0) |
+| Time | `TIMESTAMPTZ`; application sets magic-link and OTC TTLs |
+| Secrets | Store **hashes** of magic-link tokens and one-time codes — never plaintext |
+| Enums | PostgreSQL `ENUM` types listed in the schema file |
+| Cross-row type rules | Triggers on `bundle_items` / `contents` (see DDL) — not expressible as table-local `CHECK` |
+
+---
+
+## 5. Domains
+
+### 5.1. Users and authentication
 
 #### `users`
 
-The `users` table stores the data of all platform users. A single table was chosen since the attributes are common to all profiles and there are no administrative functionalities within the _MVP_ scope. Premium content access is not stored as a boolean field, being derived instead from the existence of purchases in the `purchases` table.
+One row per registered dog owner. Social providers attach via unique nullable `google_id` / `facebook_id` (**RN-10**, **D4**). There is **no** password column and **no** admin role table in v1.
 
-| Field           | Type           | Description                                   | Constraints                     |
-| --------------- | -------------- | --------------------------------------------- | ------------------------------- |
-| `id`            | `UUID`         | Unique user identifier                        | Primary key, auto-generated     |
-| `email`         | `VARCHAR(255)` | Email address                                 | Unique, required                |
-| `name`          | `VARCHAR(100)` | User's name                                   | Optional                        |
-| `registered_at` | `TIMESTAMP`    | Registration date and time                    | Required, auto-generated        |
-| `last_access`   | `TIMESTAMP`    | Last access date and time                     | Optional, updated on each login |
-| `google_id`     | `VARCHAR(255)` | User's Google identifier (for social login)   | Optional, unique                |
-| `facebook_id`   | `VARCHAR(255)` | User's Facebook identifier (for social login) | Optional, unique                |
-
-**Modeling notes:** The `email` field is unique and serves as the natural key for user identification. The `google_id` and `facebook_id` fields allow associating the user account with their respective social login providers. The premium status is derived: a user has access to a specific content if there is a purchase with `status = 'completed'` associated with that content (or a bundle that includes it). There is no global `is_premium` field, in accordance with the business rule that "access is conditional and there is no global premium status."
+| Column | Notes |
+| ------ | ----- |
+| `email` | Required, unique (`CITEXT`) |
+| `name` | Optional display name |
+| `registered_at` / `last_access` | Audit / UX |
 
 #### `magic_links`
 
-The `magic_links` table records all magic link authentication requests, enabling the implementation of a 15-minute validity period, single-use, and rate limiting of 5 attempts per hour.
+Records each magic-link request. Rate limit **5 / hour / email** is enforced by counting recent rows (**RNF** auth limits in requirements). `token_hash` is unique; `user_id` may be null until the email is known as a user.
 
-| Field        | Type           | Description                                      | Constraints                          |
-| ------------ | -------------- | ------------------------------------------------ | ------------------------------------ |
-| `id`         | `UUID`         | Unique link identifier                           | Primary key, auto-generated          |
-| `user_id`    | `UUID`         | User identifier (if already exists)              | Foreign key to `users(id)`, optional |
-| `email`      | `VARCHAR(255)` | Email to which the link was sent                 | Required                             |
-| `token_hash` | `VARCHAR(255)` | Token hash (never store the token in plain text) | Unique, required                     |
-| `created_at` | `TIMESTAMP`    | Link creation date and time                      | Required, auto-generated             |
-| `expires_at` | `TIMESTAMP`    | Expiration date and time (creation + 15 minutes) | Required                             |
-| `used`       | `BOOLEAN`      | Indicates whether the link has been consumed     | Default: `false`                     |
-| `used_at`    | `TIMESTAMP`    | Date and time when it was consumed               | Optional                             |
+#### `auth_one_time_codes`
 
-**Modeling notes:** The `token_hash` stores only the hash (e.g., SHA‑256) of the token sent by email, never the plain value – thus, even with database access, it is not possible to reconstruct valid links. The query `SELECT COUNT(*) FROM magic_links WHERE email = ? AND created_at > NOW() - INTERVAL '1 hour'` implements the rate limiting from RNF13 (maximum of 5 attempts per hour). The `user_id` field allows tracking all magic links of an existing user, complementing the email-based query. Records with an expiration date prior to the current date can be periodically cleaned up by a background job.
+Seamless **fallback** only (**D3**): short-lived, single-use code exchanged at the API for a session. Primary path remains the shared session cookie.
 
-### 2.2. Content and Catalogs
+### 5.2. Catalogue
 
 #### `breeds`
 
-The `breeds` table stores the dog breeds available in the ideal weight calculator and the workshops area. Each breed is identified by a unique name.
-
-| Field         | Type           | Description                           | Constraints      |
-| ------------- | -------------- | ------------------------------------- | ---------------- |
-| `id`          | `SERIAL`       | Unique breed identifier               | Primary key      |
-| `name`        | `VARCHAR(100)` | Breed name                            | Unique, required |
-| `description` | `TEXT`         | General breed description             | Optional         |
-| `image_url`   | `VARCHAR(500)` | URL of the representative breed image | Optional         |
-
-**Modeling notes:** The breed is the central entity that organizes content. Both the calculator and the workshops are structured based on the breed.
+Breed catalogue for calculator data and workshop videos.
 
 #### `calculator_data`
 
-The `calculator_data` table stores the reference data for the ideal weight calculator – weight tables by age, percentiles, and recommendations. This data is catalog-like and always accessible to all users (the free version returns an approximate value; the premium version returns the complete table). The difference between versions is a backend decision, not a restricted access to the table row.
-
-| Field      | Type      | Description                                        | Constraints                           |
-| ---------- | --------- | -------------------------------------------------- | ------------------------------------- |
-| `id`       | `SERIAL`  | Unique identifier                                  | Primary key                           |
-| `breed_id` | `INTEGER` | Associated breed                                   | Foreign key to `breeds(id)`, required |
-| `data`     | `JSONB`   | Weight tables by age, percentiles, recommendations | Required                              |
-
-**Modeling notes:** The `data` field in `JSONB` contains the complete structure of the calculator data for each breed. Example:
-
-```json
-{
-  "age_ranges": [
-    { "age": 3, "weight_min": 5.0, "weight_max": 7.5, "percentile_50": 6.2 },
-    { "age": 6, "weight_min": 7.0, "weight_max": 10.0, "percentile_50": 8.5 }
-  ],
-  "recommendations": "High-protein diet..."
-}
-```
-
-The backend decides, based on the existence of a purchase of `calculator_premium_access` (or a bundle that includes it), whether to return only the approximate value or the complete table.
+One JSONB payload per breed (`breed_id` unique). Free vs complete response is an **API** decision (**RN-29**, **RN-30**), not a second table. The sellable complete-calculator SKU is a separate `contents` row (`type = calculator_complete`), not a bundle member.
 
 #### `contents`
 
-The `contents` table represents items that can be purchased by users, including workshop videos, video bundles, and premium calculator access. The calculator reference data (weight tables) are **not** purchasable content, being stored in the `calculator_data` table.
+Sellable / free SKUs: `video`, `bundle`, `calculator_complete`.
 
-| Field                         | Type            | Description                                                         | Constraints                                         |
-| ----------------------------- | --------------- | ------------------------------------------------------------------- | --------------------------------------------------- |
-| `id`                          | `SERIAL`        | Unique content identifier                                           | Primary key                                         |
-| `breed_id`                    | `INTEGER`       | Associated breed identifier                                         | Foreign key to `breeds(id)`, optional (videos only) |
-| `type`                        | `ENUM`          | Content type (`'video'`, `'bundle'`, `'calculator_premium_access'`) | Required                                            |
-| `title`                       | `VARCHAR(200)`  | Content title                                                       | Required                                            |
-| `description`                 | `TEXT`          | Detailed description                                                | Optional                                            |
-| `price`                       | `DECIMAL(10,2)` | Content price (in euros)                                            | Required                                            |
-| `is_free`                     | `BOOLEAN`       | Indicates if content is free (e.g., introductory video)             | Default: `false`                                    |
-| `url`                         | `VARCHAR(500)`  | Video URL (for `'video'` type) or thumbnail image URL               | Optional                                            |
-| `includes_premium_calculator` | `BOOLEAN`       | Indicates if the bundle includes premium calculator access          | Default: `false`, only for `type = 'bundle'`        |
-| `created_at`                  | `TIMESTAMP`     | Content creation date and time                                      | Required, auto-generated                            |
+| Constraint | Rule |
+| ---------- | ---- |
+| Videos | `breed_id` **required** |
+| Complete calculator | `breed_id` **null** (global SKU); sold alone — **not** placed in `bundle_items` |
+| Bundles | Workshop packages only (`breed` bundle / complete present); composition in `bundle_items` |
+| Price | `price_cents`; free intros use `0` and/or `is_free` |
 
-**Modeling notes:** The `type` column distinguishes the different content types. The `breed_id` field is required only for videos (associated with a specific breed) and optional for `'bundle'` and `'calculator_premium_access'`. The `includes_premium_calculator` field replaces the need for `JSONB` for this metadata, simplifying the model. The contents included in a bundle are managed through the `bundle_contents` association table, ensuring real referential integrity.
+#### `bundle_items`
 
-#### `bundle_contents`
+Workshop-catalogue composition only (**DB-11**, **RN-16**, **RF-54**):
 
-The `bundle_contents` table establishes the many-to-many relationship between a `'bundle'` type content and the individual videos that compose it.
+| Side | Required `contents.type` |
+| ---- | ------------------------ |
+| `bundle_id` (parent) | `bundle` |
+| `content_id` (child) | `video` |
 
-| Field        | Type      | Description                             | Constraints                             |
-| ------------ | --------- | --------------------------------------- | --------------------------------------- |
-| `bundle_id`  | `INTEGER` | Bundle identifier                       | Foreign key to `contents(id)`, required |
-| `content_id` | `INTEGER` | Video identifier included in the bundle | Foreign key to `contents(id)`, required |
+Cross-catalogue packages (calculator plus workshops in one SKU) are **out of scope** for v1. DDL triggers reject invalid parent/child types and block type changes that would break existing links. Partial ownership rules (**RN-25**, **RF-65**) use this graph plus `entitlements` over **video** children only.
 
-**Modeling notes:** The primary key is composed of `(bundle_id, content_id)`, ensuring no duplicates. This table maintains referential integrity: if a video is removed, the relationship is automatically deleted (with `ON DELETE CASCADE` set), avoiding bundles with references to non-existent content.
-
-### 2.3. Purchases and Invoicing
+### 5.3. Commerce
 
 #### `purchases`
 
-The `purchases` table records all transactions made by users, associating a user with a purchased content.
+Checkout attempt / completed order. Status: `pending` | `completed` | `failed`. Stripe session / payment-intent ids are unique when present. Discount snapshot fields implement **RN-28**; a table `CHECK` ties `discount_type` to the optional promo/campaign FKs and forces `discount_percent = 0` when type is `none`.
 
-| Field                      | Type            | Description                                              | Constraints                             |
-| -------------------------- | --------------- | -------------------------------------------------------- | --------------------------------------- |
-| `id`                       | `SERIAL`        | Unique purchase identifier                               | Primary key                             |
-| `user_id`                  | `UUID`          | User who made the purchase                               | Foreign key to `users(id)`, required    |
-| `content_id`               | `INTEGER`       | Purchased content identifier                             | Foreign key to `contents(id)`, required |
-| `amount`                   | `DECIMAL(10,2)` | Amount paid (in euros)                                   | Required                                |
-| `currency`                 | `VARCHAR(3)`    | Currency of the amount (ISO 4217)                        | Default: `'EUR'`                        |
-| `stripe_payment_intent_id` | `VARCHAR(255)`  | Stripe PaymentIntent identifier                          | Unique, optional                        |
-| `purchased_at`             | `TIMESTAMP`     | Purchase date and time                                   | Required, auto-generated                |
-| `status`                   | `ENUM`          | Purchase status (`'pending'`, `'completed'`, `'failed'`) | Default: `'pending'`                    |
+#### `entitlements`
 
-**Modeling notes:** The `stripe_payment_intent_id` column allows tracking the transaction in Stripe and associating it with the confirmation webhook. The `status` field distinguishes pending purchases from confirmed or failed ones. The `currency` field prepares the model for potential future internationalization, with `'EUR'` as the default for the _MVP_. The purchase is recorded only after the Stripe webhook is successfully processed. Refunds are out of the _MVP_ scope, so the `'refunded'` status is not included.
+Lifetime access to a **paid** content SKU for a user. Bundle purchase may insert multiple rows (`origin = 'bundle'`) for **missing video** items only. `grant` allows ops-side access without a purchase.
+
+**Free content:** SKUs marked free (`is_free` and/or free intros at `0` cents) are available to signed-in members **without** an `entitlements` row. The API must not require a purchase trail for those items.
+
+Access checks for **paid** media **must** read this table (or an equivalent derived query), not only `purchases.status`.
 
 #### `invoices`
 
-The `invoices` table stores the reference to invoices generated by _Moloni_ (in a _sandbox_ environment) for each successful purchase.
+At most one invoice per purchase; `amount_cents > 0`. Created only when Moloni simulation runs (**RN-21**, **RN-27**). Moloni failure must not delete entitlements (**RN-23**, **RF-63**).
 
-| Field                | Type           | Description                                        | Constraints                                      |
-| -------------------- | -------------- | -------------------------------------------------- | ------------------------------------------------ |
-| `id`                 | `SERIAL`       | Unique invoice identifier                          | Primary key                                      |
-| `purchase_id`        | `INTEGER`      | Associated purchase identifier                     | Foreign key to `purchases(id)`, required, unique |
-| `moloni_document_id` | `VARCHAR(255)` | Document identifier in Moloni                      | Optional                                         |
-| `pdf_url`            | `VARCHAR(500)` | Public PDF invoice URL, provided by Moloni         | Required                                         |
-| `issued_at`          | `TIMESTAMP`    | Invoice issuance date and time                     | Required, auto-generated                         |
-| `fiscal_data`        | `JSONB`        | User identification data for the simulated invoice | Optional                                         |
+### 5.4. Promotions
 
-**Modeling notes:** The relationship between `invoices` and `purchases` is 1:1, enforced by the `UNIQUE` constraint on `purchase_id`. The `pdf_url` field is the main reference for the user to view and download the invoice. The `fiscal_data` field in `JSONB` stores the user identification data used in the simulated invoice, with the following schema:
+| Table | Role |
+| ----- | ---- |
+| `discount_campaigns` | Time window + percent; `active` flag |
+| `discount_campaign_contents` | SKUs the campaign applies to (any catalogue SKU: video, bundle, or calculator) |
+| `promo_codes` | Code string, window, optional `max_redemptions`, `redemption_count` |
+| `promo_code_contents` | SKUs the code applies to |
+| `promo_code_redemptions` | One redemption row per purchase using a code |
 
-```json
-{
-  "name": "João Silva",
-  "email": "joao@exemplo.pt"
-}
-```
+Non-stacking (higher percent wins; tie → code) is **application** logic (**RN-26**). Concurrent redemption should `SELECT … FOR UPDATE` the promo row (see ops examples). Promos may target the calculator SKU; that is **not** the same as putting the calculator inside a workshop bundle.
 
-Invoices are simulated in a _sandbox_ environment with no legal value, so no tax ID or address is collected.
+### 5.5. Idempotency and cache
 
-### 2.4. _Overpass API_ Cache
+| Table | Role |
+| ----- | ---- |
+| `stripe_webhook_events` | PK = Stripe `event_id` — ignore duplicates |
+| `checkout_idempotency_keys` | `(user_id, key)` → cached checkout response / purchase |
+| `overpass_cache` | Viewport/query key → JSON hotels; purge/refresh by `expires_at` |
 
-#### `overpass_cache`
-
-The `overpass_cache` table stores the results of queries to the _Overpass API_ to avoid excessive requests to the external service, improving performance and respecting the _API_ usage limits.
-
-| Field        | Type           | Description                                                                  | Constraints                                |
-| ------------ | -------------- | ---------------------------------------------------------------------------- | ------------------------------------------ |
-| `id`         | `SERIAL`       | Unique cache record identifier                                               | Primary key                                |
-| `cache_key`  | `VARCHAR(255)` | Unique key identifying the query                                             | Unique, required                           |
-| `data`       | `JSONB`        | Query result in _JSON_ format (hotels with name, address, coordinates, tags) | Required                                   |
-| `created_at` | `TIMESTAMP`    | Record creation date and time                                                | Required, auto-generated                   |
-| `expires_at` | `TIMESTAMP`    | Record expiration date and time (TTL of 24 hours)                            | Required, calculated as `created_at + 24h` |
-
-**Modeling notes:** The `cache_key` column is built based on the query parameters, with coordinates rounded to 2 decimal places (~1.1 km precision), avoiding multiple entries for practically identical queries.
-
-Key format: `lat_min|lat_max|lng_min|lng_max` (rounded coordinates)
-
-Example: `"41.14|41.16|-8.63|-8.61"`
-
-The `expires_at` field allows identifying obsolete records, which can be periodically removed by a background job or simply ignored in queries.
-
-### 2.5. Weight History (RF13)
+### 5.6. Optional history
 
 #### `weight_history`
 
-The `weight_history` table stores the history of calculator queries made by premium users, allowing future consultation of results.
+Optional calculator runs (`age_months` + JSON `result`). Included so Delivery code can persist history without a migration; v1 UI may leave it unused (**DB-10**).
 
-| Field            | Type           | Description                                                             | Constraints                           |
-| ---------------- | -------------- | ----------------------------------------------------------------------- | ------------------------------------- |
-| `id`             | `SERIAL`       | Unique identifier                                                       | Primary key                           |
-| `user_id`        | `UUID`         | User who recorded the weight                                            | Foreign key to `users(id)`, required  |
-| `breed_id`       | `INTEGER`      | Breed consulted                                                         | Foreign key to `breeds(id)`, required |
-| `age`            | `DECIMAL(4,1)` | Dog's age at the time of the query                                      | Required                              |
-| `current_weight` | `DECIMAL(5,2)` | Dog's weight at the time of the query (kg)                              | Required                              |
-| `result`         | `JSONB`        | Result returned by the calculator (weight, percentile, recommendations) | Required                              |
-| `recorded_at`    | `TIMESTAMP`    | Registration date                                                       | Required, auto-generated              |
+---
 
-**Modeling notes:** This table implements RF13 (Results History), allowing premium users to save calculator results for future consultation. The premium access restriction is not enforced at the database level – the backend validates access before inserting records into this table, following the algorithm described in section 2.6. The table is populated only when the user has premium access (via direct purchase or bundle) and chooses to save the result.
+## 6. Integrity rules (cross-table)
 
-### 2.6. Content Access Resolution Logic
+1. **Unlock only on success:** entitlements for paid SKUs are written when the purchase becomes `completed` (Stripe webhook or 0 EUR path) — **RN-22**, **RN-23**.
+2. **No duplicate SKU access row:** `UNIQUE (user_id, content_id)` on `entitlements` — supports **RN-24**.
+3. **Free SKUs:** no entitlement required; do not invent purchase rows solely to “unlock” free intros.
+4. **0 EUR paid path:** `amount_paid_cents = 0` after a real checkout resolution (e.g. 100% code) → entitlements yes, Stripe/Moloni/invoice no — **RN-27**.
+5. **Invoice amount:** must match paid amount when issued; always > 0.
+6. **Promo FKs on purchases:** required exactly when `discount_type` is `code` or `auto_campaign` (table `CHECK`).
+7. **Webhook retries:** insert into `stripe_webhook_events` first (or equivalent unique constraint) before side effects — **RF-62**.
+8. **Bundle composition:** only workshop videos under a bundle parent — **DB-11**.
 
-A user's access to a specific content is verified through the following algorithm:
+---
 
-1. **Direct access:** Is there a purchase with `status = 'completed'` and `content_id` equal to the requested content? → Access granted.
-2. **Access via bundle:** Is there a purchase with `status = 'completed'` of a `content` of type `'bundle'`, whose `bundle_id` is associated with the requested `content_id` in the `bundle_contents` table? → Access granted.
-3. **Premium calculator access:** Is there a direct purchase of `calculator_premium_access` with `status = 'completed'` OR a purchase with `status = 'completed'` of a bundle whose `includes_premium_calculator = true`? → Access granted to the complete calculator.
-4. **Access denied:** If none of the conditions are met, the content is presented as locked.
+## 7. Indexes and enforcement (summary)
 
-This algorithm must be implemented in the backend when querying content, ensuring that the _API_ response correctly reflects the user's access.
+Beyond primary/unique keys, the schema defines supporting indexes for:
 
-### 2.7. JWT Invalidation Strategy
+- magic links by email + time (rate limit);
+- purchases by user / status;
+- entitlements by user;
+- Overpass cache expiry;
+- weight history by user + time.
 
-The system uses JWT tokens with a 7‑day validity period to maintain the user session. Within the _MVP_ scope, there is no active token invalidation mechanism – logout is exclusively client‑side (removal of the token from `localStorage`).
+Triggers:
 
-This is a conscious decision adequate for the prototype scope, since:
+- `bundle_items_types_trg` — parent `bundle`, child `video`;
+- `contents_bundle_role_trg` — block type changes that break existing bundle links.
 
-- The token has a short validity period (7 days), limiting the exposure window in case of compromise.
-- Server‑side forced logout is not a _MVP_ requirement.
-- Implementing a token blacklist would add unnecessary complexity to the prototype.
+Full definitions: [`sql/09_schema.sql`](sql/09_schema.sql).
 
-If needed in the future, a `token_revoked` table with `jti` (JWT ID) and `expires_at` fields could be added to invalidate specific tokens.
+---
 
-## 3. Entity Relationships
+## 8. Out of scope for this schema
 
-The entity‑relationship diagram (ERD) presented in Figure 1 illustrates the relationships between the tables, with their respective cardinalities.
+- Admin / CMS tables (content placement is ops / seed — **RN** scope).
+- Refresh-token or server-side session store.
+- Apple / Google IAP receipt tables (**RN-20**).
+- Affiliate / multi-currency commerce.
+- Analytics event warehouse (**RN-42**).
+- Cross-catalogue SKUs (calculator + workshops in one package) — **RN-16**, **RF-54**.
 
-- **Users (1) ─ (N) Purchases** – A user can make multiple purchases; each purchase belongs to a single user.
-- **Purchases (N) ─ (1) Contents** – A purchase refers to a single content; a content can be purchased by multiple users.
-- **Purchases (1) ─ (1) Invoices** – Each purchase has a single associated invoice; each invoice corresponds to a single purchase.
-- **Contents (N) ─ (1) Breeds** – Each content belongs to a breed (only for videos; `'bundle'` and `'calculator_premium_access'` do not have `breed_id`).
-- **Bundle_Contents (N) ─ (1) Contents** – Each bundle can include multiple videos; each video can be included in multiple bundles.
-- **Calculator_Data (N) ─ (1) Breeds** – Each breed has a set of calculator data; each calculator record belongs to a breed.
-- **Weight_History (N) ─ (1) Users** – Each user can have multiple weight records; each record belongs to a user.
-- **Weight_History (N) ─ (1) Breeds** – Each weight record refers to a breed; a breed can appear in multiple records.
-- **Magic_Links (N) ─ (1) Users** – Each magic link can be associated with a user (if they already exist); a user can have multiple links.
+---
 
-**Summary of cardinalities:**
+## 9. Traceability
 
-| Relationship                        | Cardinality         |
-| ----------------------------------- | ------------------- |
-| Users → Purchases                   | 1 : N               |
-| Purchases → Users                   | N : 1               |
-| Purchases → Contents                | N : 1               |
-| Contents → Purchases                | 1 : N               |
-| Purchases → Invoices                | 1 : 1               |
-| Invoices → Purchases                | 1 : 1               |
-| Contents → Breeds                   | N : 1 (videos only) |
-| Breeds → Contents                   | 1 : N               |
-| Bundle_Contents → Contents (bundle) | N : 1               |
-| Bundle_Contents → Contents (video)  | N : 1               |
-| Calculator_Data → Breeds            | N : 1               |
-| Breeds → Calculator_Data            | 1 : N               |
-| Weight_History → Users              | N : 1               |
-| Users → Weight_History              | 1 : N               |
-| Weight_History → Breeds             | N : 1               |
-| Breeds → Weight_History             | 1 : N               |
-| Magic_Links → Users                 | N : 1 (optional)    |
+| Concern | Rules / requirements | Schema |
+| ------- | -------------------- | ------ |
+| Passwordless + social | RN-10, RF-11…RF-15, D4 | `users`, `magic_links` |
+| Session not in DB | D1, D2 | (none) |
+| Seamless fallback | D3, RF-20, RF-21 | `auth_one_time_codes` |
+| Lifetime per paid SKU | RN-14, RN-24, RF-41, RF-64 | `entitlements` |
+| Free content without entitlement | RN-09, RN-29, RN-31 | `contents.is_free` / `price_cents`; no entitlement row |
+| Independent catalogues / workshop bundles | RN-16, RF-54, RF-38 | `bundle_items` + type triggers (**DB-11**) |
+| Bundles / partial ownership | RN-25, RF-65 | `bundle_items`, `entitlements` (videos) |
+| Stripe + Moloni sandbox | RN-20…RN-23, D10 | `purchases`, `invoices`, webhook tables |
+| Promos / campaigns | RN-26…RN-28, RF-66…RF-68 | promo / campaign tables + purchase snapshot `CHECK` |
+| 0 EUR path | RN-27, RF-67 | purchases without invoice |
+| Overpass TTL | RN-36, RF-47 | `overpass_cache` |
+| Neon / Postgres | D9 | this document + DDL |
 
-## 4. Recommended Indexes
+---
 
-To ensure performance for the most frequent operations, the creation of the following indexes is recommended:
+## 10. Status
 
-| Table             | Column(s)           | Index Type          | Justification                                |
-| ----------------- | ------------------- | ------------------- | -------------------------------------------- |
-| `users`           | `email`             | `UNIQUE`            | Authentication and profile query             |
-| `users`           | `google_id`         | `UNIQUE`            | Social login                                 |
-| `users`           | `facebook_id`       | `UNIQUE`            | Social login                                 |
-| `purchases`       | `user_id`           | `BTREE`             | Query purchases by user                      |
-| `purchases`       | `content_id`        | `BTREE`             | Access verification to content               |
-| `purchases`       | `(user_id, status)` | `BTREE` (composite) | Query completed purchases by a specific user |
-| `overpass_cache`  | `cache_key`         | `UNIQUE`            | Cache query by key                           |
-| `magic_links`     | `token_hash`        | `UNIQUE`            | Token validation                             |
-| `magic_links`     | `email`             | `BTREE`             | Rate limiting by email                       |
-| `magic_links`     | `user_id`           | `BTREE`             | Query links by user                          |
-| `weight_history`  | `user_id`           | `BTREE`             | Query history by user                        |
-| `contents`        | `breed_id`          | `BTREE`             | Query content by breed (videos)              |
-| `contents`        | `type`              | `BTREE`             | Filtering by content type                    |
-| `bundle_contents` | `bundle_id`         | `BTREE`             | Query content of a bundle                    |
-| `bundle_contents` | `content_id`        | `BTREE`             | Check if a content is in a bundle            |
-
-## 5. Entity‑Relationship Diagram (ERD)
-
-Figure 1 presents the complete entity‑relationship diagram of the _The Doghouse_ database, showing all ten tables, their attributes (with primary and foreign keys indicated), and the relationships with their respective cardinalities. The connections between tables follow the definitions described throughout this section.
-
-![Entity-Relationship Diagram](images/erd.png)
-
-_Figure 1 – Entity‑relationship diagram of the The Doghouse database._
-
-## 6. Final Considerations on the Modeling
-
-The proposed relational database is normalized, avoiding unnecessary redundancies and ensuring data consistency. Foreign keys ensure referential integrity, and `UNIQUE` fields (such as `email` in `users` and `stripe_payment_intent_id` in `purchases`) enforce the necessary uniqueness constraints.
-
-The use of the `JSONB` type in _PostgreSQL_ for the `data` fields (in `calculator_data` and `overpass_cache`) and `fiscal_data` (in `invoices`) adds flexibility to the model, allowing structured data storage without the need to create additional tables for each content variation or fiscal data type. The simplification of the `includes_premium_calculator` field as a direct boolean in `contents` avoids unnecessary `JSONB` for a single metadata field.
-
-The separation between `calculator_data` (catalog, always accessible) and premium access (purchasable product, `calculator_premium_access`) resolves the ambiguity of the original model and aligns with the functional requirements (RF12). The `magic_links` table correctly implements magic link authentication, with 15‑minute validity, single‑use, and rate limiting. The absence of a global `is_premium` field in the `users` table reflects the fundamental business rule: access is conditional and based on specific purchases.
-
-The introduction of the `bundle_contents` table ensures real referential integrity for bundle content, avoiding silent inconsistencies that would occur with `JSONB` storage of identifiers without foreign key validation. The `overpass_cache` table is a key element for performance optimization in the maps area, preventing excessive queries to the _Overpass API_ and ensuring fast response times for users. The `weight_history` table supports RF13, allowing premium users to save calculator results for future consultation.
-
-The model allows answering operational questions such as:
-
-- **Does a user have access to this specific content?** – Query the `purchases` table with `user_id` and `content_id` (or bundle verification through the `bundle_contents` table).
-- **What are the best-selling content items?** – Query the `purchases` table grouped by `content_id`.
-- **What is the total amount invoiced by a user?** – Sum of purchase amounts for a specific user.
-- **Is the _Overpass API_ cache being used efficiently?** – Analysis of the percentage of cache hits versus external _API_ calls.
-- **Which breeds are most consulted in the calculator?** – Query the `weight_history` table grouped by `breed_id`.
-
-These queries are fundamental for ecosystem management, allowing content offering optimization, understanding user behavior, and improving the overall platform experience.
-
-The model is prepared to grow with the project: new entities (e.g., reviews, comments, notifications) can be added in future versions without requiring restructuring of existing tables, thanks to the clear separation of responsibilities and the use of flexible data types like `JSONB`.
+Database modeling for the planned first version is **aligned**: DDL + ops examples under `sql/`, ER source + PNG under `diagrams/`, decisions **DB-1…DB-11**.

@@ -28,7 +28,7 @@ Read in this order — from kickoff decisions, through *what* and *who*, to *how
 
 ### Published reading order (today)
 
-Start with [00_INTERVIEW.md](00_INTERVIEW.md), [INTERVIEW_ANNEX.md](INTERVIEW_ANNEX.md), [01_SCOPE.md](01_SCOPE.md), [02_PERSONAS_AND_FLOWS.md](02_PERSONAS_AND_FLOWS.md), [03_BUSINESS_RULES.md](03_BUSINESS_RULES.md), [04_WBS.md](04_WBS.md), [05_GANTT.md](05_GANTT.md), and the [proposal report](reports/R1_PROPOSAL.md) — those are aligned. File names for `01`–`11` follow the target order above. Design: [06_RESEARCH.md](06_RESEARCH.md), [07_REQUIREMENTS.md](07_REQUIREMENTS.md), and [08_ARCHITECTURE.md](08_ARCHITECTURE.md) are **aligned**; `09`–`11` remain on disk and may still need review.
+Start with [00_INTERVIEW.md](00_INTERVIEW.md), [INTERVIEW_ANNEX.md](INTERVIEW_ANNEX.md), [01_SCOPE.md](01_SCOPE.md), [02_PERSONAS_AND_FLOWS.md](02_PERSONAS_AND_FLOWS.md), [03_BUSINESS_RULES.md](03_BUSINESS_RULES.md), [04_WBS.md](04_WBS.md), [05_GANTT.md](05_GANTT.md), and the [proposal report](reports/R1_PROPOSAL.md) — those are aligned. File names for `01`–`11` follow the target order above. Design: [06_RESEARCH.md](06_RESEARCH.md), [07_REQUIREMENTS.md](07_REQUIREMENTS.md), [08_ARCHITECTURE.md](08_ARCHITECTURE.md), and [09_DATABASE.md](09_DATABASE.md) are **aligned**; `10`–`11` remain on disk and may still need review.
 
 Screenshots and other non-generated visual assets are kept in [`images/`](images/). Generated diagram renders and their PlantUML sources (`diagrams/plantuml/`) live in [`diagrams/`](diagrams/). A shared vocabulary is available in [`GLOSSARY.md`](GLOSSARY.md).
 
@@ -65,7 +65,7 @@ These files belong to the **design** stage (after the proposal track). Names mat
 | [06_RESEARCH.md](06_RESEARCH.md) | Market alternatives → numbered lessons for the planned first version. | On disk (**aligned**) |
 | [07_REQUIREMENTS.md](07_REQUIREMENTS.md) | Functional and non-functional requirements (RN/L/delivery traceability). | On disk (**aligned**) |
 | [08_ARCHITECTURE.md](08_ARCHITECTURE.md) | Components, hosting, auth/session, integrations; decisions D1–D14. | On disk (**aligned**) |
-| [09_DATABASE.md](09_DATABASE.md) | Data model. | On disk (may need later review) |
+| [09_DATABASE.md](09_DATABASE.md) | Data model (DDL under `sql/`, ER under `diagrams/`); DB-1…DB-11. | On disk (**aligned**) |
 | [10_API_ENDPOINTS.md](10_API_ENDPOINTS.md) | *API* endpoint contracts. | On disk (may need later review) |
 | [11_UML_DIAGRAMS.md](11_UML_DIAGRAMS.md) | UML diagrams. | On disk (may need later review) |
 
@@ -75,6 +75,7 @@ These files belong to the **design** stage (after the proposal track). Names mat
 | ---- | -------------- |
 | [images/](images/) | Screenshots and other assets that are not PlantUML renders. |
 | [diagrams/](diagrams/) | Generated diagram images; PlantUML sources under `diagrams/plantuml/`. |
+| [sql/](sql/) | PostgreSQL schema and ops examples for the data model (`09`). |
 | [GLOSSARY.md](GLOSSARY.md) | Definitions of technical terms used in the documentation. |
 
 ---
@@ -101,7 +102,7 @@ Two columns matter: **on disk** (a file you can open today) versus **aligned** (
 
 - Interview pack through Schedule and the proposal report are aligned (simulated product-owner interview; developer docs and R1 as a public sandbox simulation / reusable skeleton).  
 - File names for `01`–`11` match the numbered reading order in this README.  
-- Research, Requirements, and Architecture (`06`–`08`) are **aligned** for the design stage. Remaining design documents (`09`–`11`) may still need later review; they are not part of the proposal package.
+- Research, Requirements, Architecture, and Database (`06`–`09`) are **aligned** for the design stage. Remaining design documents (`10`–`11`) may still need later review; they are not part of the proposal package.
 
 ---
 

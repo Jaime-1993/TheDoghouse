@@ -202,9 +202,9 @@ Modern authentication (magic link and/or Google and/or Facebook), seamless navig
 
 ## Annex – Use Case Diagram
 
-**PlantUML source:** [`diagrams/plantuml/usecase_diagram.puml`](diagrams/plantuml/usecase_diagram.puml)  
-**Rendered image:** [`diagrams/usecase_diagram.png`](diagrams/usecase_diagram.png)
+**PlantUML source:** [`diagrams/plantuml/02_usecase.puml`](diagrams/plantuml/02_usecase.puml)
+**Rendered image:** [`diagrams/02_usecase.png`](diagrams/02_usecase.png)
 
-![Use Case Diagram](diagrams/usecase_diagram.png)
+![Use Case Diagram](diagrams/02_usecase.png)
 
 _Figure 1 – Use Case Diagram of The Doghouse. Actors: Visitor, Free User, and Premium User (generalisation chain). Main use cases: landing and blog access, registration, authentication, seamless transition between the static site and Flutter Web, free and premium content (including bundles), hotel search, purchase, invoice viewing, and profile management. «extend» from premium content to free content access means paid access optionally enriches the free content use case. View Invoices is associated with Premium User after purchase; it does not «include» Purchase Content._
