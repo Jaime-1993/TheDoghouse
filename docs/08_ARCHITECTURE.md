@@ -29,7 +29,7 @@ This document describes the **architecture of the planned first version** of _Th
 | **D8** | Static site + Flutter Web | **Vercel** — institutional site already live at `https://the-doghouse-iota.vercel.app/`; Flutter Web on the **same** Vercel hosting for seamless cookies |
 | **D9** | Database | **PostgreSQL on Neon** (free tier) |
 | **D10** | Payments / invoicing | **Stripe sandbox** + **Moloni sandbox** in this public project; same catalogue on Web and native; **no** store IAP for these SKUs (**RN-19…RN-21**, **RF-56…RF-57**) |
-| **D11** | Transactional email | Provider **not named** yet; Delivery 2 picks a free-tier, reliable sender for magic links (and optional welcome / purchase mail) |
+| **D11** | Transactional email | **Resend** for magic links and optional welcome / purchase confirmation mail (**RF-15**, **RF-19**, **RF-70**) |
 | **D12** | Error tracking | **Sentry** = **Optional** (not required; product analytics stay out per **RN-42** / **RF-75**) |
 | **D13** | API authority | Frontend = UX; **backend revalidates** session, SKUs, entitlements, discounts (**RNF-13**) |
 | **D14** | Plan B (API host) | If Render free stops serving the product: evaluate another free/cheap container host — **without** changing plan A while free works |
@@ -42,7 +42,7 @@ This document describes the **architecture of the planned first version** of _Th
 
 ![Architecture context – The Doghouse](diagrams/08_context.png)
 
-_Figure 1 – Context of the planned first version: dog owner, static site and Flutter Web (Vercel), native apps, Go API (Render), Neon, email, Google/Facebook, Stripe sandbox, Moloni sandbox, Overpass/Nominatim._
+_Figure 1 – Context of the planned first version: dog owner, static site and Flutter Web (Vercel), native apps, Go API (Render), Neon, Resend, Google/Facebook, Stripe sandbox, Moloni sandbox, Overpass/Nominatim._
 
 *(Legacy asset [`images/architecture_diagram.png`](images/architecture_diagram.png) is superseded by Figure 1 for this revision.)*
 
@@ -82,7 +82,7 @@ _Figure 1 – Context of the planned first version: dog owner, static site and F
 
 | Service | Role |
 | ------- | ---- |
-| Transactional email (TBD vendor) | Magic link; optional welcome / purchase confirmation (**RF-15**, **RF-19**, **RF-70**) |
+| **Resend** | Magic link; optional welcome / purchase confirmation (**D11**, **RF-15**, **RF-19**, **RF-70**) |
 | Google + Facebook OAuth | Social login from Delivery 2 go-live (**D4**) |
 | Stripe **sandbox** | Checkout + webhooks (**RF-56…RF-68**) |
 | Moloni **sandbox** | Simulated PDF invoice when paid amount > 0 (**RF-60**, **RF-61**) |
@@ -174,7 +174,7 @@ Live Stripe/Moloni remain a **reuse** option via environment variables — not o
 | Local | static files / Flutter web | Go local (Docker Compose) | Neon branch or local Postgres | Secrets in `.env` (gitignored) |
 | Public demo | **Vercel** | **Render** free | **Neon** | HTTPS; free-tier cold starts |
 
-**Secrets (never in Git):** JWT signing key, Google/Facebook OAuth secrets, Stripe sandbox keys, Moloni sandbox credentials, email API/SMTP, Neon connection string (**RF-73**, **RNF-07**).
+**Secrets (never in Git):** JWT signing key, Google/Facebook OAuth secrets, Stripe sandbox keys, Moloni sandbox credentials, **Resend API key**, Neon connection string (**RF-73**, **RNF-07**, **D11**).
 
 **Observability:** API logs without sensitive data in clear text; correlate Stripe webhooks by event id (**RNF-12**). Sentry only if **D12** is enabled.
 
@@ -189,7 +189,6 @@ Live Stripe/Moloni remain a **reuse** option via environment variables — not o
 | Tables, indexes, migrations | [`09_DATABASE.md`](09_DATABASE.md) |
 | Endpoint list, payloads, errors | [`10_API_ENDPOINTS.md`](10_API_ENDPOINTS.md) |
 | Class / sequence UML | [`11_UML_DIAGRAMS.md`](11_UML_DIAGRAMS.md) |
-| Exact transactional email vendor | Delivery 2 (criterion in **D11**) |
 | Effort hours | [`04_WBS.md`](04_WBS.md) |
 
 ---
@@ -204,6 +203,7 @@ Live Stripe/Moloni remain a **reuse** option via environment variables — not o
 | Magic link + Google + Facebook | RF-11…RF-15, RN-10, D4 |
 | Cold start UX 3 s | D6 (supports usable login on free tier) |
 | Vercel + Render + Neon | RF-71, RNF-01, D5, D8, D9 |
+| Resend transactional email | D11, RF-15, RF-19, RF-70 |
 | Stripe / Moloni sandbox | RF-56…RF-68, RNF-12, RNF-15 |
 | Overpass / Nominatim | RF-43…RF-49 |
 | API authority | RNF-13, D13 |
@@ -213,8 +213,8 @@ Live Stripe/Moloni remain a **reuse** option via environment variables — not o
 
 ## 11. Conclusion
 
-The planned first version runs on **Vercel** (static site + Flutter Web) + **Flutter** native + **Go on Render free** + **Neon**, with **magic link + Google + Facebook**, a **7-day JWT**, **cookie-based seamless Web** (one-time code only as fallback), and **sandbox** Stripe/Moloni. Cold starts are accepted with an honest **3-second** user notice so operators are not blamed for free-tier wake-up.
+The planned first version runs on **Vercel** (static site + Flutter Web) + **Flutter** native + **Go on Render free** + **Neon** + **Resend**, with **magic link + Google + Facebook**, a **7-day JWT**, **cookie-based seamless Web** (one-time code only as fallback), and **sandbox** Stripe/Moloni. Cold starts are accepted with an honest **3-second** user notice so operators are not blamed for free-tier wake-up.
 
-**Status:** architecture **aligned** (D1–D14; glossary session terms aligned to cookie/Bearer). Context diagram source + PNG under `diagrams/`. Database, API contracts, and UML follow in `09`–`11`.
+**Status:** architecture **aligned** (D1–D14; **D11** = Resend). Context diagram source + PNG under `diagrams/`. Database, API, and UML documents (`09`–`11`) are aligned; glossary updated with this hosting/email freeze.
 
 **Next (when ordered):** rewrite [`09_DATABASE.md`](09_DATABASE.md).

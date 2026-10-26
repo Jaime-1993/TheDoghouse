@@ -71,12 +71,12 @@ These files belong to the **design** stage (after the proposal track). Names mat
 
 ### Supporting
 
-| Item | What it covers |
-| ---- | -------------- |
-| [images/](images/) | Screenshots and other assets that are not PlantUML renders. |
-| [diagrams/](diagrams/) | Generated diagram images; PlantUML sources under `diagrams/plantuml/`. |
-| [sql/](sql/) | PostgreSQL schema and ops examples for the data model (`09`). |
-| [GLOSSARY.md](GLOSSARY.md) | Definitions of technical terms used in the documentation. |
+| Item | What it covers | Status |
+| ---- | -------------- | ------ |
+| [images/](images/) | Screenshots and other assets that are not PlantUML renders. | On disk |
+| [diagrams/](diagrams/) | Generated diagram images; PlantUML sources under `diagrams/plantuml/`. | On disk |
+| [sql/](sql/) | PostgreSQL schema and ops examples for the data model (`09`). | On disk |
+| [GLOSSARY.md](GLOSSARY.md) | Definitions of technical terms used in the documentation. | On disk (**aligned**) |
 
 ---
 
@@ -102,7 +102,7 @@ Two columns matter: **on disk** (a file you can open today) versus **aligned** (
 
 - Interview pack through Schedule and the proposal report are aligned (simulated product-owner interview; developer docs and R1 as a public sandbox simulation / reusable skeleton).  
 - File names for `01`–`11` match the numbered reading order in this README.  
-- Research through UML (`06`–`11`) are **aligned** for the design stage. Design documents are not part of the proposal package.
+- Research through UML (`06`–`11`) and the glossary are **aligned** for the design stage. Design documents are not part of the proposal package.
 
 ---
 

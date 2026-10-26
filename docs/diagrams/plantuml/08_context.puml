@@ -23,7 +23,7 @@ rectangle "Backend" <<host>> {
 database "PostgreSQL\n(Neon)" as DB
 
 cloud "External services" {
-  component "Email\n(TBD free tier)" as Email
+  component "Resend\n(transactional email)" as Email
   component "Google OAuth" as Google
   component "Facebook OAuth" as Facebook
   component "Stripe\n(sandbox)" as Stripe

@@ -53,7 +53,7 @@ Tone: friendly and clear, like someone who likes animals. User-facing language: 
 
 **Members’ area** — one Flutter product for Web (PWA), iOS, and Android: free and complete calculator; workshop library (**2 free** + **4 paid** at launch, by breed, with individual paid videos and breed / complete-present bundles — **no** SKU for unpublished future videos); hotels map/list from Overpass with consent-based geolocation and text search.
 
-**Backend** — Go REST API for accounts, content access, sandbox payments, sandbox invoicing, hotel queries, and transactional email for magic links.
+**Backend** — Go REST API for accounts, content access, sandbox payments, sandbox invoicing, hotel queries, and transactional email (**Resend**) for magic links.
 
 **Authentication** — magic link and/or Google and/or Facebook. Traditional email-and-password is out. Signed-in members move from the static site to Flutter Web without signing in again; visitors still must sign in. Native apps authenticate inside the app.
 

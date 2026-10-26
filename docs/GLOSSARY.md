@@ -2,212 +2,238 @@
 
 ## Introduction
 
-This glossary aims to define the technical terms used throughout the documentation of the _The Doghouse_ project. The definitions are contextualized for the project's scope, ensuring that all readers, regardless of their familiarity with the technologies involved, can understand the concepts presented.
+Definitions of technical and product terms used in the public documentation of _The Doghouse_. Meanings are scoped to this project (planned first version / sandbox simulation).
 
-This glossary will be updated whenever new technical terms are introduced in the project documents.
+Sources of truth for closed decisions: [`08_ARCHITECTURE.md`](08_ARCHITECTURE.md), [`09_DATABASE.md`](09_DATABASE.md), [`10_API_ENDPOINTS.md`](10_API_ENDPOINTS.md), [`11_UML_DIAGRAMS.md`](11_UML_DIAGRAMS.md), and the proposal pack (`00`–`05`, business rules).
+
+This glossary is updated when those documents introduce or rename terms.
 
 ## List of Terms
 
 **Access Resolution Logic**  
-Algorithm implemented in the _backend_ to verify whether a user has access to a specific content. Access is granted per purchase (for example a completed purchase of that content, or another purchase that explicitly includes it). There is no global “premium everything” status. If none of the conditions are met, access is denied. Design documents under `docs/` describe the data model and _API_ in more detail.
+How the backend decides whether a signed-in member may use a given catalogue item. **Paid** access requires a row in `entitlements` (lifetime, per SKU). **Free** intros and the free calculator do **not** require an entitlement. There is no global “premium everything” flag (**RN-07**, **DB-4**, **D13**, **RNF-13**).
+
+**Access State**  
+API field (`access_state`) on catalogue items for the caller: e.g. `none`, `owned`, `bundle_partial`, `bundle_complete`, `free`. Drives buy CTAs and the playback `media_url` gate (**API-4**, **RF-26**, [`10`](10_API_ENDPOINTS.md) §6).
 
 **API** (_Application Programming Interface_)  
-A set of rules and protocols that enables communication between software systems. In the project, the _REST API_ developed in _Go_ serves as the connection point between the _frontend_ (institutional website and _Flutter_ application) and the database, enabling data exchange.
+Rules and protocols for software-to-software calls. Here, the **Go** REST API on **Render** is the authority between clients (static site, Flutter Web, native apps) and **Neon** PostgreSQL (**D5**, **D13**).
 
 **API Endpoint**  
-A specific _URL_ through which an _API_ can be accessed. Each _endpoint_ corresponds to a system feature or resource. In the project, the _REST API endpoints_ are documented in [10_API_ENDPOINTS.md](10_API_ENDPOINTS.md) and organized by functional module, such as authentication, content, maps, payments, and profile.
+A specific HTTP route on the API. Contracts live in [`10_API_ENDPOINTS.md`](10_API_ENDPOINTS.md).
 
-**Bearer Token**
-An _HTTP_ authentication mechanism where a _token_ (usually JWT) is sent in the _Authorization_ header to prove the user's identity. In the project, native **iOS/Android** clients send `Authorization: Bearer <jwt>` to the _API_. The static site and _Flutter Web_ use a session **cookie** instead (see architecture decisions D2/D3).
+**Bearer Token**  
+HTTP authentication that sends a token in the `Authorization: Bearer <jwt>` header. Used by **native** iOS/Android clients (**D2**). Web clients use a session **cookie** instead.
 
 **Bundle**  
-A package of content sold as a set. In the first-version proposal, workshops are organised by breed with a fixed launch inventory (**2 free** + **4 paid**); any multi-item packaging is optional design detail. Buyers keep access to what they paid for — there is **no monthly subscription** in v1.
+A sellable workshop package (`contents.type = bundle`) whose children are **videos only** (`bundle_items` — **DB-11**, **RF-54**). Launch options include breed bundles and the **complete present** bundle (**RN-16**). Buyers keep lifetime access to unlocked videos; no monthly subscription in v1.
+
+**Cents (integer money)**  
+Monetary amounts stored and exchanged as **integer euro cents** (no floating point in the database or checkout authority). Catalogue and paid amounts use this convention (**DB-1**, **RF-53**).
+
+**Checkout Session**  
+A Stripe Checkout Session created by the API for amount &gt; 0. Success/cancel URLs come from **server environment** only. The client polls by **purchase id**, not by treating the Stripe session id as the purchase primary key (**RF-62**, [`10`](10_API_ENDPOINTS.md) §9).
 
 **CI/CD** (_Continuous Integration / Continuous Deployment_)  
-A software development practice that automates code integration and application _deployment_. In the project, _CI/CD_ is planned to automate the _deploys_ of the _Go_ _backend_, the institutional website, and the _Flutter_ application whenever changes are made to the _GitHub_ repository.
+Automated build and deploy pipelines. Planned for the Go API, institutional site, and Flutter app from the public GitHub repository.
 
 **Cold Start**  
-Initial delay in starting an application after a period of inactivity, common in _cloud_ services that suspend inactive containers to save resources. In the project, the _Go_ _backend_, hosted on services like _Render_ or _Fly.io_, may experience _cold starts_, which is acceptable for an _MVP_ without critical latency requirements.
+Delay when a free-tier container wakes after idle. The Go API on **Render** free may cold-start; if login gets no HTTP response within **3 seconds**, the UI shows a wake-up notice and keeps waiting (**D5**, **D6**).
 
 **Complete Present Bundle**  
-_(Legacy design term.)_ Older design notes described a package of all then-existing workshop videos. The **proposal** for v1 does not require this SKU: launch workshops are **2 free** + **4 paid** by breed, with access per purchase and no subscription.
+Workshop SKU that unlocks all **paid** workshop videos existing at purchase time (catalogue price **24.90 EUR** — **RN-16**, **RN-18**, **RF-38**, **RF-40**). Children remain videos only; independent from the calculator catalogue (**RF-54**).
 
 **Containerization**  
-A virtualization technique that allows packaging an application and all its dependencies into an isolated container, ensuring consistency between development and production environments. In the project, _Docker_ is used to _containerize_ the _Go_ _backend_, the _PostgreSQL_ database, and the _proxy_, facilitating _deployment_ and reproducibility.
+Packaging an app and dependencies into containers. The Go API ships as a **Docker** image on Render; Docker Compose supports local development (**D5**, **RNF-01**).
 
-**CORS** (_Cross‑Origin Resource Sharing_)  
-A security mechanism that controls how resources from one domain are accessed by applications from other domains. In the project, _CORS_ is configured in the _Go_ _backend_ to allow the institutional website and the _Flutter_ application to make secure requests to the _API_.
+**CORS** (_Cross-Origin Resource Sharing_)  
+Browser rules for cross-origin HTTP. The API allowlists **Vercel** origins used by the static site and Flutter Web so cookies can be sent where required (**D2**, **D8**, [`10`](10_API_ENDPOINTS.md) §2.1).
 
 **CRUD** (_Create, Read, Update, Delete_)  
-An acronym for the four basic data manipulation operations in information systems. In the project, _CRUD_ operations are used to manage users, breeds, _workshops_, and other content in the database.
+Basic data operations. Catalogue and content placement in v1 are ops/seed — **no** in-product admin CRUD API (**RF-58**).
 
 **Disaster Recovery**  
-A plan and process for recovering an application after critical failures, ensuring service continuity. In the project, _Disaster Recovery_ covers backup and database restoration procedures, as well as _deployment_ rollbacks.
+Backup and restore practices (e.g. Neon point-in-time recovery) and deploy rollbacks if a release fails.
+
+**Discount Campaign**  
+Time-bounded automatic percent discount linked to target SKUs in the database. Applied by the API even without a promo code; does **not** stack with a code — higher percent wins; tie prefers the **code** (**RN-26**, **RF-66**, **API-5**). Operated by script/console in v1.
 
 **Docker**  
-A _containerization_ platform that allows packaging applications and their dependencies into isolated containers. In the project, _Docker_ is used to _containerize_ the _Go_ _backend_, the _PostgreSQL_ database, and the _proxy_, ensuring consistency between development and production environments.
+Container platform used for the Go API image and local Compose setups.
 
-**Docstring**  
-Structured comments within functions and classes that describe their purpose, parameters, and return values. In the project, _docstrings_ in _Go_ and _Flutter_ ensure that the code is self‑documenting and easy to maintain.
+**Entitlement**  
+Database row granting a user **lifetime** access to one content SKU (`UNIQUE (user_id, content_id)`). Origins include `purchase`, `bundle`, and `grant`. Free SKUs do not need a row (**DB-4**, **RN-14**).
 
 **Flutter**  
-An open‑source _framework_ by _Google_ for developing multiplatform applications (Web, iOS, Android) from a single codebase. In the project, _Flutter_ is the core technology of the application, compiled for the _Web_ (as a _PWA_), _iOS_, and _Android_, sharing 100% of the business logic and interface.
-
-**Fly.io**  
-A _deployment_ platform for containerized applications, with free plans suitable for prototypes. In the project, _Fly.io_ is one of the options considered for hosting the _Go_ _backend_, as an alternative to _Render_ or _Railway_.
+Google’s multiplatform UI toolkit. The members’ area is one Flutter codebase for **Web (PWA)**, **iOS**, and **Android** (**RF-71**).
 
 **Freemium**  
-A business model that offers a free version with limited features and a paid version with advanced features. In the project, the calculator has a useful free version and a paid full version; workshops at launch include **2 free** and **4 paid** videos. Premium access is acquired by **one-time purchase** of specific items (no monthly subscription in v1).
+Useful free tier (basic calculator, free intros, hotels map for signed-in members) plus one-time paid SKUs — not a monthly subscription (**RN-08**, **RN-14**).
 
 **Gantt**  
-A type of bar chart used to represent a project's schedule, showing task duration and sequence. In the project, the _Gantt_ chart is documented in [05_GANTT.md](05_GANTT.md) and presents the timeline of _MVP_ deliveries and milestones.
+Schedule chart of deliveries and milestones. See [`05_GANTT.md`](05_GANTT.md).
 
 **Geolocator**  
-A _Flutter_ package used to obtain the device's geographic location (latitude and longitude coordinates) with the user's consent. In the project, the _geolocator_ is used to center the map on the user's location in the Near Me feature.
+Flutter capability/package for device coordinates after explicit consent (“Near me” on the hotels map — **RF-44**).
 
 **Git / GitHub**  
-A distributed version control system and hosting platform. In the project, the public _GitHub_ repository stores all source code, facilitating versioning and collaboration.
+Version control and the public repository host for this project (**RF-73**).
 
 **Go**  
-A compiled, statically typed programming language developed by _Google_. In the project, _Go_ is used to develop the _REST API_ _backend_, being one of the core technologies of the _MVP_.
+Language of the REST API backend.
 
-**Hash / SHA‑256**  
-A function that transforms input data into a fixed‑size value (digest) in a one‑way manner. _SHA‑256_ is one of the most common _hash_ functions. In the project, _SHA‑256_ is used to compute the _hash_ of _magic link_ _tokens_, ensuring that _tokens_ are never stored in plain text in the database.
+**Hash / SHA-256**  
+One-way digest. Magic-link tokens and one-time codes are stored hashed, never plaintext (**09**).
 
-**HTTP / HTTPS** (_Hypertext Transfer Protocol / Hypertext Transfer Protocol Secure_)  
-Communication protocols used to transfer data on the _web_. _HTTPS_ is the secure version, with _TLS_/_SSL_ encryption. In the project, all communications between the _frontend_ and the _backend_ use _HTTPS_ in the production environment.
+**HTTP / HTTPS**  
+Web transfer protocols. Public endpoints use **HTTPS** (**RNF-02**).
+
+**Idempotency**  
+Safe retries without duplicate side effects. Checkout may send `Idempotency-Key` (persisted per user); Stripe webhooks insert `event_id` first and no-op on conflict (**DB-8**, **API-7**, **RF-62**, **RNF-12**).
 
 **JSON** (_JavaScript Object Notation_)  
-A lightweight data interchange format, based on text, easy for humans to read and write and easy for machines to parse and generate. In the project, _JSON_ is the standard format for messages exchanged between the _frontend_ and the _REST API_.
+Standard request/response body format for the API. Field names are **English**, aligned with the schema (**10**).
 
-**JSON‑LD** (_JSON for Linking Data_)  
-A format for structuring data in _JSON_ with well‑defined semantics, primarily used in _SEO_. In the project, _JSON‑LD_ is used to describe data structure (e.g., _blog_ articles) to search engines.
+**JSON-LD** (_JSON for Linking Data_)  
+Structured data for SEO on the institutional site/blog.
 
-**JWT** (_JSON Web Token_)
-An open standard for securely representing _claims_ between two parties. In the project, a single session _JWT_ is valid for **7 days** and is renewable on re-authentication. On **Web** (institutional site and _Flutter Web_) it is carried in an `HttpOnly` + `Secure` session **cookie**, not in _localStorage_. On **native** apps it is sent as a _Bearer_ token. The _JWT_ must not be placed in the URL query string for seamless handoff.
+**JWT** (_JSON Web Token_)  
+Session token: single JWT, **7 days**, renewed on re-authentication — **no** refresh-token store (**D1**). Web: `HttpOnly` + `Secure` cookie. Native: Bearer header. Never put the JWT in a URL query string (**D2**, **D3**).
 
 **JWT Claim**  
-Information contained within a JWT _token_, represented as a name/value pair. _Claims_ may include the user identifier, expiration date, and other relevant information for authentication and authorization.
+A name/value field inside a JWT (e.g. subject, expiry). Claims stay minimal (**08** §5.2).
 
 **Lifetime access (purchased content)**  
-Buyers keep access to the specific content they paid for. This is **not** a monthly subscription and is **not** a global unlock of all future catalogue items unless a future product decision explicitly says so. Older “Lifetime Bundle” wording in design drafts is superseded by the proposal rules above.
+Buyers keep access to the SKUs they unlocked for life in v1 — not a subscription and not a global unlock of unrelated catalogue items (**RN-14**, **RN-07**).
 
-**localStorage**
-A browser storage mechanism, persistent across sessions. In this project it is **not** the session mechanism: authentication on Web uses an `HttpOnly` cookie (architecture D2/D3). _localStorage_ may still hold non-secret UI preferences if needed, never the session _JWT_.
+**localStorage**  
+Browser persistent storage. **Not** used for the session JWT on Web; session uses an `HttpOnly` cookie (**D2**). May hold non-secret UI preferences only.
 
 **Logging**  
-The process of recording events and activities of an application in files or centralized services. In the project, centralized _logging_ in the _Go_ _backend_ allows tracking requests, errors, and critical events for debugging and analysis.
+Recording API events for debugging. Avoid secrets in clear text; correlate Stripe by event id (**RNF-12**).
 
 **Magic Link**  
-An authentication _link_ sent by email that allows the user to log in without providing a password. In the project, the _magic link_ is one of two supported authentication methods, with a 15‑minute validity period and single use.
+Passwordless email link: **15 minutes**, single use, rate limit **5 / hour / email** (**RN-11**, **RF-14**, **RF-15**). Auth go-live also includes **Google** and **Facebook** OAuth (**D4**) — not magic-link alone.
 
 **Mock**  
-A simulated object or data that mimics the behavior of a real component for testing purposes. In the project, calculator data, hotels, and workshop videos are _mocks_ to demonstrate system flow without relying on real data. _Stripe_ and _Moloni_ are used in _sandbox_ mode, which acts as a _mock_ for payments and invoicing.
+Test doubles or simulated providers. Stripe and Moloni run in **sandbox** (simulated money/invoices). Catalogue rows are seeded/ops data, not “fake HTTP” for Overpass (**RN-19**, **RN-21**).
 
 **Moloni**  
-A Portuguese invoicing system with _sandbox_ environment support. In the project, _Moloni_ is integrated to generate simulated invoices in _PDF_ after each successful purchase, demonstrating the invoicing flow without real tax effects.
+Portuguese invoicing product used here in **sandbox**: simulated PDF after paid amount &gt; 0; no legal/tax effect in this public project. Failure must not revoke entitlements (**RN-21**, **RF-63**).
 
 **MVP** (_Minimum Viable Product_)  
-A version of a product with sufficient features to be used by early users, allowing validation of the value proposition and collection of feedback. In the project, _The Doghouse_ _MVP_ is the first usable version of a **real product for dog owners**; the same public repository also supports learning and engineering practice.
+In this repo: the planned **first usable version** of the dog-owner product (Deliveries 1–7), also used as a learning and reusable skeleton.
 
 **Neon**  
-A free _PostgreSQL_ service with 500 MB of storage, without the need for periodic renewal. In the project, _Neon_ is the chosen database for the _MVP_, offering _branches_ for development and _point‑in‑time recovery_.
+Hosted PostgreSQL (free tier) chosen for the database (**D9**).
 
 **Nominatim**  
-A free geocoding service based on _OpenStreetMap_ data that converts addresses and place names into geographic coordinates (latitude and longitude). In the project, _Nominatim_ allows users to search for hotels by locality name (e.g., "Porto") in the maps area, rather than only requesting location.
+OpenStreetMap geocoding service for text search on the hotels map (**RF-44**).
 
 **OAuth** (_Open Authorization_)  
-An open authorization protocol that allows users to authenticate through third parties (e.g., _Google_, _Facebook_) without sharing passwords. In the project, _OAuth_ is used to implement social _login_, allowing users to register or authenticate through _Google_ or _Facebook_.
+Third-party login. v1 uses **Google** and **Facebook** (no Apple Sign-In — **RF-13**, **D4**).
 
-**ORM** (_Object‑Relational Mapping_)  
-A technique that maps objects from a programming language to tables in a relational database. In the project, the _ORM_ is used in the _Go_ _backend_ to simplify interaction with the _PostgreSQL_ database, abstracting the programmer from writing manual _SQL_ queries.
+**One-time Code (OTC)**  
+Short-lived (**5 minutes**), single-use code for seamless **fallback** when a shared Vercel cookie cannot be configured. Exchanged at the API for a session; never a long-lived JWT in the query string (**D3**, **RF-20**, **RF-21**).
+
+**ORM** (_Object-Relational Mapping_)  
+Optional pattern to map objects to SQL tables. Implementation may use an ORM, query builder, or SQL — layered Go services remain the architectural requirement (**RNF-14**).
 
 **Overpass API**  
-A public _API_ that allows querying _OpenStreetMap_ geospatial data in a structured way. In the project, the _Overpass API_ is the primary data source for obtaining _pet‑friendly_ hotels based on location, using the tags `dog=yes` or `pets=yes`.
+OpenStreetMap query API for pet-friendly hotels in the current map **viewport**, with **24 h** cache (**RF-45…RF-47**).
 
-**Paper‑first**  
-A methodology where documentation and planning precede implementation. In the project, the _paper‑first_ approach ensures that all technical and functional decisions are made consciously and documented before any code is written, as described in [01_SCOPE.md](01_SCOPE.md).
+**Paper-first**  
+Documentation and planning guide implementation before code. See [`01_SCOPE.md`](01_SCOPE.md).
 
 **PlantUML**  
-An open‑source tool that allows creating _UML_ diagrams from a textual description language. In the project, _PlantUML_ is used to generate the class diagram and sequence diagrams documented in [11_UML_DIAGRAMS.md](11_UML_DIAGRAMS.md).
+Text-to-diagram tool. Sources under `docs/diagrams/plantuml/`; renders under `docs/diagrams/` (context, ER, UML — `08`/`09`/`11`).
 
 **Polling**  
-A communication technique where a client periodically checks a server for new data or updates. In the project, the _Flutter_ application implements _polling_ to check if a _Stripe_ payment _webhook_ has been processed, allowing premium content to be unlocked even if the _webhook_ is delayed.
+Client repeatedly calls `GET /purchases/{id}` after Stripe Checkout so a delayed webhook does not leave a successful payer locked out (**RF-62**).
 
 **PostgreSQL**  
-An open‑source relational database management system, known for its robustness and _JSON_ support. In the project, _PostgreSQL_ is the chosen database, hosted on _Neon_, to store all system entities.
+Relational database engine; hosted on **Neon** in this project.
 
 **Postman**  
-A tool used to test and document _APIs_, allowing _HTTP_ requests to be sent and responses to be analyzed. In the project, _Postman_ is used to test the _REST API_ _endpoints_ during the development phase.
+HTTP client often used to exercise API endpoints during development.
 
 **Premium**  
-A designation for paid content or features, accessed through one‑time purchase. In the project, _premium_ access is granted per specific content (complete calculator, paid _workshops_) and there is no global _premium_ status, in accordance with the conditional access business rule.
+Paid catalogue features unlocked per SKU via entitlements — not a global premium role.
+
+**Promo Code**  
+Optional percent code linked to target SKUs. Non-stacking rules with campaigns: higher percent wins; tie → code (**RN-26**, **RF-66**). Ops via SQL/console in v1 (**RF-58**).
+
+**Purchase**  
+Commerce record for one catalogue SKU checkout (`pending` / `completed` / `failed`), with commercial snapshot (catalogue price, discount type/percent, amount paid). Completing a paid purchase grants missing **entitlements**; 0 EUR paid path skips Stripe/Moloni (**RN-27**, **RN-28**, **09**, **10** §9).
 
 **PWA** (_Progressive Web App_)  
-A _web_ application that uses modern technologies to offer an experience similar to a native application. In the project, the _Flutter_ application is configured as a _PWA_, allowing direct installation from the browser without the need for app stores.
-
-**Railway**  
-A _deployment_ platform for containerized applications, with free plans suitable for prototypes. In the project, _Railway_ is one of the options considered for hosting the _Go_ _backend_, as an alternative to _Render_ or _Fly.io_.
+Installable Flutter Web members’ area on **Vercel** (**D8**, **RF-71**).
 
 **Rate Limiting**  
-An access control technique that limits the number of requests from a client in a specific time period. In the project, _rate limiting_ is implemented in authentication to prevent brute‑force attacks, limiting _magic link_ requests to 5 per hour per email address.
+Caps request volume. Magic-link requests: max **5 per hour per email** → **429** (**10** §4.1).
 
 **Render**  
-A _deployment_ platform for containerized applications, with free plans suitable for prototypes. In the project, _Render_ is one of the options considered for hosting the _Go_ _backend_, as an alternative to _Fly.io_ or _Railway_.
+Container host for the Go API (**free** Web Service plan — **D5**). Cold starts accepted (**D6**). Plan B only if free hosting stops serving (**D14**).
+
+**Resend**  
+Transactional email provider for magic links and optional welcome / purchase confirmation mail (**D11**, **RF-15**, **RF-19**, **RF-70**).
 
 **REST** (_Representational State Transfer_)  
-An architectural style for _APIs_ that uses _HTTP_ as the communication protocol, with well‑defined operations (_GET_, _POST_, _PUT_, _DELETE_) and responses in formats such as _JSON_. In the project, the _REST API_ in _Go_ is the standardized interface for all system operations.
+HTTP API style used by the Go backend (`GET`/`POST`/…, JSON bodies).
 
 **Retry Logic**  
-A mechanism that automatically attempts to repeat a failed operation multiple times with increasing intervals. In the project, _Stripe_ implements automatic _retry_ for undelivered _webhooks_, ensuring that payment notifications reach the _backend_.
+Automatic re-attempts (e.g. Stripe webhook delivery; Moloni simulation job after unlock — **RF-62**, **RF-63**).
 
 **Rollback**  
-The process of reverting an update or _deployment_ to a previous version in case of failure or issues. In the project, _rollback_ is documented for the _Go_ _backend_ and the _Flutter_ application, allowing quick reversion to a stable version if a _deploy_ introduces _bugs_.
+Reverting a deploy to a previous known-good version.
 
 **Sandbox**  
-An isolated testing environment that simulates a production environment without affecting real data or production systems. In the project, _Stripe_ and _Moloni_ are used in _sandbox_ mode, allowing payment and invoice simulations without real tax effects.
+Test mode for Stripe and Moloni in this public project: no real charges; simulated invoices (**RN-19**, **RN-21**, **D10**).
 
-**Seamless** (_continuous transition_)  
-A fluid and continuous navigation experience between different parts of a system, without noticeable interruptions. In the project, _seamless_ means a signed-in member moves from the institutional website to **Flutter Web** without repeating _login_, via a **shared session cookie** on the _Vercel_ host (primary). If a shared cookie cannot be configured on free hosting, a short-lived **one-time code** exchanged at the _API_ is the fallback. Native apps authenticate inside the app and do not inherit the site cookie path.
-
-**SendGrid**  
-A transactional email service with free plans. In the project, _SendGrid_ (or _Mailgun_ or _Resend_) is used to send emails with _magic links_, purchase confirmations, and welcome messages.
+**Seamless**  
+Signed-in navigation from the static site to Flutter Web **without** signing in again. Primary: shared session cookie on **Vercel**. Fallback: OTC (**D3**, **RF-20**, **RF-21**). Native apps authenticate inside the app (**RF-22**).
 
 **Sentry**  
-A real‑time error tracking platform that captures and reports exceptions and errors in applications. In the project, _Sentry_ is integrated into the _Go_ _backend_ to monitor production failures.
+Optional error-tracking product (**D12**). Not required for v1; enable only if chosen. Product analytics stay out (**RN-42**, **RF-75**).
 
 **SEO** (_Search Engine Optimization_)  
-A set of practices to improve a website's visibility in search engines. In the project, the _blog_ and _landing page_ use technical _SEO_ (meta tags, _JSON‑LD_, _HTML_ semantics) to attract organic traffic.
+Practices for the institutional landing and blog (meta tags, JSON-LD, semantics).
 
 **Service Worker**  
-A _JavaScript_ script that runs in the background of the browser, enabling _offline_ features and resource caching. In the project, the _service worker_ is configured in the _PWA_ to allow _offline_ access to the application and installation as a browser app.
+Browser background script used by the PWA for caching/offline behaviours where configured.
 
-**SMART** (_Specific, Measurable, Achievable, Relevant, Time‑bound_)  
-A methodology for defining clear and measurable objectives. In the project, the _MVP_ objectives are defined according to _SMART_ criteria, as described in [01_SCOPE.md](01_SCOPE.md).
+**Session Cookie**  
+Web session transport: `HttpOnly` + `Secure` (+ `SameSite=Lax` unless a documented exception). Holds the JWT for static site and Flutter Web (**D2**).
+
+**SKU**  
+Stable catalogue identifier string (e.g. `calculator-complete`) used in API and commerce; internal rows also have UUIDs (**09**, **10**).
+
+**SMART** (_Specific, Measurable, Achievable, Relevant, Time-bound_)  
+Objective style referenced in Scope success criteria.
 
 **SQL** (_Structured Query Language_)  
-A standard language for querying and manipulating relational databases. In the project, _SQL_ is used to interact with the _PostgreSQL_ database, through parameterized _queries_ or an _ORM_.
+Language for PostgreSQL. Normative DDL: [`sql/09_schema.sql`](sql/09_schema.sql).
 
 **Stripe**  
-A payment gateway with _sandbox_ environment support. In the project, _Stripe_ is integrated to process payments for premium content, with _webhooks_ for transaction confirmation and automatic _retry_ logic.
+Payment provider in **sandbox** for paid checkouts; webhooks are idempotent (**D10**, **RF-56**, **RF-62**). No Apple/Google IAP for these SKUs in v1 (**RN-20**).
 
 **TTL** (_Time To Live_)  
-The period during which data is considered valid and stored in _cache_ before being considered obsolete. In the project, data obtained via the _Overpass API_ is stored in _cache_ with a _TTL_ of 24 hours, avoiding excessive queries to the external _API_.
+How long cached data stays valid. Overpass-backed hotel data: **24 hours** (**RF-47**, **DB-9**).
 
 **UML** (_Unified Modeling Language_)  
-A standardized modeling language for visualizing, specifying, and documenting software systems. In the project, the _UML_ diagrams (class and sequence) are documented in [11_UML_DIAGRAMS.md](11_UML_DIAGRAMS.md).
+Class and sequence diagrams for implementation support: [`11_UML_DIAGRAMS.md`](11_UML_DIAGRAMS.md).
 
-**Vercel**
-A _deployment_ platform for static and dynamic _frontend_ applications, with free plans. In the project, _Vercel_ hosts the institutional website (already live) and the _Flutter_ Web _PWA_, chosen so a **shareable parent domain** can carry the session cookie for seamless navigation. Cookie behaviour on `*.vercel.app` layouts must be validated in the real deploy; if sharing fails, the one-time-code fallback applies (architecture D3).
+**Vercel**  
+Host for the institutional static site and Flutter Web PWA (same project for seamless cookies — **D8**). Site already live at `https://the-doghouse-iota.vercel.app/`.
 
 **Viewport**  
-The visible area of a web page or application on a screen, defined by the current display boundaries. In the project, the map area uses dynamic _viewport_ to load only the hotels visible in the map area, optimizing performance and user experience.
+Visible map bounds. The hotels API returns places inside the current viewport only — no global dump (**RF-46**).
 
-**WBS** (_Work Breakdown Structure_)
-A hierarchical decomposition of the work to be performed in a project, organized into work packages with estimated hours and *Done when* criteria. In the project, the _WBS_ is documented in [04_WBS.md](04_WBS.md): planning and design, incremental Deliveries **1–7**, validation, closure, and contingency (proposal estimate on the order of **~591 hours** including contingency).
+**WBS** (_Work Breakdown Structure_)  
+Work packages, hours, and *Done when* criteria: [`04_WBS.md`](04_WBS.md) (proposal order of magnitude **~591 hours** including contingency).
 
 **Webhook**  
-A mechanism that allows one application to send real‑time notifications to another application when a specific event occurs. In the project, the _Stripe_ _webhook_ notifies the _Go_ _backend_ when a payment is successfully processed, triggering the unlocking of premium content.
+Server-to-server HTTP callback. Stripe notifies the API on checkout events; the API verifies the signature and applies insert-first idempotency (**10** §10).
 
 ---
 
