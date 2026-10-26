@@ -1,0 +1,176 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam classAttributeIconSize 0
+top to bottom direction
+
+' Domain classes for the API (not a 1:1 SQL mirror). ER remains in 09.
+' Layout: "one" above "many" when practical.
+
+class User {
+  id : UUID
+  email
+  name
+  googleId
+  facebookId
+}
+
+class MagicLink {
+  id : UUID
+  email
+  tokenHash
+  expiresAt
+  used : Boolean
+}
+
+class OneTimeCode {
+  id : UUID
+  codeHash
+  expiresAt
+  used : Boolean
+}
+
+class Breed {
+  id : UUID
+  name
+  description
+}
+
+class CalculatorData {
+  id : UUID
+  data : JSON
+}
+
+class Content {
+  id : UUID
+  sku
+  type
+  title
+  priceCents : Int
+  isFree : Boolean
+  mediaUrl
+  thumbnailUrl
+}
+
+class BundleItem {
+  ' parent type = bundle, child type = video (DB-11)
+}
+
+class Purchase {
+  id : UUID
+  status
+  cataloguePriceCents : Int
+  discountType
+  discountPercent : Int
+  amountPaidCents : Int
+}
+
+class Entitlement {
+  id : UUID
+  origin
+  grantedAt
+}
+
+class Invoice {
+  id : UUID
+  amountCents : Int
+  pdfUrl
+  moloniDocumentId
+}
+
+class PromoCode {
+  id : UUID
+  code
+  percent : Int
+  maxRedemptions
+  redemptionCount
+}
+
+class DiscountCampaign {
+  id : UUID
+  name
+  percent : Int
+  startsAt
+  endsAt
+  active : Boolean
+}
+
+class StripeWebhookEvent {
+  eventId
+  receivedAt
+}
+
+class CheckoutIdempotencyKey {
+  key
+  response : JSON
+  expiresAt
+}
+
+class OverpassCache {
+  cacheKey
+  data : JSON
+  expiresAt
+}
+
+class WeightHistory <<optional>> {
+  ageMonths : Int
+  result : JSON
+  ' RF-34 / DB-10 — not in v1 API contract
+}
+
+' Magic link is email-first: user_id optional until consume (09)
+MagicLink "0..*" --> "0..1" User
+User "1" --> "0..*" OneTimeCode
+User "1" --> "0..*" Purchase
+User "1" --> "0..*" Entitlement
+User "1" --> "0..*" CheckoutIdempotencyKey
+User "1" --> "0..*" WeightHistory
+
+Breed "1" --> "0..1" CalculatorData
+Breed "1" --> "0..*" WeightHistory
+
+' Videos require breed; calculator_complete (and some bundles) may omit (09)
+Content "0..*" --> "0..1" Breed
+
+Content "1" --> "0..*" BundleItem : bundle
+Content "1" --> "0..*" BundleItem : video child
+Content "1" --> "0..*" Purchase
+Content "1" --> "0..*" Entitlement
+
+PromoCode "0..*" --> "0..*" Content : targets
+DiscountCampaign "0..*" --> "0..*" Content : targets
+Purchase "0..*" --> "0..1" PromoCode
+Purchase "0..*" --> "0..1" DiscountCampaign
+
+Purchase "1" --> "0..1" Invoice
+Purchase "1" --> "0..*" Entitlement
+Purchase "0..1" --> "0..*" CheckoutIdempotencyKey
+
+note bottom of Content
+  breed: required for type=video;
+  null for calculator_complete
+  thumbnailUrl = API response field
+  (10 API-4); not a 09 DDL column
+end note
+
+note bottom of MagicLink
+  Email-first: may exist
+  before User row
+end note
+
+note bottom of Entitlement
+  UNIQUE (user, content)
+  Free SKUs need no row
+end note
+
+note bottom of BundleItem
+  Workshop catalogue only
+  No calculator_complete children
+end note
+
+note bottom of StripeWebhookEvent
+  Idempotency: insert eventId first
+end note
+
+@enduml

@@ -1,0 +1,34 @@
+@startuml
+skinparam shadowing false
+skinparam backgroundColor white
+
+actor Member
+participant "Flutter" as Client
+participant "API" as API
+database "Postgres" as DB
+
+note over Client
+  After 201 from createPurchase (amount > 0),
+  client keeps **purchase_id** (UUID).
+  Stripe success_url session_id is navigation only —
+  not the path id (10 §9.2 / RF-62).
+  Source of truth for unlock: S4 webhook.
+end note
+
+loop until completed / failed / timeout UX
+  Member -> Client : wait / return from Stripe
+  Client -> API : getPurchase(purchase_id)
+  API -> DB : load own purchase
+  alt not owner / missing
+    API --> Client : 404
+  else pending
+    API --> Client : 200 status=pending
+  else completed
+    API --> Client : 200 status=completed\n(+ has_invoice?)
+    Client -> Client : refresh entitlements / UI
+  else failed
+    API --> Client : 200 status=failed\n(no unlock)
+  end
+end
+
+@enduml

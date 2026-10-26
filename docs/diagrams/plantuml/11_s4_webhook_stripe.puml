@@ -1,0 +1,42 @@
+@startuml
+skinparam shadowing false
+skinparam backgroundColor white
+
+participant "Stripe" as Stripe
+participant "API" as API
+database "Postgres" as DB
+participant "Moloni\n(sandbox)" as Moloni
+participant Email
+
+Stripe -> API : checkout.session.completed\n(+ Stripe-Signature)
+API -> API : verify signature
+API -> DB : INSERT StripeWebhookEvent(event_id)\n(unique PK)
+alt insert conflict (already seen)
+  API --> Stripe : 200 no-op
+else new event
+  API -> DB : resolve Purchase\n(metadata.purchase_id else session id)
+  alt purchase not found
+    API --> Stripe : 200 (log; do not invent)
+  else found
+    API -> DB : tx: status=completed;\nmissing Entitlements;\npromo redemption if any
+    alt amount_paid_cents > 0
+      API -> Moloni : simulate invoice
+      alt Moloni ok
+        API -> DB : insert Invoice
+      else Moloni fails
+        API -> API : log; job later\n(access stays — RF-63)
+      end
+      opt RF-70
+        API -> Email : purchase confirmation
+      end
+    end
+    API --> Stripe : 200 { received: true }
+  end
+end
+
+note right of API
+  Insert-first idempotency (API-7).
+  Never put JWT in query / never unlock on failed pay.
+end note
+
+@enduml

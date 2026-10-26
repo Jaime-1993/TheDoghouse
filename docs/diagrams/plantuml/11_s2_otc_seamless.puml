@@ -1,0 +1,29 @@
+@startuml
+skinparam shadowing false
+skinparam backgroundColor white
+
+actor Member
+participant "Static site\n(Vercel)" as Site
+participant "Flutter Web\n(Vercel)" as App
+participant "API" as API
+database "Postgres" as DB
+
+note over Site, App
+  Primary seamless path (D3): shared session cookie.
+  This diagram is the **fallback** only.
+end note
+
+Member -> Site : already signed in
+Site -> API : createOneTimeCode()\n(authenticated)
+API -> DB : insert OneTimeCode\n(hash, TTL 5 min, single use)
+API --> Site : { code, expires_at }
+Site -> App : handoff URL with code\n(not the JWT)
+App -> API : exchangeOneTimeCode(code)
+API -> DB : validate;\nmark used
+alt invalid / expired / used
+  API --> App : 422 otc_*
+else ok
+  API --> App : session as S1\n(Set-Cookie Web)
+end
+
+@enduml

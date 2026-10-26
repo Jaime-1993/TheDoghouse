@@ -1,0 +1,45 @@
+@startuml
+skinparam shadowing false
+skinparam backgroundColor white
+
+actor Member
+participant "Flutter" as Client
+participant "API" as API
+database "Postgres" as DB
+participant "Stripe\n(sandbox)" as Stripe
+
+Member -> Client : choose SKU\n(+ optional promo)
+Client -> API : quote(sku, promo?)\n(10 §9.1)
+API -> DB : load content +\nentitlements + promos/campaigns
+
+alt owned / bundle_complete
+  API --> Client : 409 already_owned /\nbundle_complete
+else free / not_purchasable
+  API --> Client : 409 not_purchasable
+else SKU missing
+  API --> Client : 404
+else bad promo
+  API --> Client : 422 promo_*
+else ok
+  API -> API : resolveDiscount §9.0\n(RF-66: campaign ± code;\nnon-stack; tie → code)
+  API --> Client : 200 quote
+  Client -> API : createPurchase(...)\n(+ Idempotency-Key?)
+  note right of API
+    createPurchase **re-applies** the same
+    gates as quote (10 §9) even if the
+    client skipped quote (D13).
+    Reuse pending same user+sku < 30 min
+    when Idempotency-Key rules allow.
+  end note
+  alt amount_paid_cents = 0\n(100% code on paid SKU)
+    API -> DB : tx completed +\nentitlements (+ redemption)
+    API --> Client : 201 purchase\n(no Stripe / Moloni)
+  else amount > 0
+    API -> DB : insert pending Purchase
+    API -> Stripe : create Checkout Session\n(success/cancel from **env**)
+    API -> DB : store session id +\nidempotency response
+    API --> Client : 201 checkout_url +\npurchase_id
+  end
+end
+
+@enduml

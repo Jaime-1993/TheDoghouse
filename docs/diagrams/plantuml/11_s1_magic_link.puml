@@ -1,0 +1,47 @@
+@startuml
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam sequenceMessageAlign center
+
+actor Member
+participant "Flutter /\nStatic site" as Client
+participant "API\n(Go / Render)" as API
+database "Postgres\n(Neon)" as DB
+participant Email
+
+== Request magic link (10 §4.1) ==
+Member -> Client : enter email
+Client -> API : requestMagicLink(email)
+API -> DB : count recent links\n(rate limit 5/h)
+alt over limit
+  API --> Client : 429
+else ok
+  API -> DB : insert MagicLink\n(tokenHash, 15 min)
+  API -> Email : send link
+  API --> Client : 202 { ok: true }\n(always generic)
+end
+
+== Consume (10 §4.2) ==
+Member -> Client : open link
+Client -> API : consumeMagicLink(token)
+API -> DB : load by hash;\nvalidate unused + not expired
+alt invalid / expired / used
+  API --> Client : 422 magic_link_*
+else ok
+  API -> DB : mark used;\nupsert User
+  alt Web (D2)
+    API --> Client : 200 user + Set-Cookie (JWT 7d)
+  else Native (D2)
+    API --> Client : 200 user + token (Bearer)
+  end
+  opt created_now (RF-19)
+    API -> Email : welcome (side effect)
+  end
+end
+
+note right of API
+  No JWT in query string.
+  No refresh-token store (D1).
+end note
+
+@enduml
