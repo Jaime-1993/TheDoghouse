@@ -47,6 +47,7 @@ Signed-in members (free or paying) can move from the site to the members’ area
 Start with the interview pack, then the proposal documents. Full map: [`docs/README.md`](./docs/README.md).
 
 - [Proposal report](./docs/reports/R1_PROPOSAL.md)
+- [Design report](./docs/reports/R2_DESIGN.md)
 - [Interview questionnaire](./docs/00_INTERVIEW.md)
 - [Interview annex (frozen product decisions)](./docs/INTERVIEW_ANNEX.md)
 - [Scope](./docs/01_SCOPE.md)
@@ -62,7 +63,7 @@ Start with the interview pack, then the proposal documents. Full map: [`docs/REA
 - [UML diagrams](./docs/11_UML_DIAGRAMS.md)
 - [Glossary](./docs/GLOSSARY.md)
 
-Interview pack through Schedule and the [proposal report](./docs/reports/R1_PROPOSAL.md) are aligned — see [`docs/README.md`](./docs/README.md). Research through UML ([`06`](./docs/06_RESEARCH.md)–[`11`](./docs/11_UML_DIAGRAMS.md)) and the [glossary](./docs/GLOSSARY.md) are **aligned**.
+Interview pack through Schedule and the [proposal report](./docs/reports/R1_PROPOSAL.md) are aligned — see [`docs/README.md`](./docs/README.md). Research through UML ([`06`](./docs/06_RESEARCH.md)–[`11`](./docs/11_UML_DIAGRAMS.md)), the [glossary](./docs/GLOSSARY.md), and the [design report](./docs/reports/R2_DESIGN.md) are **aligned**.
 
 ## Project status
 

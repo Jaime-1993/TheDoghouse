@@ -4,7 +4,7 @@ This folder holds the written foundation of **The Doghouse**: what the product i
 
 **The Doghouse** is my project: a **public product-shaped simulation** for dog owners, a **learning** vehicle, and a **reusable skeleton** documented in public (including context such as Doses Pediátricas) because related private work cannot be exposed here. Commerce in this repository runs in **sandbox**; reusers may switch providers via environment variables. There is no external paying client for this repository. The interview annex records answers from a **simulated product owner** (I ran the interview). The Scope is where I set the boundary of what the first version includes, excludes, and what I deliberately set out to learn.
 
-The interview pack through Schedule and the proposal report are aligned. Design documents may still evolve. This README is updated when documents here change, so a visitor always sees a map that matches what is currently published.
+The interview pack through Schedule and the proposal report are aligned. Design documents (`06`–`11`), the glossary, and the design report are aligned. This README is updated when documents here change, so a visitor always sees a map that matches what is currently published.
 
 Technical terms are introduced briefly the first time they appear, so the text stays readable whether you already know the jargon or not.
 
@@ -28,7 +28,7 @@ Read in this order — from kickoff decisions, through *what* and *who*, to *how
 
 ### Published reading order (today)
 
-Start with [00_INTERVIEW.md](00_INTERVIEW.md), [INTERVIEW_ANNEX.md](INTERVIEW_ANNEX.md), [01_SCOPE.md](01_SCOPE.md), [02_PERSONAS_AND_FLOWS.md](02_PERSONAS_AND_FLOWS.md), [03_BUSINESS_RULES.md](03_BUSINESS_RULES.md), [04_WBS.md](04_WBS.md), [05_GANTT.md](05_GANTT.md), and the [proposal report](reports/R1_PROPOSAL.md) — those are aligned. File names for `01`–`11` follow the target order above. Design: [06_RESEARCH.md](06_RESEARCH.md), [07_REQUIREMENTS.md](07_REQUIREMENTS.md), [08_ARCHITECTURE.md](08_ARCHITECTURE.md), [09_DATABASE.md](09_DATABASE.md), [10_API_ENDPOINTS.md](10_API_ENDPOINTS.md), and [11_UML_DIAGRAMS.md](11_UML_DIAGRAMS.md) are **aligned**.
+Start with [00_INTERVIEW.md](00_INTERVIEW.md), [INTERVIEW_ANNEX.md](INTERVIEW_ANNEX.md), [01_SCOPE.md](01_SCOPE.md), [02_PERSONAS_AND_FLOWS.md](02_PERSONAS_AND_FLOWS.md), [03_BUSINESS_RULES.md](03_BUSINESS_RULES.md), [04_WBS.md](04_WBS.md), [05_GANTT.md](05_GANTT.md), and the [proposal report](reports/R1_PROPOSAL.md) — those are aligned. File names for `01`–`11` follow the target order above. Design: [06_RESEARCH.md](06_RESEARCH.md), [07_REQUIREMENTS.md](07_REQUIREMENTS.md), [08_ARCHITECTURE.md](08_ARCHITECTURE.md), [09_DATABASE.md](09_DATABASE.md), [10_API_ENDPOINTS.md](10_API_ENDPOINTS.md), and [11_UML_DIAGRAMS.md](11_UML_DIAGRAMS.md) are **aligned**. The [design report](reports/R2_DESIGN.md) is **aligned**.
 
 Screenshots and other non-generated visual assets are kept in [`images/`](images/). Generated diagram renders and their PlantUML sources (`diagrams/plantuml/`) live in [`diagrams/`](diagrams/). A shared vocabulary is available in [`GLOSSARY.md`](GLOSSARY.md).
 
@@ -50,11 +50,12 @@ File **names and numbers** follow the numbered reading order in this README. Int
 | [04_WBS.md](04_WBS.md) | Work breakdown structure (*WBS* — a hierarchical list of work packages): deliveries, effort estimates, and completion criteria. | On disk (aligned) |
 | [05_GANTT.md](05_GANTT.md) | Schedule view: premises (~591 h, 21 h/week, S01 = 3 Aug 2026), scenarios, milestones, week map, and Mermaid figure. | On disk (aligned) |
 
-### Proposal report
+### Proposal and design reports
 
 | Document | What it covers | Status |
 | -------- | -------------- | ------ |
 | [reports/R1_PROPOSAL.md](reports/R1_PROPOSAL.md) | Self-contained public proposal overview (simulation stance, scope, rules, effort, calendar). | On disk (aligned) |
+| [reports/R2_DESIGN.md](reports/R2_DESIGN.md) | Self-contained public design overview (catalogue EUR, architecture, data, API, UML, plan position before Delivery 1). | On disk (**aligned**, v1.1) |
 
 ### Design documents (on disk)
 
@@ -102,10 +103,11 @@ Two columns matter: **on disk** (a file you can open today) versus **aligned** (
 
 - Interview pack through Schedule and the proposal report are aligned (simulated product-owner interview; developer docs and R1 as a public sandbox simulation / reusable skeleton).  
 - File names for `01`–`11` match the numbered reading order in this README.  
-- Research through UML (`06`–`11`) and the glossary are **aligned** for the design stage. Design documents are not part of the proposal package.
+- Research through UML (`06`–`11`) and the glossary are **aligned** for the design stage. Design documents are not part of the proposal package.  
+- The design report (`reports/R2_DESIGN.md`) is **aligned** (optional medium-portfolio snapshot before Delivery 1).
 
 ---
 
 ## Closing note
 
-If you are new to the repository, start with the interview questionnaire, annex, Scope, Personas and flows, Business rules, Work breakdown, Schedule, and the proposal report — or start with the report alone. Design documents (`06`–`11`) come after the proposal track.
+If you are new to the repository, start with the interview questionnaire, annex, Scope, Personas and flows, Business rules, Work breakdown, Schedule, and the proposal report — or start with the report alone. Design documents (`06`–`11`) come after the proposal track; the design report summarises that stage in one dossier.
